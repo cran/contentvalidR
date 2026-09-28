@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>From Content Validity to Empirical Validation</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">From Content Validity to Empirical
+Validation</h1>
+
+
+
+<div id="where-content-validity-stops" class="section level2">
+<h2>Where content validity stops</h2>
+<p>A content-validity pretest answers questions you can ask before
+anyone responds to the scale: are these items relevant to the construct,
+does the set cover the domain, do experts agree, and is each item
+congruent with its intended objective. It cannot answer whether an item
+will correlate with its construct, load on the intended factor, behave
+the same across groups, or relate to other constructs as theory
+predicts. Those questions need response data.</p>
+<p>So a pretest ends with a decision: which items go forward into data
+collection. <code>content_handoff()</code> packages that decision, so
+the item set and the reasons behind it travel together into the next
+stage.</p>
+</div>
+<div id="a-worked-panel" class="section level2">
+<h2>A worked panel</h2>
+<p>Four experts rate five items for relevance on a 1-4 scale. The last
+item is rated poorly, and one is borderline:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>relevance <span class="ot">&lt;-</span> <span class="fu">matrix</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">3</span>,  <span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">4</span>,  <span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">4</span>,  <span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">2</span>,  <span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">2</span>),</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  <span class="at">nrow =</span> <span class="dv">4</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>  <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="cn">NULL</span>, <span class="fu">paste0</span>(<span class="st">&quot;Item&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>))</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>)</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">expert_validity</span>(relevance, <span class="at">mode =</span> <span class="st">&quot;relevance&quot;</span>, <span class="at">lo =</span> <span class="dv">1</span>, <span class="at">hi =</span> <span class="dv">4</span>, <span class="at">seed =</span> <span class="dv">1</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>fit<span class="sc">$</span>results[, <span class="fu">c</span>(<span class="st">&quot;item&quot;</span>, <span class="st">&quot;N&quot;</span>, <span class="st">&quot;V&quot;</span>, <span class="st">&quot;I_CVI&quot;</span>, <span class="st">&quot;kappa_mod&quot;</span>, <span class="st">&quot;status&quot;</span>)]</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co">#&gt;    item N         V I_CVI   kappa_mod    status</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co">#&gt; 1 Item1 4 0.9166667   1.0  1.00000000 Supported</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co">#&gt; 2 Item2 4 0.9166667   1.0  1.00000000 Supported</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="co">#&gt; 3 Item3 4 0.9166667   1.0  1.00000000 Supported</span></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="co">#&gt; 4 Item4 4 0.5000000   0.5  0.20000000    Review</span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="co">#&gt; 5 Item5 4 0.2500000   0.0 -0.06666667    Review</span></span></code></pre></div>
+</div>
+<div id="the-handoff" class="section level2">
+<h2>The handoff</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>handoff <span class="ot">&lt;-</span> <span class="fu">content_handoff</span>(fit)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>handoff</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">#&gt; contentvalidR handoff (schema version 1)</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#&gt; --------------------------------------</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">#&gt; Workflow: expert-panel (relevance)   contentvalidR 0.4.0   2026-09-18</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt; Items carried forward: 3 of 5</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt; Carried when status is: Supported</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt; Constructs: none in this design; the panel rated one item set.</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt; Held back:</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co">#&gt;   item status recommendation</span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#&gt;  Item4 Review         Review</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#&gt;  Item5 Review         Review</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="co">#&gt; Carry these items into the empirical workflow once response data are</span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="co">#&gt; collected. In nomologR that is nomo_screen(data, items = &lt;handoff&gt;), which</span></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="co">#&gt; screens the same items you retained here.</span></span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a><span class="co">#&gt; Surviving content review is evidence about relevance, representation, and</span></span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a><span class="co">#&gt; expert judgment. It does not establish that an item will behave well</span></span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a><span class="co">#&gt; empirically: an item can be clearly relevant and still correlate poorly</span></span>
+<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a><span class="co">#&gt; with its construct or load on an unintended factor. Items held back are</span></span>
+<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a><span class="co">#&gt; listed above rather than deleted, so the record stays complete.</span></span></code></pre></div>
+</div>
+<div id="what-the-object-holds" class="section level2">
+<h2>What the object holds</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>handoff<span class="sc">$</span>items</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Item1&quot; &quot;Item2&quot; &quot;Item3&quot;</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>handoff<span class="sc">$</span>item_evidence</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt;    item scale carried    status recommendation n_judges</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt; 1 Item1  &lt;NA&gt;    TRUE Supported Strong support        4</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; 2 Item2  &lt;NA&gt;    TRUE Supported Strong support        4</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt; 3 Item3  &lt;NA&gt;    TRUE Supported Strong support        4</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt; 4 Item4  &lt;NA&gt;   FALSE    Review         Review        4</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt; 5 Item5  &lt;NA&gt;   FALSE    Review         Review        4</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt;                                                                                               rule</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co">#&gt; 1 I-CVI &gt;= 1 (common panel-size guideline for 4 experts); modified kappa &gt; 0.74 for strong support</span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#&gt; 2 I-CVI &gt;= 1 (common panel-size guideline for 4 experts); modified kappa &gt; 0.74 for strong support</span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co">#&gt; 3 I-CVI &gt;= 1 (common panel-size guideline for 4 experts); modified kappa &gt; 0.74 for strong support</span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co">#&gt; 4 I-CVI &gt;= 1 (common panel-size guideline for 4 experts); modified kappa &gt; 0.74 for strong support</span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="co">#&gt; 5 I-CVI &gt;= 1 (common panel-size guideline for 4 experts); modified kappa &gt; 0.74 for strong support</span></span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="co">#&gt;   round</span></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co">#&gt; 1     1</span></span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="co">#&gt; 2     1</span></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="co">#&gt; 3     1</span></span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="co">#&gt; 4     1</span></span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a><span class="co">#&gt; 5     1</span></span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="fu">head</span>(handoff<span class="sc">$</span>item_statistics)</span>
+<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a><span class="co">#&gt;    item statistic     value criterion round</span></span>
+<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a><span class="co">#&gt; 1 Item1 Aiken&#39;s V 0.9166667        NA     1</span></span>
+<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a><span class="co">#&gt; 2 Item2 Aiken&#39;s V 0.9166667        NA     1</span></span>
+<span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a><span class="co">#&gt; 3 Item3 Aiken&#39;s V 0.9166667        NA     1</span></span>
+<span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a><span class="co">#&gt; 4 Item4 Aiken&#39;s V 0.5000000        NA     1</span></span>
+<span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a><span class="co">#&gt; 5 Item5 Aiken&#39;s V 0.2500000        NA     1</span></span>
+<span id="cb3-29"><a href="#cb3-29" tabindex="-1"></a><span class="co">#&gt; 6 Item1     I-CVI 1.0000000         1     1</span></span></code></pre></div>
+<p><code>items</code> is what the next stage consumes: the carried items
+only, so what you read here is exactly what you pass along.
+<code>item_evidence</code> keeps every reviewed item, including those
+held back, with the decision rule that was applied and the effective
+number of judges behind it. <code>item_statistics</code> stacks the
+statistics long, one row per item per statistic, with the criterion each
+was compared against where the method sets one.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">str</span>(handoff<span class="sc">$</span>provenance[<span class="fu">c</span>(<span class="st">&quot;schema_version&quot;</span>, <span class="st">&quot;workflow&quot;</span>, <span class="st">&quot;mode&quot;</span>, <span class="st">&quot;keep&quot;</span>,</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>                         <span class="st">&quot;method&quot;</span>, <span class="st">&quot;citation&quot;</span>)])</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">#&gt; List of 6</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt;  $ schema_version: int 1</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt;  $ workflow      : chr &quot;expert-panel&quot;</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt;  $ mode          : chr &quot;relevance&quot;</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt;  $ keep          : chr &quot;Supported&quot;</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt;  $ method        : chr &quot;Aiken V with score intervals plus CVI/modified kappa&quot;</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt;  $ citation      : chr [1:3] &quot;Aiken (1980)&quot; &quot;Penfield &amp; Giacobbi (2004)&quot; &quot;Polit, Beck &amp; Owen (2007)&quot;</span></span></code></pre></div>
+<p>By default only items with a <code>Supported</code> status travel.
+Some protocols carry items flagged for review, on the grounds that a
+weak content-validity result deserves an empirical test rather than
+deletion. Say so explicitly:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">content_handoff</span>(fit, <span class="at">keep =</span> <span class="fu">c</span>(<span class="st">&quot;Supported&quot;</span>, <span class="st">&quot;Review&quot;</span>))<span class="sc">$</span>items</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Item1&quot; &quot;Item2&quot; &quot;Item3&quot; &quot;Item4&quot; &quot;Item5&quot;</span></span></code></pre></div>
+<p>Items held back are never silently dropped:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>handoff<span class="sc">$</span>item_evidence[<span class="sc">!</span>handoff<span class="sc">$</span>item_evidence<span class="sc">$</span>carried,</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>                      <span class="fu">c</span>(<span class="st">&quot;item&quot;</span>, <span class="st">&quot;status&quot;</span>, <span class="st">&quot;recommendation&quot;</span>)]</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">#&gt;    item status recommendation</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#&gt; 4 Item4 Review         Review</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#&gt; 5 Item5 Review         Review</span></span></code></pre></div>
+</div>
+<div id="constructs" class="section level2">
+<h2>Constructs</h2>
+<p>Item-sort and construct-rating designs map each item to a target
+construct, so the handoff carries that mapping as <code>scales</code>,
+ready for a workflow that models several scales at once:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>sort_dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  <span class="at">item =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;A1&quot;</span>, <span class="st">&quot;A2&quot;</span>, <span class="st">&quot;B1&quot;</span>), <span class="at">each =</span> <span class="dv">12</span>),</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="at">rater =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>, <span class="dv">3</span>),</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  <span class="at">target_construct =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;A&quot;</span>, <span class="dv">24</span>), <span class="fu">rep</span>(<span class="st">&quot;B&quot;</span>, <span class="dv">12</span>)),</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>  <span class="at">assigned_construct =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;A&quot;</span>, <span class="dv">11</span>), <span class="st">&quot;B&quot;</span>, <span class="fu">rep</span>(<span class="st">&quot;A&quot;</span>, <span class="dv">9</span>), <span class="fu">rep</span>(<span class="st">&quot;B&quot;</span>, <span class="dv">3</span>),</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>                         <span class="fu">rep</span>(<span class="st">&quot;B&quot;</span>, <span class="dv">10</span>), <span class="fu">rep</span>(<span class="st">&quot;A&quot;</span>, <span class="dv">2</span>))</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>)</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="fu">content_handoff</span>(<span class="fu">sort_validity</span>(sort_dat), <span class="at">keep =</span> <span class="fu">c</span>(<span class="st">&quot;Supported&quot;</span>, <span class="st">&quot;Review&quot;</span>))<span class="sc">$</span>scales</span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt; $A</span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co">#&gt; [1] &quot;A1&quot; &quot;A2&quot;</span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co">#&gt; $B</span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co">#&gt; [1] &quot;B1&quot;</span></span></code></pre></div>
+<p>An expert panel rating one item set for relevance has no construct
+column, so <code>scales</code> is <code>NULL</code>. That is a real
+difference, not a gap to paper over: nothing in that design says which
+construct each item belongs to, so a downstream workflow should screen
+those items rather than invent membership for them.</p>
+</div>
+<div id="into-an-empirical-workflow" class="section level2">
+<h2>Into an empirical workflow</h2>
+<p>Once responses are collected, the item set carries into the empirical
+stage. <a href="https://github.com/JUhalt/nomologR">nomologR</a> is the
+companion package for that stage: it begins where item-level data exist
+and follows the measure through screening, dimensionality, measurement
+models, reliability, invariance, and nomological networks.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># install.packages(&quot;nomologR&quot;, repos = &quot;https://juhalt.r-universe.dev&quot;)</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="fu">library</span>(nomologR)</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="co"># `responses` is your collected data: one row per respondent, one column per item.</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>scr <span class="ot">&lt;-</span> <span class="fu">nomo_screen</span>(responses, <span class="at">items =</span> handoff)</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>scr<span class="sc">$</span>item_summary</span></code></pre></div>
+<p>That chunk is not evaluated here, because this vignette builds
+without nomologR installed and because a content-validity pretest has no
+responses to screen.</p>
+<p>The object shape is agreed between the two packages as schema version
+1, and every field is a base type: character, logical, numeric, integer,
+data frame, list, and Date. Neither package depends on the other, so any
+downstream workflow can read the handoff, including one you write
+yourself:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">class</span>(handoff)</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="co">#&gt; [1] &quot;contentvalid_handoff&quot; &quot;cv_handoff&quot;           &quot;list&quot;</span></span></code></pre></div>
+</div>
+<div id="what-the-handoff-does-not-claim" class="section level2">
+<h2>What the handoff does not claim</h2>
+<p>Carrying an item forward is not a prediction that it will perform. An
+item can be clearly relevant to experts and still correlate poorly with
+its construct, load on an unintended factor, or behave differently
+across groups. The reverse also happens: an item held back on content
+grounds cannot be rescued by a strong loading, because a factor loading
+says nothing about whether the item belongs to the construct as
+defined.</p>
+<p>Both stages follow the same rule. Flag, explain, and document; never
+silently delete. The handoff therefore carries evidence rather than
+instructions, and the empirical stage is free to flag an item that
+content review supported.</p>
+</div>
+<div id="reporting-the-transition" class="section level2">
+<h2>Reporting the transition</h2>
+<p>A methods section can state, in one or two sentences, how many items
+entered the pretest, how many were carried forward and under which rule,
+and where the held-back items went. <code>item_evidence</code> is the
+table behind that sentence, and <code>provenance</code> records the
+analysis that produced it:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>ev <span class="ot">&lt;-</span> handoff<span class="sc">$</span>item_evidence</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;%d of %d items were carried forward (%s); %d were held back.&quot;</span>,</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>        <span class="fu">length</span>(handoff<span class="sc">$</span>items), <span class="fu">length</span>(<span class="fu">unique</span>(ev<span class="sc">$</span>item)),</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>        <span class="fu">paste</span>(handoff<span class="sc">$</span>provenance<span class="sc">$</span>keep, <span class="at">collapse =</span> <span class="st">&quot;, &quot;</span>), <span class="fu">sum</span>(<span class="sc">!</span>ev<span class="sc">$</span>carried))</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="co">#&gt; [1] &quot;3 of 5 items were carried forward (Supported); 2 were held back.&quot;</span></span></code></pre></div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

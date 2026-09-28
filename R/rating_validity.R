@@ -1,0 +1,515 @@
+.rating_scale_summary <- function(results, orbiting_r = NULL, judge_type = "naive") {
+  targets <- unique(results$target)
+  r_map <- .resolve_rating_orbiting_r(targets, orbiting_r)
+  rank <- c("Lack of" = 1L, Weak = 2L, Moderate = 3L, Strong = 4L, `Very Strong` = 5L)
+
+  rows <- lapply(targets, function(target) {
+    z <- results[results$target == target, , drop = FALSE]
+    n_htc <- sum(!is.na(z$htc))
+    n_htd <- sum(!is.na(z$htd))
+    mean_htc <- if (n_htc == 0L) NA_real_ else mean(z$htc, na.rm = TRUE)
+    mean_htd <- if (n_htd == 0L) NA_real_ else mean(z$htd, na.rm = TRUE)
+    r <- unname(r_map[target])
+    r_arg <- if (is.na(r)) NULL else r
+    htc_i <- interpret_colquitt(mean_htc, "htc", orbiting_r = r_arg, judge_type = judge_type)
+    htd_i <- interpret_colquitt(mean_htd, "htd", orbiting_r = r_arg, judge_type = judge_type)
+    hs <- htc_i$interpretation[1]
+    ds <- htd_i$interpretation[1]
+    overall <- if (is.na(hs) || is.na(ds)) NA_character_ else {
+      if (unname(rank[hs]) <= unname(rank[ds])) hs else ds
+    }
+
+    partial_note <- if (n_htc < nrow(z) || n_htd < nrow(z)) {
+      paste0(" Normative averages use ", n_htc, "/", nrow(z), " item(s) for HTC and ",
+             n_htd, "/", nrow(z), " item(s) for HTD because of missing/insufficient data.")
+    } else ""
+    evidence <- if (judge_type == "expert") {
+      paste0("HTC/HTD are reported descriptively; Colquitt et al. (2019) normative labels are suppressed for expert judges.", partial_note)
+    } else if (is.na(overall)) {
+      paste0("Insufficient scale-level rating evidence is available for normative interpretation.", partial_note)
+    } else if (overall %in% c("Very Strong", "Strong")) {
+      paste0(overall, " normative standing on the weaker of definitional correspondence (HTC) and distinctiveness (HTD).", partial_note)
+    } else if (overall == "Moderate") {
+      paste0("Generally supportive normative standing, with at least one content-validity dimension in the moderate range; inspect weaker items and construct overlap before finalizing the scale.", partial_note)
+    } else {
+      paste0(overall, " normative standing on at least one dimension; review item wording, construct boundaries, and orbiting-construct choice and consider re-pretesting revisions.", partial_note)
+    }
+
+    data.frame(
+      target = target,
+      n_items = nrow(z),
+      n_htc = n_htc,
+      n_htd = n_htd,
+      n_retain = sum(z$recommendation == "Retain"),
+      n_review = sum(z$recommendation == "Review"),
+      n_insufficient = sum(z$recommendation == "Insufficient data"),
+      mean_htc = mean_htc,
+      htc_strength = hs,
+      mean_htd = mean_htd,
+      htd_strength = ds,
+      overall_strength = overall,
+      orbiting_r = r,
+      benchmark_set = htc_i$benchmark_set[1],
+      evidence = evidence,
+      stringsAsFactors = FALSE
+    )
+  })
+  out <- do.call(rbind, rows)
+  rownames(out) <- NULL
+  out
+}
+
+#' Analyze a Hinkin-Tracey construct-rating content-validity pretest
+#'
+#' @description
+#' Provides the recommended user-facing workflow for a fully crossed
+#' construct-rating study. Judges rate each item against its intended construct
+#' definition and one or more orbiting definitions. `rating_validity()` combines:
+#'
+#' * Hinkin-Tracey correspondence (HTC),
+#' * Hinkin-Tracey distinctiveness (HTD),
+#' * one-way repeated-measures ANOVA (with Greenhouse-Geisser correction) for each item, and
+#' * planned paired target-versus-orbiting contrasts.
+#'
+#' Item-level output is diagnostic rather than a coefficient dump: it identifies
+#' the strongest competing construct, describes why an item was flagged, and
+#' labels statistical screening decisions `"Retain"`, `"Review"`, or
+#' `"Insufficient data"`. `"Review"` is not an instruction to delete the item.
+#'
+#' Colquitt et al. (2019) norms are applied only to **target-scale averages** of
+#' HTC and HTD, matching the level at which those empirical benchmarks were
+#' constructed. The labels are suppressed for expert judges.
+#'
+#' @param ratings Long-format rating data.
+#' @param item_col,rater_col,construct_col,rating_col Column names.
+#' @param target_map Optional named item-to-target mapping.
+#' @param target_col Target column used when `target_map` is `NULL`.
+#' @param scale_min,scale_max Endpoints of the equally spaced integer rating
+#'   scale.
+#' @param alpha Significance level for item-level inferential screening.
+#' @param adjust Planned-contrast p-value adjustment: `"none"` (historical
+#'   planned-comparison logic) or `"holm"`.
+#' @param orbiting_r Optional average focal-orbiting correlation. For multiple
+#'   target scales, use a named numeric vector keyed by target.
+#' @param judge_type Either `"naive"` or `"expert"`. Colquitt normative labels
+#'   are not applied to expert-judge data.
+#'
+#' @return An object of class `contentvalid_rating` and
+#'   `contentvalid_workflow`. All flagship workflow objects expose the common
+#'   components `results`, `scale_summary`, `settings`, `design`, and `details`.
+#'   Planned contrasts live in `details$contrasts`; the historical top-level
+#'   `contrasts` component is retained as a compatibility alias. Item-level
+#'   `results` include a standardized `status` field while retaining the
+#'   method-specific `recommendation` field.
+#'
+#' @references
+#' Hinkin, T. R., & Tracey, J. B. (1999). An analysis of variance approach to
+#' content validation. *Organizational Research Methods, 2*(2), 175-186.
+#' \doi{10.1177/109442819922004}
+#'
+#' Colquitt, J. A., Sabey, T. B., Rodell, J. B., & Hill, E. T. (2019).
+#' Content validation guidelines: Evaluation criteria for definitional
+#' correspondence and definitional distinctiveness. *Journal of Applied
+#' Psychology, 104*(10), 1243-1265. \doi{10.1037/apl0000406}
+#'
+#' @examples
+#' set.seed(12)
+#' d <- expand.grid(item = c("A1", "A2", "B1"), rater = 1:20,
+#'                  construct = c("A", "B", "C"))
+#' d$target_construct <- ifelse(d$item == "B1", "B", "A")
+#' d$rating <- ifelse(d$construct == d$target_construct,
+#'                    pmin(5, pmax(1, round(rnorm(nrow(d), 4.5, .6)))),
+#'                    pmin(5, pmax(1, round(rnorm(nrow(d), 2.0, .7)))))
+#' fit <- rating_validity(d, scale_min = 1, scale_max = 5)
+#' fit
+#' summary(fit)
+#' @export
+rating_validity <- function(ratings,
+                            item_col = "item",
+                            rater_col = "rater",
+                            construct_col = "construct",
+                            rating_col = "rating",
+                            target_map = NULL,
+                            target_col = "target_construct",
+                            scale_min = 1,
+                            scale_max = 5,
+                            alpha = 0.05,
+                            adjust = c("none", "holm"),
+                            orbiting_r = NULL,
+                            judge_type = c("naive", "expert")) {
+  adjust <- match.arg(adjust)
+  judge_type <- match.arg(judge_type)
+  d <- .prepare_rating_data(ratings, item_col, rater_col, construct_col,
+                            rating_col, target_map, target_col)
+  anchors <- .validate_rating_scale(scale_min, scale_max, d$rating)
+  construct_counts <- vapply(split(d, d$item, drop = TRUE),
+                             function(z) length(unique(z$construct)), integer(1))
+  too_few <- names(construct_counts)[construct_counts < 2L]
+  if (length(too_few)) {
+    stop("`rating_validity()` requires at least two construct definitions per item. Check: ",
+         paste(too_few, collapse = ", "), ".", call. = FALSE)
+  }
+
+  designs <- vapply(split(d, d$item, drop = TRUE), .detect_item_rating_design, character(1))
+  between_items <- names(designs)[designs == "between"]
+  if (length(between_items)) {
+    stop("`rating_validity()` requires a within-judge/fully crossed rating design. Item(s) detected as between-judge: ",
+         paste(between_items, collapse = ", "),
+         ". Use `anova_content(..., design = \"between\")` only for a genuinely independent-rater design.",
+         call. = FALSE)
+  }
+
+  htc_out <- htc(ratings, item_col, rater_col, construct_col, rating_col,
+                 target_map, target_col, scale_min, scale_max)
+  htd_out <- htd(ratings, item_col, rater_col, construct_col, rating_col,
+                 target_map, target_col, scale_min, scale_max)
+  anova_out <- anova_content(
+    ratings,
+    item_col = item_col,
+    rater_col = rater_col,
+    construct_col = construct_col,
+    rating_col = rating_col,
+    target_map = target_map,
+    target_col = target_col,
+    design = "within",
+    alpha = alpha,
+    adjust = adjust
+  )
+
+  idx_h <- match(anova_out$item, htc_out$item)
+  idx_d <- match(anova_out$item, htd_out$item)
+  results <- data.frame(
+    item = anova_out$item,
+    target = anova_out$target,
+    n_raters = anova_out$n_raters,
+    n_complete = anova_out$n_complete,
+    n_incomplete = anova_out$n_raters - anova_out$n_complete,
+    n_constructs = anova_out$n_constructs,
+    target_mean = htc_out$target_mean[idx_h],
+    target_mean_complete = htd_out$target_mean_complete[idx_d],
+    strongest_competitor = htd_out$strongest_competitor[idx_d],
+    competitor_mean = htd_out$competitor_mean[idx_d],
+    htc = htc_out$htc[idx_h],
+    htd = htd_out$htd[idx_d],
+    F = anova_out$F,
+    df1 = anova_out$df1,
+    df2 = anova_out$df2,
+    p_omnibus = anova_out$p,
+    epsilon_gg = anova_out$epsilon_gg,
+    p_value = anova_out$p_screen,
+    partial_eta2 = anova_out$partial_eta2,
+    min_mean_diff = anova_out$min_mean_diff,
+    max_contrast_p = anova_out$max_contrast_p,
+    contrast_pass = anova_out$contrast_pass,
+    stringsAsFactors = FALSE
+  )
+
+  results$recommendation <- vapply(seq_len(nrow(results)), function(i) {
+    if (results$n_complete[i] < 2L || is.na(results$htc[i]) || is.na(results$htd[i])) return("Insufficient data")
+    if (isTRUE(results$p_value[i] <= alpha) && isTRUE(results$contrast_pass[i])) "Retain" else "Review"
+  }, character(1))
+
+  results$issue <- vapply(seq_len(nrow(results)), function(i) {
+    if (results$recommendation[i] == "Insufficient data") return("Insufficient complete ratings")
+    if (!is.na(results$competitor_mean[i]) && results$competitor_mean[i] > results$target_mean_complete[i]) return("Orbiting construct rated higher")
+    if (!is.na(results$competitor_mean[i]) && results$competitor_mean[i] == results$target_mean_complete[i]) return("Target tied with strongest competitor")
+    if (is.na(results$p_value[i]) || results$p_value[i] > alpha) return("No omnibus separation detected")
+    if (!isTRUE(results$contrast_pass[i])) return("Target highest, planned contrasts incomplete")
+    "Supported"
+  }, character(1))
+
+  results$interpretation <- vapply(seq_len(nrow(results)), function(i) {
+    comp <- if (is.na(results$strongest_competitor[i])) "no identifiable orbiting competitor" else
+      paste0("strongest competitor: ", results$strongest_competitor[i])
+    if (results$recommendation[i] == "Insufficient data") {
+      return("Too few judges have complete ratings across all construct definitions to evaluate this item reliably.")
+    }
+    if (results$issue[i] == "Orbiting construct rated higher") {
+      return(paste0("The intended construct was not rated highest (", comp,
+                    "); review wording and the conceptual boundary between the target and orbiting construct."))
+    }
+    if (results$issue[i] == "Target tied with strongest competitor") {
+      return(paste0("The intended construct tied the strongest orbiting construct (", comp,
+                    "); the item does not show clear definitional distinctiveness."))
+    }
+    if (results$recommendation[i] == "Retain") {
+      return(paste0("The intended construct is rated higher than all orbiting constructs and all planned contrasts meet the screening criterion (", comp, ")."))
+    }
+    paste0("The intended construct has the highest mean but the full inferential screening criterion was not met (",
+           comp, "); review the weakest target-orbiting comparison before revising or removing the item.")
+  }, character(1))
+
+  scale_summary <- .rating_scale_summary(results, orbiting_r = orbiting_r,
+                                         judge_type = judge_type)
+  contrasts <- attr(anova_out, "contrasts")
+
+  results$status <- .workflow_status_from_recommendation(results$recommendation)
+
+  settings <- list(
+    method = "Hinkin-Tracey within-judge ratings",
+    item_inference = "one-way repeated-measures ANOVA (Greenhouse-Geisser corrected omnibus p) plus planned paired target-versus-orbiting contrasts",
+    scale_benchmarks = "Colquitt et al. (2019) empirical percentile norms",
+    scale_min = scale_min,
+    scale_max = scale_max,
+    anchors = anchors,
+    alpha = alpha,
+    adjust = adjust,
+    judge_type = judge_type
+  )
+  design <- list(
+    type = "within-judge construct-rating",
+    n_items = nrow(results),
+    n_raters = length(unique(d$rater)),
+    n_judges_min = if (nrow(results)) min(results$n_complete) else 0L,
+    n_judges_max = if (nrow(results)) max(results$n_complete) else 0L,
+    n_missing = sum(is.na(d$rating)),
+    n_incomplete_profiles = sum(results$n_incomplete),
+    n_target_scales = length(unique(d$target)),
+    n_constructs_observed = length(unique(d$construct))
+  )
+
+  .new_contentvalid_workflow(
+    subclass = "contentvalid_rating",
+    workflow = "construct-rating",
+    results = results,
+    scale_summary = scale_summary,
+    settings = settings,
+    design = design,
+    details = list(contrasts = contrasts),
+    legacy = list(contrasts = contrasts)
+  )
+}
+
+#' @export
+print.contentvalid_rating <- function(x, digits = 3, ...) {
+  .validate_digits(digits)
+  r <- x$results
+  cat("contentvalidR construct-rating analysis\n")
+  cat(strrep("-", 39), "\n", sep = "")
+  cat("Items:", x$design$n_items, "| Raters:", x$design$n_raters,
+      "| Target scales:", x$design$n_target_scales,
+      "| Constructs:", x$design$n_constructs_observed, "\n")
+  cat("Design: within-judge ratings | Scale:", x$settings$scale_min, "to", x$settings$scale_max, "\n")
+  cat("Item inference:", x$settings$item_inference, "\n")
+  cat("Planned-contrast adjustment:", x$settings$adjust, "\n")
+  cat("Judges:", x$settings$judge_type, "\n\n")
+
+  n_retain <- sum(r$recommendation == "Retain")
+  n_review <- sum(r$recommendation == "Review")
+  n_insufficient <- sum(r$recommendation == "Insufficient data")
+  cat(n_retain, "item(s) meet the full item-level screening criterion;",
+      n_review, "item(s) are flagged for review")
+  if (n_insufficient) cat(";", n_insufficient, "item(s) have insufficient data")
+  cat(".\n")
+  if (n_review) cat("Review:", paste(r$item[r$recommendation == "Review"], collapse = ", "), "\n")
+  if (any(r$n_incomplete > 0L)) {
+    cat("Incomplete judge profiles occurred for", sum(r$n_incomplete),
+        "item-judge profile(s); repeated-measures tests use complete judges itemwise.\n")
+  }
+
+  cat("\nItem-level evidence:\n")
+  tab <- r[c("item", "target", "n_complete", "strongest_competitor",
+             "htc", "htd", "p_value", "max_contrast_p", "recommendation")]
+  num <- c("htc", "htd", "p_value", "max_contrast_p")
+  tab[num] <- lapply(tab[num], round, digits = digits)
+  print(tab, row.names = FALSE)
+
+  cat("\nTarget-scale Colquitt benchmark summary:\n")
+  s <- x$scale_summary[c("target", "n_items", "n_htc", "n_htd", "mean_htc", "htc_strength",
+                         "mean_htd", "htd_strength", "benchmark_set")]
+  s[c("mean_htc", "mean_htd")] <- lapply(s[c("mean_htc", "mean_htd")], round, digits = digits)
+  print(s, row.names = FALSE)
+
+  if (x$settings$judge_type == "expert") {
+    cat("\nColquitt benchmark labels are suppressed because the analysis was marked as using expert judges.\n")
+  } else {
+    cat("\nColquitt labels are empirical percentile norms for scale-level HTC/HTD averages, not universal cutoffs.\n")
+    cat("HTC is an average rating and HTD is a difference between ratings, so they sit on\n")
+    cat("different scales with different typical values. A high HTC can be labeled Weak in\n")
+    cat("the same analysis where a much smaller HTD is labeled Very Strong. Compare each\n")
+    cat("index against its own benchmark, never against the other index's number.\n")
+  }
+
+  if (.show_key()) {
+    .print_key(c("htc", "htd"))
+    .print_status_legend()
+    cat("\nSee `contentvalid_glossary()` for all terms, or set",
+        "\n`options(contentvalidR.show_key = FALSE)` to hide this key.\n")
+  }
+
+  cat("\n'Review' is not an automatic deletion decision. Consider construct definitions, item wording,\n")
+  cat("orbiting-construct choice, domain coverage, and qualitative judge feedback.\n")
+  invisible(x)
+}
+
+#' @export
+summary.contentvalid_rating <- function(object, ...) {
+  out <- .workflow_summary_core(object)
+  # Compatibility alias retained for pre-v0.0.6 user code.
+  out$n_retain <- out$n_supported
+  class(out) <- c("summary.contentvalid_rating", "summary.contentvalid_workflow")
+  out
+}
+
+#' @export
+print.summary.contentvalid_rating <- function(x, digits = 3, ...) {
+  .validate_digits(digits)
+  cat("Summary of construct-rating content-validity evidence\n")
+  cat(strrep("-", 51), "\n", sep = "")
+  cat("Retain:", x$n_retain, "of", x$n_items, "item(s)\n")
+  cat("Review:", x$n_review, "of", x$n_items, "item(s)\n")
+  if (x$n_insufficient) cat("Insufficient data:", x$n_insufficient, "item(s)\n")
+
+  cat("\nTarget-scale evidence:\n")
+  s <- x$scale_summary[c("target", "n_items", "n_htc", "n_htd", "n_retain", "n_review",
+                         "mean_htc", "htc_strength", "mean_htd", "htd_strength",
+                         "overall_strength")]
+  s[c("mean_htc", "mean_htd")] <- lapply(s[c("mean_htc", "mean_htd")], round, digits = digits)
+  print(s, row.names = FALSE)
+  for (i in seq_len(nrow(x$scale_summary))) {
+    cat("\n", x$scale_summary$target[i], ": ", x$scale_summary$evidence[i], sep = "")
+  }
+  cat("\n")
+
+  if (nrow(x$reviewed_items)) {
+    cat("\nItems needing attention:\n")
+    show <- x$reviewed_items[c("item", "target", "strongest_competitor", "htc", "htd",
+                                "p_value", "max_contrast_p", "issue", "recommendation")]
+    num <- c("htc", "htd", "p_value", "max_contrast_p")
+    show[num] <- lapply(show[num], round, digits = digits)
+    print(show, row.names = FALSE)
+  } else {
+    cat("\nAll analyzed items met the item-level inferential screening criterion.\n")
+  }
+
+  cat("\nInterpret these results alongside theory, domain coverage, and qualitative feedback.\n")
+  cat("The analysis does not by itself establish comprehensiveness or the full content-validity argument.\n")
+  invisible(x)
+}
+
+#' Plot Hinkin-Tracey rating evidence
+#'
+#' @description
+#' Provides three complementary views of a construct-rating pretest. `"item"`
+#' reproduces the original one-index plot, `"map"` places HTC against HTD to show
+#' correspondence and distinctiveness jointly, and `"profile"` draws a target-versus-
+#' strongest-competitor gap plot on the original response scale. The latter is a
+#' graphical analogue of the mean-rating tables used in Hinkin and Tracey (1999).
+#'
+#' @param x A `contentvalid_rating` object.
+#' @param metric Either `"htc"` or `"htd"` for `type = "item"`.
+#' @param type One of `"item"`, `"map"`, or `"profile"`.
+#' @param label Which item labels to draw on the map: `"review"` (default), `"all"`,
+#'   or `"none"`.
+#' @param show_legend Logical; draw the compact plot key. Default `TRUE`.
+#' @param ... Additional graphical arguments passed to [graphics::plot()].
+#'
+#' @return The input object invisibly.
+#' @examples
+#' set.seed(12)
+#' d <- expand.grid(item = c("A1", "A2", "B1"), rater = 1:20,
+#'                  construct = c("A", "B", "C"))
+#' d$target_construct <- ifelse(d$item == "B1", "B", "A")
+#' d$rating <- ifelse(d$construct == d$target_construct,
+#'                    pmin(5, pmax(1, round(rnorm(nrow(d), 4.5, .6)))),
+#'                    pmin(5, pmax(1, round(rnorm(nrow(d), 2.0, .7)))))
+#' fit <- rating_validity(d, scale_min = 1, scale_max = 5)
+#' plot(fit)
+#' plot(fit, type = "map")
+#' plot(fit, type = "profile")
+#' @export
+plot.contentvalid_rating <- function(x,
+                                     metric = c("htc", "htd"),
+                                     type = c("item", "map", "profile"),
+                                     label = c("review", "all", "none"),
+                                     show_legend = TRUE,
+                                     ...) {
+  type <- match.arg(type)
+  label <- match.arg(label)
+  .validate_flag(show_legend, "show_legend")
+  r <- x$results
+
+  if (type == "item") {
+    metric <- match.arg(metric)
+    y <- r[[metric]]
+    pch <- ifelse(r$recommendation == "Retain", 19,
+                  ifelse(r$recommendation == "Review", 1, 4))
+    ylim <- if (metric == "htc") c(0, 1) else c(-1, 1)
+    ylab <- if (metric == "htc") "HTC correspondence" else "HTD distinctiveness"
+    graphics::plot(seq_along(y), y, xaxt = "n", xlab = "Item", ylab = ylab,
+                   ylim = ylim, pch = pch, ...)
+    graphics::axis(1, at = seq_along(y), labels = r$item, las = 2)
+    if (metric == "htd") graphics::abline(h = 0, lty = 3)
+    if (isTRUE(show_legend)) {
+      graphics::legend("bottomleft", legend = c("Retain", "Review", "No data"),
+                       pch = c(19, 1, 4), bty = "n", cex = 0.72)
+    }
+    return(invisible(x))
+  }
+
+  if (type == "map") {
+    ok <- is.finite(r$htc) & is.finite(r$htd)
+    pch <- ifelse(r$recommendation == "Retain", 19,
+                  ifelse(r$recommendation == "Review", 1, 4))
+    graphics::plot(r$htc[ok], r$htd[ok], xlim = c(0, 1), ylim = c(-1, 1),
+                   xlab = "HTC correspondence",
+                   ylab = "HTD distinctiveness",
+                   pch = pch[ok], ...)
+    graphics::abline(h = 0, lty = 3)
+
+    lab_idx <- switch(
+      label,
+      review = which(ok & r$recommendation != "Retain"),
+      all = which(ok),
+      none = integer(0)
+    )
+    if (length(lab_idx)) {
+      graphics::text(r$htc[lab_idx], r$htd[lab_idx], labels = r$item[lab_idx],
+                     pos = 3, cex = 0.70, offset = 0.35)
+    }
+
+    s <- x$scale_summary
+    s_ok <- is.finite(s$mean_htc) & is.finite(s$mean_htd)
+    if (any(s_ok)) {
+      sx <- s$mean_htc[s_ok]
+      sy <- s$mean_htd[s_ok]
+      graphics::points(sx, sy, pch = 18, cex = 1.25)
+      label_y <- .map_scale_label_y(sx, sy)
+      graphics::text(sx, label_y, labels = s$target[s_ok], cex = 0.72)
+    }
+    if (isTRUE(show_legend)) {
+      legend_labels <- c("Retain", "Review")
+      legend_pch <- c(19, 1)
+      if (any(s_ok)) {
+        legend_labels <- c(legend_labels, "Scale mean")
+        legend_pch <- c(legend_pch, 18)
+      }
+      graphics::legend("bottomleft", legend = legend_labels, pch = legend_pch,
+                       bty = "n", cex = 0.72)
+    }
+    return(invisible(x))
+  }
+
+  y <- seq_len(nrow(r))
+  xlim <- c(x$settings$scale_min, x$settings$scale_max)
+  finite_any <- is.finite(r$target_mean) | is.finite(r$competitor_mean)
+  graphics::plot(r$target_mean[finite_any], y[finite_any], xlim = xlim,
+                 ylim = c(0.5, nrow(r) + 1.25), yaxt = "n",
+                 xlab = "Mean definition rating", ylab = "", pch = 19, ...)
+  graphics::axis(2, at = y, labels = r$item, las = 1)
+  both <- is.finite(r$target_mean) & is.finite(r$competitor_mean)
+  if (any(both)) {
+    lty <- ifelse(r$recommendation[both] == "Retain", 1,
+                  ifelse(r$recommendation[both] == "Review", 2, 3))
+    graphics::segments(r$competitor_mean[both], y[both], r$target_mean[both], y[both], lty = lty)
+    graphics::points(r$competitor_mean[both], y[both], pch = 1)
+  }
+  target_ok <- is.finite(r$target_mean)
+  graphics::points(r$target_mean[target_ok], y[target_ok], pch = 19)
+  if (isTRUE(show_legend)) {
+    graphics::legend("top", legend = c("Target", "Competitor", "Review gap"),
+                     pch = c(19, 1, NA), lty = c(NA, NA, 2), bty = "n",
+                     horiz = TRUE, cex = 0.68, x.intersp = 0.7)
+  }
+  invisible(x)
+}

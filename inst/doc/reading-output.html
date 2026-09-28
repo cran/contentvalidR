@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>How to Read contentvalidR Output</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">How to Read contentvalidR Output</h1>
+
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(contentvalidR)</span></code></pre></div>
+<div id="who-this-is-for" class="section level2">
+<h2>Who this is for</h2>
+<p>This vignette is for readers meeting these methods for the first
+time: graduate students developing a scale, and researchers who need to
+report content-validity evidence without first reading five primary
+sources.</p>
+<p>It walks through what each part of the output means, what it does
+<strong>not</strong> mean, and how to describe the result in a
+manuscript. The other vignettes show how to <em>run</em> each workflow;
+this one shows how to <em>read</em> what comes back.</p>
+<p>If you only remember one thing: <strong>every statistic here is
+evidence for a judgment you make, not a judgment the package makes for
+you.</strong></p>
+</div>
+<div id="the-shared-vocabulary" class="section level2">
+<h2>The shared vocabulary</h2>
+<p>Every flagship workflow returns an object with the same five
+parts.</p>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Component</th>
+<th>What it holds</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>results</code></td>
+<td>One row per unit of analysis, with a status and a plain-language
+interpretation</td>
+</tr>
+<tr class="even">
+<td><code>scale_summary</code></td>
+<td>The same evidence aggregated to the scale or panel level</td>
+</tr>
+<tr class="odd">
+<td><code>settings</code></td>
+<td>Every threshold and option that produced this result</td>
+</tr>
+<tr class="even">
+<td><code>design</code></td>
+<td>What data you actually had: counts, missingness, effective judge
+numbers</td>
+</tr>
+<tr class="odd">
+<td><code>details</code></td>
+<td>Supporting tables and component analyses</td>
+</tr>
+</tbody>
+</table>
+<p>The unit of analysis in <code>results</code> differs by workflow, and
+this catches people out. <code>sort_validity()</code>,
+<code>rating_validity()</code>, and <code>expert_validity()</code>
+return <strong>one row per item</strong>. <code>judge_validity()</code>
+returns <strong>one row per judge</strong>.
+<code>domain_validity()</code> returns <strong>one row per blueprint
+cell</strong>.</p>
+<p>Every <code>results</code> table carries a <code>status</code> column
+drawn from a shared vocabulary:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">attr</span>(<span class="fu">contentvalid_glossary</span>(), <span class="st">&quot;statuses&quot;</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co">#&gt;              status</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">#&gt; 1         Supported</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#&gt; 2            Review</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">#&gt; 3 Insufficient data</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt; 4  Descriptive only</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt;                                                                              meaning</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt; 1                               The evidence met the criteria set for this analysis.</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt; 2 Something here needs a closer look. This is not an instruction to delete anything.</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt; 3                                        Too little usable data to reach a judgment.</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co">#&gt; 4                       Reported for description only; no decision rule was applied.</span></span></code></pre></div>
+<p><code>Review</code> is the one people misread. It does not mean
+“delete this.” It means something here rewards a closer look, and you
+are the one who looks.</p>
+</div>
+<div id="reading-an-item-sort-result" class="section level2">
+<h2>Reading an item-sort result</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>sorts <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;sort_example.csv&quot;</span>, <span class="at">package =</span> <span class="st">&quot;contentvalidR&quot;</span>),</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>)</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>fit_sort <span class="ot">&lt;-</span> <span class="fu">sort_validity</span>(sorts)</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>fit_sort</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt; contentvalidR item-sort analysis</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt; --------------------------------</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt; Items: 6 | Raters: 20 | Target scales: 3 </span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt; Item inference: Howard-Melloy exact target-count test (p0 = 0.50, alpha = 0.050) </span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co">#&gt; Judges: naive </span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co">#&gt; 4 item(s) meet the exact target-assignment criterion; 2 item(s) are flagged for review.</span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co">#&gt; Review: B2, C2 </span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="co">#&gt; Item-level evidence:</span></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co">#&gt;  item target  n n_target competitor  psa psa_low psa_high  csv p_value</span></span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="co">#&gt;    A1      A 20       18       B; C 0.90   0.699    0.972 0.85   0.000</span></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="co">#&gt;    A2      A 20       15          B 0.75   0.531    0.888 0.60   0.021</span></span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="co">#&gt;    B1      B 20       17          A 0.85   0.640    0.948 0.75   0.001</span></span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a><span class="co">#&gt;    B2      B 20       13          A 0.65   0.433    0.819 0.40   0.132</span></span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="co">#&gt;    C1      C 20       18       A; B 0.90   0.699    0.972 0.85   0.000</span></span>
+<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a><span class="co">#&gt;    C2      C 20       14          B 0.70   0.481    0.855 0.50   0.058</span></span>
+<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a><span class="co">#&gt;  recommendation</span></span>
+<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a><span class="co">#&gt;          Retain</span></span>
+<span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a><span class="co">#&gt;          Retain</span></span>
+<span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a><span class="co">#&gt;          Retain</span></span>
+<span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a><span class="co">#&gt;          Review</span></span>
+<span id="cb3-29"><a href="#cb3-29" tabindex="-1"></a><span class="co">#&gt;          Retain</span></span>
+<span id="cb3-30"><a href="#cb3-30" tabindex="-1"></a><span class="co">#&gt;          Review</span></span>
+<span id="cb3-31"><a href="#cb3-31" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-32"><a href="#cb3-32" tabindex="-1"></a><span class="co">#&gt; 95% intervals for proportions: Wilson score (the default). Newcombe (1998)</span></span>
+<span id="cb3-33"><a href="#cb3-33" tabindex="-1"></a><span class="co">#&gt; compared seven methods and recommends score intervals over the Wald</span></span>
+<span id="cb3-34"><a href="#cb3-34" tabindex="-1"></a><span class="co">#&gt; interval. An interval reflects how few ratings an item received, not</span></span>
+<span id="cb3-35"><a href="#cb3-35" tabindex="-1"></a><span class="co">#&gt; whether the right judges were chosen.</span></span>
+<span id="cb3-36"><a href="#cb3-36" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-37"><a href="#cb3-37" tabindex="-1"></a><span class="co">#&gt; Scale-level Colquitt benchmark summary:</span></span>
+<span id="cb3-38"><a href="#cb3-38" tabindex="-1"></a><span class="co">#&gt;  target n_items mean_psa psa_strength mean_csv csv_strength</span></span>
+<span id="cb3-39"><a href="#cb3-39" tabindex="-1"></a><span class="co">#&gt;       A       2    0.825       Strong    0.725       Strong</span></span>
+<span id="cb3-40"><a href="#cb3-40" tabindex="-1"></a><span class="co">#&gt;       B       2    0.750     Moderate    0.575     Moderate</span></span>
+<span id="cb3-41"><a href="#cb3-41" tabindex="-1"></a><span class="co">#&gt;       C       2    0.800     Moderate    0.675       Strong</span></span>
+<span id="cb3-42"><a href="#cb3-42" tabindex="-1"></a><span class="co">#&gt;                     benchmark_set</span></span>
+<span id="cb3-43"><a href="#cb3-43" tabindex="-1"></a><span class="co">#&gt;  Overall (not correlation-normed)</span></span>
+<span id="cb3-44"><a href="#cb3-44" tabindex="-1"></a><span class="co">#&gt;  Overall (not correlation-normed)</span></span>
+<span id="cb3-45"><a href="#cb3-45" tabindex="-1"></a><span class="co">#&gt;  Overall (not correlation-normed)</span></span>
+<span id="cb3-46"><a href="#cb3-46" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-47"><a href="#cb3-47" tabindex="-1"></a><span class="co">#&gt; Colquitt labels are empirical percentile norms derived from scale-level averages,</span></span>
+<span id="cb3-48"><a href="#cb3-48" tabindex="-1"></a><span class="co">#&gt; not universal cutoffs or automatic scale-retention rules. They place a scale</span></span>
+<span id="cb3-49"><a href="#cb3-49" tabindex="-1"></a><span class="co">#&gt; against published scales; Psa and Csv sit on different scales, so their labels</span></span>
+<span id="cb3-50"><a href="#cb3-50" tabindex="-1"></a><span class="co">#&gt; are not comparable with each other.</span></span>
+<span id="cb3-51"><a href="#cb3-51" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-52"><a href="#cb3-52" tabindex="-1"></a><span class="co">#&gt; What these columns mean</span></span>
+<span id="cb3-53"><a href="#cb3-53" tabindex="-1"></a><span class="co">#&gt;   psa -- Proportion of Substantive Agreement. Share of judges who assigned</span></span>
+<span id="cb3-54"><a href="#cb3-54" tabindex="-1"></a><span class="co">#&gt;       the item to the construct it was written for. Higher means judges</span></span>
+<span id="cb3-55"><a href="#cb3-55" tabindex="-1"></a><span class="co">#&gt;       recognized the item as belonging where you intended. (0 to 1; higher</span></span>
+<span id="cb3-56"><a href="#cb3-56" tabindex="-1"></a><span class="co">#&gt;       is stronger)</span></span>
+<span id="cb3-57"><a href="#cb3-57" tabindex="-1"></a><span class="co">#&gt;   psa_low/psa_high -- Interval for Psa. Lower and upper limits of an</span></span>
+<span id="cb3-58"><a href="#cb3-58" tabindex="-1"></a><span class="co">#&gt;       interval around Psa. A wide interval means few judges sorted the</span></span>
+<span id="cb3-59"><a href="#cb3-59" tabindex="-1"></a><span class="co">#&gt;       item, so a different sample of judges could plausibly give a quite</span></span>
+<span id="cb3-60"><a href="#cb3-60" tabindex="-1"></a><span class="co">#&gt;       different Psa. (between 0 and 1; the method and level are named in</span></span>
+<span id="cb3-61"><a href="#cb3-61" tabindex="-1"></a><span class="co">#&gt;       the output)</span></span>
+<span id="cb3-62"><a href="#cb3-62" tabindex="-1"></a><span class="co">#&gt;   csv -- Coefficient of Substantive Validity. How much more often the item</span></span>
+<span id="cb3-63"><a href="#cb3-63" tabindex="-1"></a><span class="co">#&gt;       went to its intended construct than to the alternative construct</span></span>
+<span id="cb3-64"><a href="#cb3-64" tabindex="-1"></a><span class="co">#&gt;       judges chose most. It rewards being distinctly right, not merely</span></span>
+<span id="cb3-65"><a href="#cb3-65" tabindex="-1"></a><span class="co">#&gt;       often right. (-1 to 1; 0 means the intended construct and its closest</span></span>
+<span id="cb3-66"><a href="#cb3-66" tabindex="-1"></a><span class="co">#&gt;       rival were chosen equally often)</span></span>
+<span id="cb3-67"><a href="#cb3-67" tabindex="-1"></a><span class="co">#&gt;   competitor -- Strongest competing construct. The construct, other than</span></span>
+<span id="cb3-68"><a href="#cb3-68" tabindex="-1"></a><span class="co">#&gt;       the intended one, that judges chose most often for this item.</span></span>
+<span id="cb3-69"><a href="#cb3-69" tabindex="-1"></a><span class="co">#&gt;   p_value -- Howard-Melloy exact test. Probability of seeing at least this</span></span>
+<span id="cb3-70"><a href="#cb3-70" tabindex="-1"></a><span class="co">#&gt;       many target assignments if judges were assigning at the chance rate</span></span>
+<span id="cb3-71"><a href="#cb3-71" tabindex="-1"></a><span class="co">#&gt;       p0. Small values mean the item&#39;s assignment pattern is unlikely to be</span></span>
+<span id="cb3-72"><a href="#cb3-72" tabindex="-1"></a><span class="co">#&gt;       chance. (0 to 1; compared against alpha)</span></span>
+<span id="cb3-73"><a href="#cb3-73" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-74"><a href="#cb3-74" tabindex="-1"></a><span class="co">#&gt; What the status labels mean</span></span>
+<span id="cb3-75"><a href="#cb3-75" tabindex="-1"></a><span class="co">#&gt;   Supported -- The evidence met the criteria set for this analysis.</span></span>
+<span id="cb3-76"><a href="#cb3-76" tabindex="-1"></a><span class="co">#&gt;   Review -- Something here needs a closer look. This is not an instruction</span></span>
+<span id="cb3-77"><a href="#cb3-77" tabindex="-1"></a><span class="co">#&gt;       to delete anything.</span></span>
+<span id="cb3-78"><a href="#cb3-78" tabindex="-1"></a><span class="co">#&gt;   Insufficient data -- Too little usable data to reach a judgment.</span></span>
+<span id="cb3-79"><a href="#cb3-79" tabindex="-1"></a><span class="co">#&gt;   Descriptive only -- Reported for description only; no decision rule was</span></span>
+<span id="cb3-80"><a href="#cb3-80" tabindex="-1"></a><span class="co">#&gt;       applied.</span></span>
+<span id="cb3-81"><a href="#cb3-81" tabindex="-1"></a><span class="co">#&gt;   Each workflow also uses its own wording in the recommendation column</span></span>
+<span id="cb3-82"><a href="#cb3-82" tabindex="-1"></a><span class="co">#&gt;   (Retain, Strong support, Typical, Covered, and so on). Those words map</span></span>
+<span id="cb3-83"><a href="#cb3-83" tabindex="-1"></a><span class="co">#&gt;   onto the shared statuses above.</span></span>
+<span id="cb3-84"><a href="#cb3-84" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-85"><a href="#cb3-85" tabindex="-1"></a><span class="co">#&gt; See `contentvalid_glossary()` for all terms, or set </span></span>
+<span id="cb3-86"><a href="#cb3-86" tabindex="-1"></a><span class="co">#&gt; `options(contentvalidR.show_key = FALSE)` to hide this key.</span></span>
+<span id="cb3-87"><a href="#cb3-87" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-88"><a href="#cb3-88" tabindex="-1"></a><span class="co">#&gt; &#39;Review&#39; is not an automatic deletion decision. Use theory, construct-domain coverage,</span></span>
+<span id="cb3-89"><a href="#cb3-89" tabindex="-1"></a><span class="co">#&gt; item wording, and qualitative judge feedback alongside these statistics.</span></span></code></pre></div>
+<p>Working across the item table:</p>
+<ul>
+<li><strong><code>n_target</code> / <code>n</code></strong> — how many
+judges put the item where you intended, out of how many judged it.
+Always read these before the coefficients: an impressive
+<code>psa</code> computed from four judges is not impressive.</li>
+<li><strong><code>psa</code></strong> — the proportion of judges who
+assigned the item to its intended construct. It answers “did judges
+recognize what this item is about?”</li>
+<li><strong><code>competitor</code></strong> — the construct judges
+picked most often <em>instead</em>. This is the single most useful
+diagnostic column in the table, because it tells you <em>where</em> a
+weak item drifted, which points at the fix.</li>
+<li><strong><code>csv</code></strong> — how much more often the item
+went to its target than to that competitor. An item can have a decent
+<code>psa</code> and a poor <code>csv</code> if one rival construct
+keeps attracting it. That pattern means your two construct definitions
+overlap, which is a definitional problem rather than a wording
+problem.</li>
+<li><strong><code>p_value</code></strong> — the Howard-Melloy exact test
+against chance assignment.</li>
+</ul>
+<p>The scale-level table adds Colquitt strength labels. These are
+<strong>percentile positions relative to scales published in the
+literature</strong>, not absolute judgments, and they are the most
+frequently misreported part of this output.</p>
+</div>
+<div id="the-benchmark-trap" class="section level2">
+<h2>The benchmark trap</h2>
+<p>Here is the misreading to guard against, using construct ratings:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>ratings <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;rating_example.csv&quot;</span>, <span class="at">package =</span> <span class="st">&quot;contentvalidR&quot;</span>),</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>)</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>fit_rating <span class="ot">&lt;-</span> <span class="fu">rating_validity</span>(ratings)</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>fit_rating<span class="sc">$</span>scale_summary[, <span class="fu">c</span>(<span class="st">&quot;target&quot;</span>, <span class="st">&quot;mean_htc&quot;</span>, <span class="st">&quot;htc_strength&quot;</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>                             <span class="st">&quot;mean_htd&quot;</span>, <span class="st">&quot;htd_strength&quot;</span>)]</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt;   target  mean_htc htc_strength mean_htd htd_strength</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt; 1      A 0.8333333         Weak   0.4375  Very Strong</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt; 2      B 0.8333333         Weak   0.4375  Very Strong</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt; 3      C 0.8333333         Weak   0.4375  Very Strong</span></span></code></pre></div>
+<p>An HTC of about 0.83 is labeled <code>Weak</code>, while an HTD of
+about 0.44 in the same row is labeled <code>Very Strong</code>. Read as
+raw numbers this looks backwards, and it is a common source of
+confusion.</p>
+<p>The two indices are not on the same scale and their numbers are not
+comparable:</p>
+<ul>
+<li><strong>HTC is an average rating</strong> expressed as a proportion
+of the scale. Across published scales the Moderate band starts at 0.84
+and Very Strong at 0.91, so 0.83 genuinely sits low <em>against that
+distribution</em>.</li>
+<li><strong>HTD is a difference</strong> between the target rating and
+the best competitor’s, so it is much smaller by construction. Its
+Moderate band starts at 0.18 and Very Strong at 0.35, so 0.44 genuinely
+sits high.</li>
+</ul>
+<p>Compare each index against its own benchmark. Never compare an HTC
+number with an HTD number, and never treat a benchmark label as a cutoff
+for retention.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">colquitt_benchmarks</span>(<span class="st">&quot;htc&quot;</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#&gt;   statistic benchmark_set                  benchmark_label interpretation</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#&gt; 1       htc       overall Overall (not correlation-normed)    Very Strong</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt; 2       htc       overall Overall (not correlation-normed)         Strong</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; 3       htc       overall Overall (not correlation-normed)       Moderate</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt; 4       htc       overall Overall (not correlation-normed)           Weak</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt; 5       htc       overall Overall (not correlation-normed)        Lack of</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt;   percentile minimum</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt; 1  80th-99th    0.91</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt; 2  60th-79th    0.87</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt; 3  40th-59th    0.84</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt; 4  20th-39th    0.60</span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt; 5   0th-19th    -Inf</span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="fu">colquitt_benchmarks</span>(<span class="st">&quot;htd&quot;</span>)</span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt;   statistic benchmark_set                  benchmark_label interpretation</span></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#&gt; 1       htd       overall Overall (not correlation-normed)    Very Strong</span></span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co">#&gt; 2       htd       overall Overall (not correlation-normed)         Strong</span></span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="co">#&gt; 3       htd       overall Overall (not correlation-normed)       Moderate</span></span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a><span class="co">#&gt; 4       htd       overall Overall (not correlation-normed)           Weak</span></span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a><span class="co">#&gt; 5       htd       overall Overall (not correlation-normed)        Lack of</span></span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a><span class="co">#&gt;   percentile minimum</span></span>
+<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a><span class="co">#&gt; 1  80th-99th    0.35</span></span>
+<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a><span class="co">#&gt; 2  60th-79th    0.27</span></span>
+<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a><span class="co">#&gt; 3  40th-59th    0.18</span></span>
+<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a><span class="co">#&gt; 4  20th-39th    0.04</span></span>
+<span id="cb5-26"><a href="#cb5-26" tabindex="-1"></a><span class="co">#&gt; 5   0th-19th    -Inf</span></span></code></pre></div>
+</div>
+<div id="reading-expert-panel-evidence" class="section level2">
+<h2>Reading expert-panel evidence</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>relevance <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;expert_relevance_example.csv&quot;</span>, <span class="at">package =</span> <span class="st">&quot;contentvalidR&quot;</span>),</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>)</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>panel <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(relevance[, <span class="fu">setdiff</span>(<span class="fu">names</span>(relevance), <span class="st">&quot;expert&quot;</span>)])</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>fit_expert <span class="ot">&lt;-</span> <span class="fu">expert_validity</span>(panel, <span class="at">mode =</span> <span class="st">&quot;relevance&quot;</span>, <span class="at">lo =</span> <span class="dv">1</span>, <span class="at">hi =</span> <span class="dv">4</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>fit_expert<span class="sc">$</span>results[, <span class="fu">c</span>(<span class="st">&quot;item&quot;</span>, <span class="st">&quot;N&quot;</span>, <span class="st">&quot;V&quot;</span>, <span class="st">&quot;I_CVI&quot;</span>, <span class="st">&quot;I_CVI_low&quot;</span>, <span class="st">&quot;I_CVI_high&quot;</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>                       <span class="st">&quot;kappa_mod&quot;</span>, <span class="st">&quot;recommendation&quot;</span>)]</span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">#&gt;    item N         V I_CVI  I_CVI_low I_CVI_high kappa_mod recommendation</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co">#&gt; 1 Item1 8 1.0000000  1.00 0.67559244  1.0000000 1.0000000 Strong support</span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co">#&gt; 2 Item2 8 0.9166667  1.00 0.67559244  1.0000000 1.0000000 Strong support</span></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="co">#&gt; 3 Item3 8 0.8333333  1.00 0.67559244  1.0000000 1.0000000 Strong support</span></span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="co">#&gt; 4 Item4 8 0.5833333  0.75 0.40927543  0.9285208 0.7192982         Review</span></span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="co">#&gt; 5 Item5 8 0.4166667  0.25 0.07147921  0.5907246 0.1578947         Review</span></span></code></pre></div>
+<p><code>I_CVI</code> is the proportion of experts calling the item
+relevant. <code>kappa_mod</code> corrects that for chance agreement, and
+the gap between them matters most with small panels, where several
+experts can agree by luck alone. Aiken’s <code>V</code> uses the whole
+rating scale rather than a relevance cut, so it distinguishes items that
+<code>I_CVI</code> rates identically.</p>
+<p>Note that the I-CVI criterion depends on panel size: 1.00 for three
+to five experts, 0.78 for six or more. An item can therefore change
+status simply because a judge was added or dropped.</p>
+<div id="reading-the-intervals" class="section level3">
+<h3>Reading the intervals</h3>
+<p><code>I_CVI_low</code> and <code>I_CVI_high</code> bound the I-CVI.
+With eight experts, an item that every expert rated relevant still has a
+lower limit well below 1: a panel that size cannot rule out a noticeably
+lower relevance rate. Read the interval before treating an I-CVI as
+settled, and report it alongside the point estimate.</p>
+<p>The interval method is a choice. The Wilson score interval is the
+default, following Newcombe (1998), and alternatives are available when
+a study needs to match earlier work:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>exact <span class="ot">&lt;-</span> <span class="fu">expert_validity</span>(panel, <span class="at">mode =</span> <span class="st">&quot;relevance&quot;</span>, <span class="at">lo =</span> <span class="dv">1</span>, <span class="at">hi =</span> <span class="dv">4</span>,</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>                         <span class="at">proportion_ci =</span> <span class="st">&quot;exact&quot;</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>exact<span class="sc">$</span>results[, <span class="fu">c</span>(<span class="st">&quot;item&quot;</span>, <span class="st">&quot;I_CVI&quot;</span>, <span class="st">&quot;I_CVI_low&quot;</span>, <span class="st">&quot;I_CVI_high&quot;</span>)]</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">#&gt;    item I_CVI  I_CVI_low I_CVI_high</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#&gt; 1 Item1  1.00 0.63058335  1.0000000</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt; 2 Item2  1.00 0.63058335  1.0000000</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co">#&gt; 3 Item3  1.00 0.63058335  1.0000000</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt; 4 Item4  0.75 0.34914421  0.9681460</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt; 5 Item5  0.25 0.03185403  0.6508558</span></span></code></pre></div>
+<p>The exact (Clopper-Pearson) interval is conservative, so its limits
+sit further apart. The printed output always names the method that
+produced the interval.</p>
+</div>
+<div id="reading-panel-agreement" class="section level3">
+<h3>Reading panel agreement</h3>
+<p>Relevance mode also reports one agreement coefficient for the whole
+panel, in <code>scale_summary</code> as <code>agreement</code>,
+<code>agreement_low</code>, and <code>agreement_high</code>. The full
+result, with its explanation, is in <code>details$agreement</code>, and
+<code>panel_agreement()</code> produces the same result directly:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">panel_agreement</span>(panel, <span class="at">seed =</span> <span class="dv">1</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co">#&gt; Panel-level agreement</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="co">#&gt; Items rated by two or more raters: 5   Raters: 8</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="co">#&gt; Krippendorff&#39;s alpha (ordinal): 0.693   95% interval: 0.071 to 0.86</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co">#&gt; Identical rating pairs: 62.9%</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co">#&gt; Alpha compares the disagreement observed within items with the disagreement</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co">#&gt; expected if these same ratings were assigned to items at random: 1 means</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co">#&gt; perfect agreement and 0 means agreement no better than chance. Alpha falls</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co">#&gt; when ratings cluster on a few values, because little disagreement is then</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co">#&gt; expected by chance. A high share of identical rating pairs alongside a low</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="co">#&gt; alpha reflects that clustering, which is common when nearly every item is</span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a><span class="co">#&gt; rated relevant, and is not by itself evidence of a poor panel.</span></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a><span class="co">#&gt; Krippendorff&#39;s alpha is the default because it handles ordinal ratings and</span></span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a><span class="co">#&gt; missing ratings (Zapf et al., 2016). It is a general reliability</span></span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a><span class="co">#&gt; coefficient; no publication applying it specifically to content-validity</span></span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a><span class="co">#&gt; panels was found.</span></span>
+<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a><span class="co">#&gt; The interval resamples items with all of their ratings, following Zapf et</span></span>
+<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a><span class="co">#&gt; al. (2016), and varies slightly between runs unless `seed` is set.</span></span>
+<span id="cb8-22"><a href="#cb8-22" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-23"><a href="#cb8-23" tabindex="-1"></a><span class="co">#&gt; Panel agreement describes how consistently raters rated these items. </span></span>
+<span id="cb8-24"><a href="#cb8-24" tabindex="-1"></a><span class="co">#&gt; It does not show that the items are relevant or that the domain is covered.</span></span></code></pre></div>
+<p>Read two numbers together: the coefficient and the share of identical
+rating pairs. Krippendorff’s alpha, the default, can be low on a panel
+that agrees closely when nearly every rating is the same value, because
+chance then predicts very little disagreement. A low alpha next to a
+high share of identical pairs reflects that clustering. Agreement
+describes the raters, not the items: a consistent panel can still
+consistently rate an item as irrelevant.</p>
+</div>
+</div>
+<div id="reading-judge-heterogeneity" class="section level2">
+<h2>Reading judge heterogeneity</h2>
+<p><code>judge_validity()</code> asks a different question: do your
+conclusions depend on <em>these particular judges</em>?</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>judge_ratings <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">2</span>), <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">2</span>),</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">2</span>), <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">2</span>),</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">2</span>), <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>)</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="fu">dimnames</span>(judge_ratings) <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">paste0</span>(<span class="st">&quot;Judge&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>), <span class="fu">paste0</span>(<span class="st">&quot;Item&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>))</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>fit_judge <span class="ot">&lt;-</span> <span class="fu">judge_validity</span>(judge_ratings, <span class="at">lo =</span> <span class="dv">1</span>, <span class="at">hi =</span> <span class="dv">4</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>fit_judge<span class="sc">$</span>results[, <span class="fu">c</span>(<span class="st">&quot;judge&quot;</span>, <span class="st">&quot;mean_rating&quot;</span>, <span class="st">&quot;severity_raw&quot;</span>,</span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>                      <span class="st">&quot;differentiation&quot;</span>, <span class="st">&quot;n_items_flipped&quot;</span>, <span class="st">&quot;recommendation&quot;</span>)]</span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a><span class="co">#&gt;    judge mean_rating severity_raw differentiation n_items_flipped</span></span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a><span class="co">#&gt; 1 Judge1    3.166667   -0.2708333       0.9136465               0</span></span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="co">#&gt; 2 Judge2    3.000000   -0.1041667       1.1754383               0</span></span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a><span class="co">#&gt; 3 Judge3    3.000000   -0.1041667       1.1754383               0</span></span>
+<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a><span class="co">#&gt; 4 Judge4    3.166667   -0.2708333       0.9136465               0</span></span>
+<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a><span class="co">#&gt; 5 Judge5    3.166667   -0.2708333       1.2351428               0</span></span>
+<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a><span class="co">#&gt; 6 Judge6    2.833333    0.0625000       1.0863535               0</span></span>
+<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a><span class="co">#&gt; 7 Judge7    3.166667   -0.2708333       0.9136465               0</span></span>
+<span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a><span class="co">#&gt; 8 Judge8    1.666667    1.2291667       0.4798707               0</span></span>
+<span id="cb9-19"><a href="#cb9-19" tabindex="-1"></a><span class="co">#&gt;   recommendation</span></span>
+<span id="cb9-20"><a href="#cb9-20" tabindex="-1"></a><span class="co">#&gt; 1        Typical</span></span>
+<span id="cb9-21"><a href="#cb9-21" tabindex="-1"></a><span class="co">#&gt; 2        Typical</span></span>
+<span id="cb9-22"><a href="#cb9-22" tabindex="-1"></a><span class="co">#&gt; 3        Typical</span></span>
+<span id="cb9-23"><a href="#cb9-23" tabindex="-1"></a><span class="co">#&gt; 4        Typical</span></span>
+<span id="cb9-24"><a href="#cb9-24" tabindex="-1"></a><span class="co">#&gt; 5        Typical</span></span>
+<span id="cb9-25"><a href="#cb9-25" tabindex="-1"></a><span class="co">#&gt; 6        Typical</span></span>
+<span id="cb9-26"><a href="#cb9-26" tabindex="-1"></a><span class="co">#&gt; 7        Typical</span></span>
+<span id="cb9-27"><a href="#cb9-27" tabindex="-1"></a><span class="co">#&gt; 8         Severe</span></span></code></pre></div>
+<p><code>severity_raw</code> is signed so that <strong>positive means
+harsher</strong>: the judge rates lower than the panel.
+<code>differentiation</code> near 1 means the judge used the scale about
+as widely as everyone else. <code>n_items_flipped</code> is the
+influence diagnostic: how many items would change review status if this
+judge were removed.</p>
+<p>A judge flagged here is not a judge to delete. A dissenting expert
+may be the one reading the construct definition correctly. The flag
+tells you a conclusion rests on one person’s ratings, which is worth
+knowing before you write it up.</p>
+<p>The panel-level dependability coefficient answers a planning
+question:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">summary</span>(fit_judge)<span class="sc">$</span>gtheory<span class="sc">$</span>judges_needed</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="co">#&gt;   target n_judges_relative n_judges_absolute</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="co">#&gt; 1    0.7                 1                 2</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="co">#&gt; 2    0.8                 2                 2</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="co">#&gt; 3    0.9                 3                 5</span></span></code></pre></div>
+<p>That table reports how many judges a target coefficient would need.
+Where it returns <code>NA</code>, no realistic panel reaches that
+target, which usually means the judges barely distinguished the
+items.</p>
+</div>
+<div id="reading-domain-coverage" class="section level2">
+<h2>Reading domain coverage</h2>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>assignments <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>  <span class="at">item =</span> <span class="fu">paste0</span>(<span class="st">&quot;I&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>),</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  <span class="at">construct =</span> <span class="fu">c</span>(<span class="st">&quot;Autonomy&quot;</span>, <span class="st">&quot;Autonomy&quot;</span>, <span class="st">&quot;Autonomy&quot;</span>, <span class="st">&quot;Autonomy&quot;</span>,</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>                <span class="st">&quot;Competence&quot;</span>, <span class="st">&quot;Competence&quot;</span>, <span class="st">&quot;Relatedness&quot;</span>),</span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>)</span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>fit_domain <span class="ot">&lt;-</span> <span class="fu">domain_validity</span>(</span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>  assignments,</span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a>  <span class="at">cell_col =</span> <span class="st">&quot;construct&quot;</span>,</span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a>  <span class="at">domain =</span> <span class="fu">c</span>(<span class="st">&quot;Autonomy&quot;</span>, <span class="st">&quot;Competence&quot;</span>, <span class="st">&quot;Relatedness&quot;</span>, <span class="st">&quot;Belonging&quot;</span>)</span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a>)</span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a>fit_domain<span class="sc">$</span>results[, <span class="fu">c</span>(<span class="st">&quot;cell&quot;</span>, <span class="st">&quot;n_items&quot;</span>, <span class="st">&quot;share&quot;</span>, <span class="st">&quot;recommendation&quot;</span>)]</span>
+<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a><span class="co">#&gt;          cell n_items     share   recommendation</span></span>
+<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a><span class="co">#&gt; 1    Autonomy       4 0.5714286 Over-represented</span></span>
+<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a><span class="co">#&gt; 2  Competence       2 0.2857143          Covered</span></span>
+<span id="cb11-16"><a href="#cb11-16" tabindex="-1"></a><span class="co">#&gt; 3 Relatedness       1 0.1428571   Thinly covered</span></span>
+<span id="cb11-17"><a href="#cb11-17" tabindex="-1"></a><span class="co">#&gt; 4   Belonging       0 0.0000000      Not covered</span></span></code></pre></div>
+<p>The <code>Belonging</code> row is the point of this analysis. No item
+addresses that cell, and <strong>no item-level index could ever have
+told you</strong>, because relevance statistics can only describe items
+that exist. A perfect I-CVI on every item you wrote says nothing about
+the facet you forgot.</p>
+<p>This only works because the full cell list was supplied through
+<code>domain</code>. Omit it and the analysis can only describe the
+cells that already contain items, and the output says so rather than
+implying complete coverage.</p>
+</div>
+<div id="common-misreadings" class="section level2">
+<h2>Common misreadings</h2>
+<p><strong>“Review means delete.”</strong> It does not. It means look
+closer. Deleting every flagged item optimizes a statistic at the cost of
+the content domain, which is the opposite of content validity.</p>
+<p><strong>“Strong means good.”</strong> Benchmark labels are percentile
+positions against published scales. <code>Strong</code> means typical of
+published work, not that the item is fit for your purpose.</p>
+<p><strong>“One index is enough.”</strong> No single coefficient
+establishes content validity. These are components of an argument that
+also rests on construct definitions, domain coverage, cognitive
+interviewing, and expert comment.</p>
+<p><strong>“The numbers are comparable.”</strong> HTC against HTD, Psa
+against Csv, or one index against the benchmark belonging to a different
+index: these comparisons are not meaningful.</p>
+<p><strong>“A high coefficient means the domain is covered.”</strong>
+Relevance and coverage are different questions. Only
+<code>domain_validity()</code> addresses coverage, and only when you
+give it the full blueprint.</p>
+<p><strong>“More judges always helps.”</strong> More judges narrows
+intervals, but it can also change a criterion: the I-CVI guideline
+shifts at six experts. Check <code>judges_needed</code> rather than
+assuming.</p>
+</div>
+<div id="writing-it-up" class="section level2">
+<h2>Writing it up</h2>
+<p>A defensible sentence reports the estimate, its precision, the
+decision rule you applied, and what you concluded, without implying the
+statistic made the decision:</p>
+<blockquote>
+<p>Six items were sorted by 20 naive judges. Four items met the
+Howard-Melloy exact target-assignment criterion (<em>p</em> &lt; .05).
+Items B2 and C2 did not (<em>psa</em> = .65 and .70), and in both cases
+the competing construct was the adjacent scale. Rather than removing
+them, we revised their wording to sharpen the distinction from that
+scale and re-sorted.</p>
+</blockquote>
+<p>Report what you cannot establish as well:</p>
+<blockquote>
+<p>These analyses address definitional correspondence and
+distinctiveness. They do not establish that the item set covers the
+construct domain; coverage was assessed separately against the
+blueprint.</p>
+</blockquote>
+<p><code>settings</code> and <code>design</code> hold everything a
+reader needs to reproduce the decision rules, so report them rather than
+only the coefficients:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>fit_sort<span class="sc">$</span>settings[<span class="fu">c</span>(<span class="st">&quot;p0&quot;</span>, <span class="st">&quot;alpha&quot;</span>, <span class="st">&quot;judge_type&quot;</span>)]</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="co">#&gt; $p0</span></span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="co">#&gt; [1] 0.5</span></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="co">#&gt; $alpha</span></span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="co">#&gt; [1] 0.05</span></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a><span class="co">#&gt; $judge_type</span></span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a><span class="co">#&gt; [1] &quot;naive&quot;</span></span></code></pre></div>
+</div>
+<div id="turning-off-the-inline-key" class="section level2">
+<h2>Turning off the inline key</h2>
+<p>Printed output includes a key defining each column. Once the terms
+are familiar:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">options</span>(<span class="at">contentvalidR.show_key =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p>The definitions remain available at any time:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">contentvalid_glossary</span>(<span class="st">&quot;expert-panel&quot;</span>)</span></code></pre></div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

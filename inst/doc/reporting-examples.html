@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Manuscript-Ready Reporting Examples</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Manuscript-Ready Reporting Examples</h1>
+
+
+
+<div id="purpose" class="section level2">
+<h2>Purpose</h2>
+<p>This vignette provides reporting scaffolds for the three flagship
+workflows. The examples are intentionally conservative: statistical
+screening is described as <strong>evidence for retention or
+review</strong>, not as proof that an item or scale is content valid.
+Final decisions should also consider construct-domain coverage, item
+wording, qualitative judge feedback, and the intended use of the
+measure.</p>
+<p>The bundled CSV files are synthetic, deterministic, and regenerated
+from <code>data-raw/build-example-data.R</code>. They are useful for
+reproducing the examples and for seeing the expected input shape before
+analyzing a new study.</p>
+</div>
+<div id="item-sort-study" class="section level2">
+<h2>Item-sort study</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>sort_dat <span class="ot">&lt;-</span> <span class="fu">read_example</span>(<span class="st">&quot;sort_example.csv&quot;</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>sort_fit <span class="ot">&lt;-</span> <span class="fu">sort_validity</span>(sort_dat)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>sort_sum <span class="ot">&lt;-</span> <span class="fu">summary</span>(sort_fit)</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>sort_fit<span class="sc">$</span>results</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co">#&gt;   item target n_total  n n_missing n_target competitor n_other_max  psa</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="co">#&gt; 1   A1      A      20 20         0       18       B; C           1 0.90</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co">#&gt; 2   A2      A      20 20         0       15          B           3 0.75</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co">#&gt; 3   B1      B      20 20         0       17          A           2 0.85</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co">#&gt; 4   B2      B      20 20         0       13          A           5 0.65</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co">#&gt; 5   C1      C      20 20         0       18       A; B           1 0.90</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co">#&gt; 6   C2      C      20 20         0       14          B           4 0.70</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="co">#&gt;     psa_low  psa_high  csv      p_value critical_n_target passes_chance</span></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="co">#&gt; 1 0.6989664 0.9721335 0.85 0.0002012253                15          TRUE</span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="co">#&gt; 2 0.5312991 0.8881383 0.60 0.0206947327                15          TRUE</span></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="co">#&gt; 3 0.6395811 0.9476313 0.75 0.0012884140                15          TRUE</span></span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="co">#&gt; 4 0.4328543 0.8188082 0.40 0.1315879822                15         FALSE</span></span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="co">#&gt; 5 0.6989664 0.9721335 0.85 0.0002012253                15          TRUE</span></span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="co">#&gt; 6 0.4810272 0.8545228 0.50 0.0576591492                15         FALSE</span></span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a><span class="co">#&gt;   recommendation                                   issue</span></span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a><span class="co">#&gt; 1         Retain                               Supported</span></span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a><span class="co">#&gt; 2         Retain                               Supported</span></span>
+<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a><span class="co">#&gt; 3         Retain                               Supported</span></span>
+<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a><span class="co">#&gt; 4         Review Target favored, exact criterion not met</span></span>
+<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a><span class="co">#&gt; 5         Retain                               Supported</span></span>
+<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a><span class="co">#&gt; 6         Review Target favored, exact criterion not met</span></span>
+<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a><span class="co">#&gt;                                                                                                                                                                               interpretation</span></span>
+<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a><span class="co">#&gt; 1                                                                                                        Target assignment meets the exact retention criterion (strongest competitor: B; C).</span></span>
+<span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a><span class="co">#&gt; 2                                                                                                           Target assignment meets the exact retention criterion (strongest competitor: B).</span></span>
+<span id="cb1-29"><a href="#cb1-29" tabindex="-1"></a><span class="co">#&gt; 3                                                                                                           Target assignment meets the exact retention criterion (strongest competitor: A).</span></span>
+<span id="cb1-30"><a href="#cb1-30" tabindex="-1"></a><span class="co">#&gt; 4 The target was at least as common as any competitor but did not meet the exact retention criterion (strongest competitor: A); review before deciding whether to revise or remove the item.</span></span>
+<span id="cb1-31"><a href="#cb1-31" tabindex="-1"></a><span class="co">#&gt; 5                                                                                                        Target assignment meets the exact retention criterion (strongest competitor: A; B).</span></span>
+<span id="cb1-32"><a href="#cb1-32" tabindex="-1"></a><span class="co">#&gt; 6 The target was at least as common as any competitor but did not meet the exact retention criterion (strongest competitor: B); review before deciding whether to revise or remove the item.</span></span>
+<span id="cb1-33"><a href="#cb1-33" tabindex="-1"></a><span class="co">#&gt;      status</span></span>
+<span id="cb1-34"><a href="#cb1-34" tabindex="-1"></a><span class="co">#&gt; 1 Supported</span></span>
+<span id="cb1-35"><a href="#cb1-35" tabindex="-1"></a><span class="co">#&gt; 2 Supported</span></span>
+<span id="cb1-36"><a href="#cb1-36" tabindex="-1"></a><span class="co">#&gt; 3 Supported</span></span>
+<span id="cb1-37"><a href="#cb1-37" tabindex="-1"></a><span class="co">#&gt; 4    Review</span></span>
+<span id="cb1-38"><a href="#cb1-38" tabindex="-1"></a><span class="co">#&gt; 5 Supported</span></span>
+<span id="cb1-39"><a href="#cb1-39" tabindex="-1"></a><span class="co">#&gt; 6    Review</span></span>
+<span id="cb1-40"><a href="#cb1-40" tabindex="-1"></a>sort_fit<span class="sc">$</span>scale_summary</span>
+<span id="cb1-41"><a href="#cb1-41" tabindex="-1"></a><span class="co">#&gt;   target n_items n_items_usable n_retain n_review mean_psa psa_strength</span></span>
+<span id="cb1-42"><a href="#cb1-42" tabindex="-1"></a><span class="co">#&gt; 1      A       2              2        2        0    0.825       Strong</span></span>
+<span id="cb1-43"><a href="#cb1-43" tabindex="-1"></a><span class="co">#&gt; 2      B       2              2        1        1    0.750     Moderate</span></span>
+<span id="cb1-44"><a href="#cb1-44" tabindex="-1"></a><span class="co">#&gt; 3      C       2              2        1        1    0.800     Moderate</span></span>
+<span id="cb1-45"><a href="#cb1-45" tabindex="-1"></a><span class="co">#&gt;   mean_csv csv_strength orbiting_r                    benchmark_set</span></span>
+<span id="cb1-46"><a href="#cb1-46" tabindex="-1"></a><span class="co">#&gt; 1    0.725       Strong         NA Overall (not correlation-normed)</span></span>
+<span id="cb1-47"><a href="#cb1-47" tabindex="-1"></a><span class="co">#&gt; 2    0.575     Moderate         NA Overall (not correlation-normed)</span></span>
+<span id="cb1-48"><a href="#cb1-48" tabindex="-1"></a><span class="co">#&gt; 3    0.675       Strong         NA Overall (not correlation-normed)</span></span>
+<span id="cb1-49"><a href="#cb1-49" tabindex="-1"></a><span class="co">#&gt;   benchmark_applicable overall_strength</span></span>
+<span id="cb1-50"><a href="#cb1-50" tabindex="-1"></a><span class="co">#&gt; 1                 TRUE           Strong</span></span>
+<span id="cb1-51"><a href="#cb1-51" tabindex="-1"></a><span class="co">#&gt; 2                 TRUE         Moderate</span></span>
+<span id="cb1-52"><a href="#cb1-52" tabindex="-1"></a><span class="co">#&gt; 3                 TRUE         Moderate</span></span>
+<span id="cb1-53"><a href="#cb1-53" tabindex="-1"></a><span class="co">#&gt;                                                                                                                             evidence</span></span>
+<span id="cb1-54"><a href="#cb1-54" tabindex="-1"></a><span class="co">#&gt; 1                                     Strong normative standing on both definitional correspondence (Psa) and distinctiveness (Csv).</span></span>
+<span id="cb1-55"><a href="#cb1-55" tabindex="-1"></a><span class="co">#&gt; 2 Generally supportive normative standing, with at least one dimension in the moderate range; review weaker items before finalizing.</span></span>
+<span id="cb1-56"><a href="#cb1-56" tabindex="-1"></a><span class="co">#&gt; 3 Generally supportive normative standing, with at least one dimension in the moderate range; review weaker items before finalizing.</span></span></code></pre></div>
+<div id="methods-scaffold" class="section level3">
+<h3>Methods scaffold</h3>
+<p>Report who completed the sort, how the construct definitions were
+presented, the available assignment alternatives, and the a priori
+screening rule. A concise methods statement can follow this
+structure:</p>
+<blockquote>
+<p>Candidate items were evaluated in an item-sort pretest in which
+judges assigned each item to the construct definition that best
+represented its content. We quantified definitional correspondence using
+the proportion of substantive agreement (Psa) and definitional
+distinctiveness using the substantive-validity coefficient (Csv).
+Item-level screening used the exact target-assignment test described by
+Howard and Melloy (2016), with the null target-assignment probability
+and alpha specified a priori. Target-scale mean Psa and Csv were
+interpreted against Colquitt et al. (2019) norms only when the judge
+population matched the intended use of those norms.</p>
+</blockquote>
+</div>
+<div id="results-scaffold" class="section level3">
+<h3>Results scaffold</h3>
+<p>For this bundled example, 20 judges evaluated 6 items. 4 items met
+the exact screening criterion, 2 were flagged for review, and 0 had
+insufficient usable assignments.</p>
+<p>A manuscript table can usually be built directly from:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>sort_fit<span class="sc">$</span>results[<span class="fu">c</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="st">&quot;item&quot;</span>, <span class="st">&quot;target&quot;</span>, <span class="st">&quot;n&quot;</span>, <span class="st">&quot;n_target&quot;</span>, <span class="st">&quot;competitor&quot;</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="st">&quot;psa&quot;</span>, <span class="st">&quot;csv&quot;</span>, <span class="st">&quot;p_value&quot;</span>, <span class="st">&quot;status&quot;</span>, <span class="st">&quot;recommendation&quot;</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>)]</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">#&gt;   item target  n n_target competitor  psa  csv      p_value    status</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt; 1   A1      A 20       18       B; C 0.90 0.85 0.0002012253 Supported</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt; 2   A2      A 20       15          B 0.75 0.60 0.0206947327 Supported</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt; 3   B1      B 20       17          A 0.85 0.75 0.0012884140 Supported</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt; 4   B2      B 20       13          A 0.65 0.40 0.1315879822    Review</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt; 5   C1      C 20       18       A; B 0.90 0.85 0.0002012253 Supported</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co">#&gt; 6   C2      C 20       14          B 0.70 0.50 0.0576591492    Review</span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#&gt;   recommendation</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#&gt; 1         Retain</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co">#&gt; 2         Retain</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="co">#&gt; 3         Retain</span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="co">#&gt; 4         Review</span></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="co">#&gt; 5         Retain</span></span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a><span class="co">#&gt; 6         Review</span></span></code></pre></div>
+<p>Do not report <code>Review</code> as synonymous with deletion. A
+review flag identifies an item for substantive inspection; retaining an
+item for domain coverage can be a reasonable decision when that
+rationale is documented.</p>
+</div>
+</div>
+<div id="construct-rating-study" class="section level2">
+<h2>Construct-rating study</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>rating_dat <span class="ot">&lt;-</span> <span class="fu">read_example</span>(<span class="st">&quot;rating_example.csv&quot;</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>rating_fit <span class="ot">&lt;-</span> <span class="fu">rating_validity</span>(rating_dat, <span class="at">scale_min =</span> <span class="dv">1</span>, <span class="at">scale_max =</span> <span class="dv">5</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>rating_sum <span class="ot">&lt;-</span> <span class="fu">summary</span>(rating_fit)</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>rating_fit<span class="sc">$</span>results</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt;   item target n_raters n_complete n_incomplete n_constructs target_mean</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; 1   A1      A       24         24            0            3    4.666667</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt; 2   A2      A       24         24            0            3    3.666667</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt; 3   B1      B       24         24            0            3    4.666667</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt; 4   B2      B       24         24            0            3    3.666667</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt; 5   C1      C       24         24            0            3    4.666667</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co">#&gt; 6   C2      C       24         24            0            3    3.666667</span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#&gt;   target_mean_complete strongest_competitor competitor_mean       htc       htd</span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co">#&gt; 1             4.666667                    C        2.333333 0.9333333 0.6666667</span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co">#&gt; 2             3.666667                    B        3.333333 0.7333333 0.2083333</span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="co">#&gt; 3             4.666667                    C        2.333333 0.9333333 0.6666667</span></span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="co">#&gt; 4             3.666667                    A        3.333333 0.7333333 0.2083333</span></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co">#&gt; 5             4.666667                    B        2.333333 0.9333333 0.6666667</span></span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="co">#&gt; 6             3.666667                    B        3.333333 0.7333333 0.2083333</span></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="co">#&gt;          F df1 df2    p_omnibus epsilon_gg      p_value partial_eta2</span></span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="co">#&gt; 1 237.0769   2  46 5.921046e-25  0.7647059 1.274299e-19    0.9115646</span></span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a><span class="co">#&gt; 2  37.3750   2  46 2.291004e-10  0.6956522 7.375102e-08    0.6190476</span></span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="co">#&gt; 3 237.0769   2  46 5.921046e-25  0.7647059 1.274299e-19    0.9115646</span></span>
+<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a><span class="co">#&gt; 4  37.3750   2  46 2.291004e-10  0.6956522 7.375102e-08    0.6190476</span></span>
+<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a><span class="co">#&gt; 5 237.0769   2  46 5.921046e-25  0.7647059 1.274299e-19    0.9115646</span></span>
+<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a><span class="co">#&gt; 6  37.3750   2  46 2.291004e-10  0.6956522 7.375102e-08    0.6190476</span></span>
+<span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a><span class="co">#&gt;   min_mean_diff max_contrast_p contrast_pass recommendation</span></span>
+<span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a><span class="co">#&gt; 1     2.3333333   1.122784e-13          TRUE         Retain</span></span>
+<span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a><span class="co">#&gt; 2     0.3333333   5.173102e-02         FALSE         Review</span></span>
+<span id="cb3-29"><a href="#cb3-29" tabindex="-1"></a><span class="co">#&gt; 3     2.3333333   1.122784e-13          TRUE         Retain</span></span>
+<span id="cb3-30"><a href="#cb3-30" tabindex="-1"></a><span class="co">#&gt; 4     0.3333333   5.173102e-02         FALSE         Review</span></span>
+<span id="cb3-31"><a href="#cb3-31" tabindex="-1"></a><span class="co">#&gt; 5     2.3333333   1.122784e-13          TRUE         Retain</span></span>
+<span id="cb3-32"><a href="#cb3-32" tabindex="-1"></a><span class="co">#&gt; 6     0.3333333   5.173102e-02         FALSE         Review</span></span>
+<span id="cb3-33"><a href="#cb3-33" tabindex="-1"></a><span class="co">#&gt;                                          issue</span></span>
+<span id="cb3-34"><a href="#cb3-34" tabindex="-1"></a><span class="co">#&gt; 1                                    Supported</span></span>
+<span id="cb3-35"><a href="#cb3-35" tabindex="-1"></a><span class="co">#&gt; 2 Target highest, planned contrasts incomplete</span></span>
+<span id="cb3-36"><a href="#cb3-36" tabindex="-1"></a><span class="co">#&gt; 3                                    Supported</span></span>
+<span id="cb3-37"><a href="#cb3-37" tabindex="-1"></a><span class="co">#&gt; 4 Target highest, planned contrasts incomplete</span></span>
+<span id="cb3-38"><a href="#cb3-38" tabindex="-1"></a><span class="co">#&gt; 5                                    Supported</span></span>
+<span id="cb3-39"><a href="#cb3-39" tabindex="-1"></a><span class="co">#&gt; 6 Target highest, planned contrasts incomplete</span></span>
+<span id="cb3-40"><a href="#cb3-40" tabindex="-1"></a><span class="co">#&gt;                                                                                                                                                                                                        interpretation</span></span>
+<span id="cb3-41"><a href="#cb3-41" tabindex="-1"></a><span class="co">#&gt; 1                                                               The intended construct is rated higher than all orbiting constructs and all planned contrasts meet the screening criterion (strongest competitor: C).</span></span>
+<span id="cb3-42"><a href="#cb3-42" tabindex="-1"></a><span class="co">#&gt; 2 The intended construct has the highest mean but the full inferential screening criterion was not met (strongest competitor: B); review the weakest target-orbiting comparison before revising or removing the item.</span></span>
+<span id="cb3-43"><a href="#cb3-43" tabindex="-1"></a><span class="co">#&gt; 3                                                               The intended construct is rated higher than all orbiting constructs and all planned contrasts meet the screening criterion (strongest competitor: C).</span></span>
+<span id="cb3-44"><a href="#cb3-44" tabindex="-1"></a><span class="co">#&gt; 4 The intended construct has the highest mean but the full inferential screening criterion was not met (strongest competitor: A); review the weakest target-orbiting comparison before revising or removing the item.</span></span>
+<span id="cb3-45"><a href="#cb3-45" tabindex="-1"></a><span class="co">#&gt; 5                                                               The intended construct is rated higher than all orbiting constructs and all planned contrasts meet the screening criterion (strongest competitor: B).</span></span>
+<span id="cb3-46"><a href="#cb3-46" tabindex="-1"></a><span class="co">#&gt; 6 The intended construct has the highest mean but the full inferential screening criterion was not met (strongest competitor: B); review the weakest target-orbiting comparison before revising or removing the item.</span></span>
+<span id="cb3-47"><a href="#cb3-47" tabindex="-1"></a><span class="co">#&gt;      status</span></span>
+<span id="cb3-48"><a href="#cb3-48" tabindex="-1"></a><span class="co">#&gt; 1 Supported</span></span>
+<span id="cb3-49"><a href="#cb3-49" tabindex="-1"></a><span class="co">#&gt; 2    Review</span></span>
+<span id="cb3-50"><a href="#cb3-50" tabindex="-1"></a><span class="co">#&gt; 3 Supported</span></span>
+<span id="cb3-51"><a href="#cb3-51" tabindex="-1"></a><span class="co">#&gt; 4    Review</span></span>
+<span id="cb3-52"><a href="#cb3-52" tabindex="-1"></a><span class="co">#&gt; 5 Supported</span></span>
+<span id="cb3-53"><a href="#cb3-53" tabindex="-1"></a><span class="co">#&gt; 6    Review</span></span>
+<span id="cb3-54"><a href="#cb3-54" tabindex="-1"></a>rating_fit<span class="sc">$</span>scale_summary</span>
+<span id="cb3-55"><a href="#cb3-55" tabindex="-1"></a><span class="co">#&gt;   target n_items n_htc n_htd n_retain n_review n_insufficient  mean_htc</span></span>
+<span id="cb3-56"><a href="#cb3-56" tabindex="-1"></a><span class="co">#&gt; 1      A       2     2     2        1        1              0 0.8333333</span></span>
+<span id="cb3-57"><a href="#cb3-57" tabindex="-1"></a><span class="co">#&gt; 2      B       2     2     2        1        1              0 0.8333333</span></span>
+<span id="cb3-58"><a href="#cb3-58" tabindex="-1"></a><span class="co">#&gt; 3      C       2     2     2        1        1              0 0.8333333</span></span>
+<span id="cb3-59"><a href="#cb3-59" tabindex="-1"></a><span class="co">#&gt;   htc_strength mean_htd htd_strength overall_strength orbiting_r benchmark_set</span></span>
+<span id="cb3-60"><a href="#cb3-60" tabindex="-1"></a><span class="co">#&gt; 1         Weak   0.4375  Very Strong             Weak         NA       overall</span></span>
+<span id="cb3-61"><a href="#cb3-61" tabindex="-1"></a><span class="co">#&gt; 2         Weak   0.4375  Very Strong             Weak         NA       overall</span></span>
+<span id="cb3-62"><a href="#cb3-62" tabindex="-1"></a><span class="co">#&gt; 3         Weak   0.4375  Very Strong             Weak         NA       overall</span></span>
+<span id="cb3-63"><a href="#cb3-63" tabindex="-1"></a><span class="co">#&gt;                                                                                                                                                            evidence</span></span>
+<span id="cb3-64"><a href="#cb3-64" tabindex="-1"></a><span class="co">#&gt; 1 Weak normative standing on at least one dimension; review item wording, construct boundaries, and orbiting-construct choice and consider re-pretesting revisions.</span></span>
+<span id="cb3-65"><a href="#cb3-65" tabindex="-1"></a><span class="co">#&gt; 2 Weak normative standing on at least one dimension; review item wording, construct boundaries, and orbiting-construct choice and consider re-pretesting revisions.</span></span>
+<span id="cb3-66"><a href="#cb3-66" tabindex="-1"></a><span class="co">#&gt; 3 Weak normative standing on at least one dimension; review item wording, construct boundaries, and orbiting-construct choice and consider re-pretesting revisions.</span></span></code></pre></div>
+<div id="methods-scaffold-1" class="section level3">
+<h3>Methods scaffold</h3>
+<blockquote>
+<p>Judges rated every candidate item against each focal and orbiting
+construct definition using the same response scale. We summarized
+correspondence with HTC and distinctiveness with HTD. Because the same
+judges rated the competing definitions, item-level inference used a
+repeated-measures design. Planned paired contrasts compared each item’s
+intended definition with every orbiting definition; omnibus
+Greenhouse-Geisser-corrected inference was used when applicable.
+Scale-level HTC/HTD norms from Colquitt et al. (2019) were treated as
+empirical benchmarks rather than universal item cutoffs.</p>
+</blockquote>
+</div>
+<div id="results-scaffold-1" class="section level3">
+<h3>Results scaffold</h3>
+<p>The example contains 6 items rated by 24 judges against 3 construct
+definitions. 3 items were supported by the complete screening rule and 3
+were flagged for review.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>rating_fit<span class="sc">$</span>results[<span class="fu">c</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="st">&quot;item&quot;</span>, <span class="st">&quot;target&quot;</span>, <span class="st">&quot;n_complete&quot;</span>, <span class="st">&quot;strongest_competitor&quot;</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="st">&quot;htc&quot;</span>, <span class="st">&quot;htd&quot;</span>, <span class="st">&quot;p_value&quot;</span>, <span class="st">&quot;max_contrast_p&quot;</span>, <span class="st">&quot;status&quot;</span>, <span class="st">&quot;recommendation&quot;</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>)]</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt;   item target n_complete strongest_competitor       htc       htd      p_value</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; 1   A1      A         24                    C 0.9333333 0.6666667 1.274299e-19</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; 2   A2      A         24                    B 0.7333333 0.2083333 7.375102e-08</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; 3   B1      B         24                    C 0.9333333 0.6666667 1.274299e-19</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt; 4   B2      B         24                    A 0.7333333 0.2083333 7.375102e-08</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt; 5   C1      C         24                    B 0.9333333 0.6666667 1.274299e-19</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt; 6   C2      C         24                    B 0.7333333 0.2083333 7.375102e-08</span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt;   max_contrast_p    status recommendation</span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co">#&gt; 1   1.122784e-13 Supported         Retain</span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt; 2   5.173102e-02    Review         Review</span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt; 3   1.122784e-13 Supported         Retain</span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co">#&gt; 4   5.173102e-02    Review         Review</span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co">#&gt; 5   1.122784e-13 Supported         Retain</span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="co">#&gt; 6   5.173102e-02    Review         Review</span></span></code></pre></div>
+<p>For review items, report the strongest orbiting competitor. That
+information turns a generic statement about weak distinctiveness into a
+specific diagnostic about where construct overlap may be occurring.</p>
+</div>
+</div>
+<div id="expert-panel-study" class="section level2">
+<h2>Expert-panel study</h2>
+<div id="relevance" class="section level3">
+<h3>Relevance</h3>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>expert_rel <span class="ot">&lt;-</span> <span class="fu">read_example</span>(<span class="st">&quot;expert_relevance_example.csv&quot;</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>expert_rel_matrix <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(expert_rel[<span class="fu">setdiff</span>(<span class="fu">names</span>(expert_rel), <span class="st">&quot;expert&quot;</span>)])</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>expert_fit <span class="ot">&lt;-</span> <span class="fu">expert_validity</span>(</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  expert_rel_matrix,</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  <span class="at">mode =</span> <span class="st">&quot;relevance&quot;</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>  <span class="at">lo =</span> <span class="dv">1</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>  <span class="at">hi =</span> <span class="dv">4</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>)</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>expert_sum <span class="ot">&lt;-</span> <span class="fu">summary</span>(expert_fit)</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>expert_fit<span class="sc">$</span>results</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt;    item N n_missing         V    ci_low   ci_high               ci_method A</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt; 1 Item1 8         0 1.0000000 0.8620238 1.0000000 Penfield-Giacobbi score 8</span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt; 2 Item2 8         0 0.9166667 0.7415120 0.9768412 Penfield-Giacobbi score 8</span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt; 3 Item3 8         0 0.8333333 0.6414693 0.9332132 Penfield-Giacobbi score 8</span></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt; 4 Item4 8         0 0.5833333 0.3883467 0.7553240 Penfield-Giacobbi score 6</span></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#&gt; 5 Item5 8         0 0.4166667 0.2446760 0.6116533 Penfield-Giacobbi score 2</span></span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co">#&gt;   I_CVI  I_CVI_low I_CVI_high         Pc kappa_mod cvi_criterion kappa_quality</span></span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="co">#&gt; 1  1.00 0.67559244  1.0000000 0.00390625 1.0000000          0.78     Excellent</span></span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a><span class="co">#&gt; 2  1.00 0.67559244  1.0000000 0.00390625 1.0000000          0.78     Excellent</span></span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a><span class="co">#&gt; 3  1.00 0.67559244  1.0000000 0.00390625 1.0000000          0.78     Excellent</span></span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a><span class="co">#&gt; 4  0.75 0.40927543  0.9285208 0.10937500 0.7192982          0.78          Good</span></span>
+<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a><span class="co">#&gt; 5  0.25 0.07147921  0.5907246 0.10937500 0.1578947          0.78           Low</span></span>
+<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a><span class="co">#&gt;    ci_width recommendation</span></span>
+<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a><span class="co">#&gt; 1 0.1379762 Strong support</span></span>
+<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a><span class="co">#&gt; 2 0.2353292 Strong support</span></span>
+<span id="cb5-26"><a href="#cb5-26" tabindex="-1"></a><span class="co">#&gt; 3 0.2917439 Strong support</span></span>
+<span id="cb5-27"><a href="#cb5-27" tabindex="-1"></a><span class="co">#&gt; 4 0.3669773         Review</span></span>
+<span id="cb5-28"><a href="#cb5-28" tabindex="-1"></a><span class="co">#&gt; 5 0.3669773         Review</span></span>
+<span id="cb5-29"><a href="#cb5-29" tabindex="-1"></a><span class="co">#&gt;                                                                                                                                                                interpretation</span></span>
+<span id="cb5-30"><a href="#cb5-30" tabindex="-1"></a><span class="co">#&gt; 1 The item meets the common panel-size CVI guideline and shows excellent chance-corrected agreement; Aiken&#39;s V and its score interval quantify relevance level and precision.</span></span>
+<span id="cb5-31"><a href="#cb5-31" tabindex="-1"></a><span class="co">#&gt; 2 The item meets the common panel-size CVI guideline and shows excellent chance-corrected agreement; Aiken&#39;s V and its score interval quantify relevance level and precision.</span></span>
+<span id="cb5-32"><a href="#cb5-32" tabindex="-1"></a><span class="co">#&gt; 3 The item meets the common panel-size CVI guideline and shows excellent chance-corrected agreement; Aiken&#39;s V and its score interval quantify relevance level and precision.</span></span>
+<span id="cb5-33"><a href="#cb5-33" tabindex="-1"></a><span class="co">#&gt; 4              The item does not meet the common panel-size CVI guideline; review wording, relevance, construct coverage, and expert comments before revising or removing it.</span></span>
+<span id="cb5-34"><a href="#cb5-34" tabindex="-1"></a><span class="co">#&gt; 5              The item does not meet the common panel-size CVI guideline; review wording, relevance, construct coverage, and expert comments before revising or removing it.</span></span>
+<span id="cb5-35"><a href="#cb5-35" tabindex="-1"></a><span class="co">#&gt;      status</span></span>
+<span id="cb5-36"><a href="#cb5-36" tabindex="-1"></a><span class="co">#&gt; 1 Supported</span></span>
+<span id="cb5-37"><a href="#cb5-37" tabindex="-1"></a><span class="co">#&gt; 2 Supported</span></span>
+<span id="cb5-38"><a href="#cb5-38" tabindex="-1"></a><span class="co">#&gt; 3 Supported</span></span>
+<span id="cb5-39"><a href="#cb5-39" tabindex="-1"></a><span class="co">#&gt; 4    Review</span></span>
+<span id="cb5-40"><a href="#cb5-40" tabindex="-1"></a><span class="co">#&gt; 5    Review</span></span>
+<span id="cb5-41"><a href="#cb5-41" tabindex="-1"></a>expert_fit<span class="sc">$</span>scale_summary</span>
+<span id="cb5-42"><a href="#cb5-42" tabindex="-1"></a><span class="co">#&gt;   n_items n_experts_min n_experts_max mean_Aiken_V S_CVI_Ave S_CVI_UA agreement</span></span>
+<span id="cb5-43"><a href="#cb5-43" tabindex="-1"></a><span class="co">#&gt; 1       5             8             8         0.75       0.8      0.6 0.6934253</span></span>
+<span id="cb5-44"><a href="#cb5-44" tabindex="-1"></a><span class="co">#&gt;   agreement_low agreement_high n_strong_support n_support n_review</span></span>
+<span id="cb5-45"><a href="#cb5-45" tabindex="-1"></a><span class="co">#&gt; 1    0.07142857      0.8603241                3         0        2</span></span>
+<span id="cb5-46"><a href="#cb5-46" tabindex="-1"></a><span class="co">#&gt;   n_insufficient</span></span>
+<span id="cb5-47"><a href="#cb5-47" tabindex="-1"></a><span class="co">#&gt; 1              0</span></span></code></pre></div>
+<blockquote>
+<p>Experts rated the relevance of each candidate item on a bounded
+ordinal scale. We summarized relevance using Aiken’s V with
+Penfield-Giacobbi score confidence intervals and calculated I-CVI with
+Polit-Beck-Owen modified kappa. S-CVI/Ave and S-CVI/UA were reported at
+the scale level. Panel-size CVI guidelines were used as review aids and
+were considered alongside written expert feedback and construct
+coverage.</p>
+</blockquote>
+<p>In this example, 8 experts evaluated 5 items. The workflow identifies
+3 supported items and 2 review items under its quantitative rules.</p>
+</div>
+<div id="essentiality" class="section level3">
+<h3>Essentiality</h3>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>expert_ess <span class="ot">&lt;-</span> <span class="fu">read_example</span>(<span class="st">&quot;expert_essentiality_example.csv&quot;</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>expert_ess_matrix <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(expert_ess[<span class="fu">setdiff</span>(<span class="fu">names</span>(expert_ess), <span class="st">&quot;expert&quot;</span>)])</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>ess_fit <span class="ot">&lt;-</span> <span class="fu">expert_validity</span>(expert_ess_matrix, <span class="at">mode =</span> <span class="st">&quot;essentiality&quot;</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>ess_fit<span class="sc">$</span>results</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#&gt;    item ne  N       cvr     p_value critical_ne critical_cvr  pass</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#&gt; 1 Item1 11 12 0.8333333 0.003173828          10    0.6666667  TRUE</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#&gt; 2 Item2 10 12 0.6666667 0.019287109          10    0.6666667  TRUE</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt; 3 Item3  8 12 0.3333333 0.193847656          10    0.6666667 FALSE</span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">#&gt; 4 Item4  6 12 0.0000000 0.612792969          10    0.6666667 FALSE</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co">#&gt;   recommendation</span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co">#&gt; 1      Supported</span></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="co">#&gt; 2      Supported</span></span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="co">#&gt; 3         Review</span></span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="co">#&gt; 4         Review</span></span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="co">#&gt;                                                                                                                                       interpretation</span></span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="co">#&gt; 1                                                                 Essential ratings meet the exact one-sided binomial criterion for this panel size.</span></span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="co">#&gt; 2                                                                 Essential ratings meet the exact one-sided binomial criterion for this panel size.</span></span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="co">#&gt; 3 Essential ratings do not meet the exact panel-size criterion; review the item and expert rationale before deciding whether to revise or remove it.</span></span>
+<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a><span class="co">#&gt; 4 Essential ratings do not meet the exact panel-size criterion; review the item and expert rationale before deciding whether to revise or remove it.</span></span>
+<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a><span class="co">#&gt;      status</span></span>
+<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a><span class="co">#&gt; 1 Supported</span></span>
+<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a><span class="co">#&gt; 2 Supported</span></span>
+<span id="cb6-23"><a href="#cb6-23" tabindex="-1"></a><span class="co">#&gt; 3    Review</span></span>
+<span id="cb6-24"><a href="#cb6-24" tabindex="-1"></a><span class="co">#&gt; 4    Review</span></span></code></pre></div>
+<p>For an essentiality task, state that CVR is tied to a different
+expert judgment than relevance. Report the effective panel size and
+exact critical essential count for each item rather than borrowing a
+relevance/CVI threshold.</p>
+</div>
+<div id="congruence" class="section level3">
+<h3>Congruence</h3>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>expert_ioc <span class="ot">&lt;-</span> <span class="fu">read_example</span>(<span class="st">&quot;expert_congruence_example.csv&quot;</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>ioc_fit <span class="ot">&lt;-</span> <span class="fu">expert_validity</span>(expert_ioc, <span class="at">mode =</span> <span class="st">&quot;congruence&quot;</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>ioc_fit<span class="sc">$</span>results</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">#&gt;   item target target_ioc strongest_competitor competitor_ioc    margin</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#&gt; 1   I1      A  1.0000000                    B     -0.6666667 1.6666667</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt; 2   I2      B  1.0000000                    A     -0.6666667 1.6666667</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co">#&gt; 3   I3      C  0.8333333                    B      0.5000000 0.3333333</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt;   recommendation</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt; 1 Target favored</span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co">#&gt; 2 Target favored</span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="co">#&gt; 3 Target favored</span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co">#&gt;                                                                                                       interpretation</span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co">#&gt; 1 The intended objective has the highest IOC; use the margin and expert comments to judge practical distinctiveness.</span></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co">#&gt; 2 The intended objective has the highest IOC; use the margin and expert comments to judge practical distinctiveness.</span></span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="co">#&gt; 3 The intended objective has the highest IOC; use the margin and expert comments to judge practical distinctiveness.</span></span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="co">#&gt;      status</span></span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="co">#&gt; 1 Supported</span></span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="co">#&gt; 2 Supported</span></span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="co">#&gt; 3 Supported</span></span></code></pre></div>
+<p>For IOC, report the intended objective, target IOC, strongest
+competing objective, and target-minus-competitor margin. The margin is
+diagnostic evidence about alignment; it is not a newly invented
+significance test.</p>
+</div>
+</div>
+<div id="minimum-reproducibility-statement" class="section level2">
+<h2>Minimum reproducibility statement</h2>
+<p>At minimum, a manuscript or supplement should identify the package
+version and record the analysis settings that determine the results. For
+a fitted workflow:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">packageVersion</span>(<span class="st">&quot;contentvalidR&quot;</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co">#&gt; [1] &#39;0.4.0&#39;</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>sort_fit<span class="sc">$</span>settings</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="co">#&gt; $method</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Anderson-Gerbing Psa/Csv with Howard-Melloy exact inference&quot;</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co">#&gt; $item_inference</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Howard-Melloy exact target-count test&quot;</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co">#&gt; $scale_benchmarks</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Colquitt et al. (2019) empirical percentile norms&quot;</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a><span class="co">#&gt; $p0</span></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="co">#&gt; [1] 0.5</span></span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a><span class="co">#&gt; $alpha</span></span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a><span class="co">#&gt; [1] 0.05</span></span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a><span class="co">#&gt; $judge_type</span></span>
+<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a><span class="co">#&gt; [1] &quot;naive&quot;</span></span>
+<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-22"><a href="#cb8-22" tabindex="-1"></a><span class="co">#&gt; $proportion_ci</span></span>
+<span id="cb8-23"><a href="#cb8-23" tabindex="-1"></a><span class="co">#&gt; [1] &quot;wilson&quot;</span></span>
+<span id="cb8-24"><a href="#cb8-24" tabindex="-1"></a>sort_fit<span class="sc">$</span>design</span>
+<span id="cb8-25"><a href="#cb8-25" tabindex="-1"></a><span class="co">#&gt; $type</span></span>
+<span id="cb8-26"><a href="#cb8-26" tabindex="-1"></a><span class="co">#&gt; [1] &quot;item-sort&quot;</span></span>
+<span id="cb8-27"><a href="#cb8-27" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-28"><a href="#cb8-28" tabindex="-1"></a><span class="co">#&gt; $n_items</span></span>
+<span id="cb8-29"><a href="#cb8-29" tabindex="-1"></a><span class="co">#&gt; [1] 6</span></span>
+<span id="cb8-30"><a href="#cb8-30" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-31"><a href="#cb8-31" tabindex="-1"></a><span class="co">#&gt; $n_raters</span></span>
+<span id="cb8-32"><a href="#cb8-32" tabindex="-1"></a><span class="co">#&gt; [1] 20</span></span>
+<span id="cb8-33"><a href="#cb8-33" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-34"><a href="#cb8-34" tabindex="-1"></a><span class="co">#&gt; $n_judges_min</span></span>
+<span id="cb8-35"><a href="#cb8-35" tabindex="-1"></a><span class="co">#&gt; [1] 20</span></span>
+<span id="cb8-36"><a href="#cb8-36" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-37"><a href="#cb8-37" tabindex="-1"></a><span class="co">#&gt; $n_judges_max</span></span>
+<span id="cb8-38"><a href="#cb8-38" tabindex="-1"></a><span class="co">#&gt; [1] 20</span></span>
+<span id="cb8-39"><a href="#cb8-39" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-40"><a href="#cb8-40" tabindex="-1"></a><span class="co">#&gt; $n_missing</span></span>
+<span id="cb8-41"><a href="#cb8-41" tabindex="-1"></a><span class="co">#&gt; [1] 0</span></span>
+<span id="cb8-42"><a href="#cb8-42" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-43"><a href="#cb8-43" tabindex="-1"></a><span class="co">#&gt; $n_target_scales</span></span>
+<span id="cb8-44"><a href="#cb8-44" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span>
+<span id="cb8-45"><a href="#cb8-45" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-46"><a href="#cb8-46" tabindex="-1"></a><span class="co">#&gt; $n_constructs_observed</span></span>
+<span id="cb8-47"><a href="#cb8-47" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span></code></pre></div>
+<p>A strong reproducibility supplement should also archive the item
+wording, construct definitions, judge instructions, anonymized response
+data when permitted, and the script that reproduces all tables and
+figures.</p>
+</div>
+<div id="language-to-avoid" class="section level2">
+<h2>Language to avoid</h2>
+<p>Avoid claims such as “the scale was proven content valid” or “items
+failing the cutoff were invalid.” The workflows quantify evidence from a
+defined pretest. They do not replace a theory-based definition of the
+construct domain or the researcher’s responsibility to justify
+substantive item decisions.</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

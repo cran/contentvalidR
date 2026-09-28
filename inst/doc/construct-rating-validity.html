@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Construct-Rating Content Validation: Hinkin-Tracey to Colquitt</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Construct-Rating Content Validation:
+Hinkin-Tracey to Colquitt</h1>
+
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(contentvalidR)</span></code></pre></div>
+<div id="what-the-rating-workflow-asks" class="section level2">
+<h2>What the rating workflow asks</h2>
+<p>The Hinkin and Tracey (1999) content-rating procedure asks judges to
+evaluate how well each item corresponds to <strong>each</strong>
+construct definition under consideration. The typical design is fully
+crossed within judges: the same judge rates an item against the intended
+definition and against one or more orbiting definitions.</p>
+<p>That design provides two complementary kinds of evidence:</p>
+<ul>
+<li><strong>Definitional correspondence:</strong> does the item strongly
+match its intended construct?</li>
+<li><strong>Definitional distinctiveness:</strong> does it match the
+intended construct more strongly than plausible orbiting
+constructs?</li>
+</ul>
+<p><code>contentvalidR</code> keeps those questions separate rather than
+reducing the study to a single coefficient.</p>
+</div>
+<div id="example-data" class="section level2">
+<h2>Example data</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>rating_dat <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="at">item =</span> <span class="fu">c</span>(<span class="st">&quot;A1&quot;</span>, <span class="st">&quot;A2&quot;</span>, <span class="st">&quot;A3&quot;</span>, <span class="st">&quot;B1&quot;</span>),</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="at">rater =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">24</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="at">construct =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>)</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>rating_dat<span class="sc">$</span>target_construct <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(rating_dat<span class="sc">$</span>item <span class="sc">==</span> <span class="st">&quot;B1&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>rating_dat<span class="sc">$</span>rating <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(</span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>  rating_dat<span class="sc">$</span>construct <span class="sc">==</span> rating_dat<span class="sc">$</span>target_construct,</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>  <span class="fu">pmin</span>(<span class="dv">5</span>, <span class="fu">pmax</span>(<span class="dv">1</span>, <span class="fu">round</span>(<span class="fu">rnorm</span>(<span class="fu">nrow</span>(rating_dat), <span class="fl">4.4</span>, .<span class="dv">6</span>)))),</span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>  <span class="fu">pmin</span>(<span class="dv">5</span>, <span class="fu">pmax</span>(<span class="dv">1</span>, <span class="fu">round</span>(<span class="fu">rnorm</span>(<span class="fu">nrow</span>(rating_dat), <span class="fl">2.2</span>, .<span class="dv">8</span>))))</span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>)</span></code></pre></div>
+<p>Each item-judge combination appears once for every construct
+definition. A duplicated item-rater-construct row is treated as a data
+error.</p>
+</div>
+<div id="htc-definitional-correspondence" class="section level2">
+<h2>HTC: definitional correspondence</h2>
+<p>Following Colquitt et al. (2019), the Hinkin-Tracey correspondence
+index is</p>
+<p><span class="math display">\[
+HTC = \frac{\bar{x}_{target}}{a},
+\]</span></p>
+<p>where <span class="math inline">\(a\)</span> is the number of
+response anchors when ratings use a 1-to-<span class="math inline">\(a\)</span> scale. <code>contentvalidR</code> can
+also accept an equally spaced integer scale such as 0-to-4; it shifts
+that scale internally to the equivalent 1-to-5 anchor metric before
+computing HTC.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">htc</span>(rating_dat, <span class="at">scale_min =</span> <span class="dv">1</span>, <span class="at">scale_max =</span> <span class="dv">5</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">#&gt;   item target n_target target_mean anchors       htc</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt; 1   A1      A       24    4.375000       5 0.8750000</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt; 2   A2      A       24    4.458333       5 0.8916667</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt; 3   A3      A       24    4.416667       5 0.8833333</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; 4   B1      B       24    4.583333       5 0.9166667</span></span></code></pre></div>
+<p>Higher HTC means stronger correspondence with the intended
+definition.</p>
+</div>
+<div id="htd-definitional-distinctiveness" class="section level2">
+<h2>HTD: definitional distinctiveness</h2>
+<p>HTD compares intended-definition ratings with orbiting-definition
+ratings:</p>
+<p><span class="math display">\[
+HTD = \frac{\text{average}(x_{target} - x_{orbiting})}{a - 1}.
+\]</span></p>
+<p>It ranges from -1 to 1. Positive values favor the intended
+definition; negative values indicate that orbiting definitions are rated
+more highly on average.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">htd</span>(rating_dat, <span class="at">scale_min =</span> <span class="dv">1</span>, <span class="at">scale_max =</span> <span class="dv">5</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="co">#&gt;   item target n_complete n_pairs target_mean_complete strongest_competitor</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">#&gt; 1   A1      A         24      48             4.375000                    B</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt; 2   A2      A         24      48             4.458333                    B</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt; 3   A3      A         24      48             4.416667                    C</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; 4   B1      B         24      48             4.583333                    C</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt;   competitor_mean anchors       htd</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; 1        2.375000       5 0.5572917</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt; 2        2.000000       5 0.6302083</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt; 3        2.250000       5 0.5468750</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt; 4        2.166667       5 0.6145833</span></span></code></pre></div>
+<p>The item-level table also identifies the strongest orbiting
+competitor. That is often more useful for revision than merely knowing
+that distinctiveness is weak.</p>
+</div>
+<div id="repeated-measures-item-screening" class="section level2">
+<h2>Repeated-measures item screening</h2>
+<p>The same judges provide multiple construct ratings, so those
+observations are not independent. <code>anova_content()</code> uses a
+one-way repeated-measures ANOVA for the standard fully crossed design
+and follows it with planned paired comparisons of the intended
+definition against every orbiting definition.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>aov_out <span class="ot">&lt;-</span> <span class="fu">anova_content</span>(rating_dat, <span class="at">design =</span> <span class="st">&quot;within&quot;</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>aov_out</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#&gt;   item target design n_raters n_complete n_constructs target_mean</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt; 1   A1      A within       24         24            3    4.375000</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; 2   A2      A within       24         24            3    4.458333</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt; 3   A3      A within       24         24            3    4.416667</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt; 4   B1      B within       24         24            3    4.583333</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt;   strongest_competitor competitor_mean         F df1 df2            p</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt; 1                    B        2.375000  72.64064   2  46 5.820538e-15</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt; 2                    B        2.000000 105.82309   2  46 6.164319e-18</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt; 3                    C        2.250000  82.24514   2  46 6.443079e-16</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt; 4                    C        2.166667 108.28649   2  46 3.987307e-18</span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt;   epsilon_gg   df1_gg   df2_gg         p_gg     p_screen partial_eta2</span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt; 1  0.9923166 1.984633 45.64657 7.290445e-15 7.290445e-15    0.7595165</span></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt; 2  0.8090412 1.618082 37.21590 6.097704e-15 6.097704e-15    0.8214606</span></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#&gt; 3  0.9992587 1.998517 45.96590 6.595204e-16 6.595204e-16    0.7814626</span></span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co">#&gt; 4  0.9262517 1.852503 42.60758 5.895899e-17 5.895899e-17    0.8248106</span></span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="co">#&gt;   min_mean_diff max_contrast_p contrast_pass posthoc_pass</span></span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a><span class="co">#&gt; 1      2.000000   8.344091e-10          TRUE         TRUE</span></span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a><span class="co">#&gt; 2      2.458333   1.372752e-10          TRUE         TRUE</span></span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a><span class="co">#&gt; 3      2.166667   5.918580e-11          TRUE         TRUE</span></span>
+<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a><span class="co">#&gt; 4      2.416667   1.786074e-12          TRUE         TRUE</span></span>
+<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a><span class="fu">attr</span>(aov_out, <span class="st">&quot;contrasts&quot;</span>)</span>
+<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a><span class="co">#&gt;   item design target competitor  n mean_target mean_competitor mean_diff</span></span>
+<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a><span class="co">#&gt; 1   A1 within      A          B 24    4.375000        2.375000  2.000000</span></span>
+<span id="cb5-26"><a href="#cb5-26" tabindex="-1"></a><span class="co">#&gt; 2   A1 within      A          C 24    4.375000        1.916667  2.458333</span></span>
+<span id="cb5-27"><a href="#cb5-27" tabindex="-1"></a><span class="co">#&gt; 3   A2 within      A          B 24    4.458333        2.000000  2.458333</span></span>
+<span id="cb5-28"><a href="#cb5-28" tabindex="-1"></a><span class="co">#&gt; 4   A2 within      A          C 24    4.458333        1.875000  2.583333</span></span>
+<span id="cb5-29"><a href="#cb5-29" tabindex="-1"></a><span class="co">#&gt; 5   A3 within      A          B 24    4.416667        2.208333  2.208333</span></span>
+<span id="cb5-30"><a href="#cb5-30" tabindex="-1"></a><span class="co">#&gt; 6   A3 within      A          C 24    4.416667        2.250000  2.166667</span></span>
+<span id="cb5-31"><a href="#cb5-31" tabindex="-1"></a><span class="co">#&gt; 7   B1 within      B          A 24    4.583333        2.083333  2.500000</span></span>
+<span id="cb5-32"><a href="#cb5-32" tabindex="-1"></a><span class="co">#&gt; 8   B1 within      B          C 24    4.583333        2.166667  2.416667</span></span>
+<span id="cb5-33"><a href="#cb5-33" tabindex="-1"></a><span class="co">#&gt;           t df            p        p_adj       dz pass</span></span>
+<span id="cb5-34"><a href="#cb5-34" tabindex="-1"></a><span class="co">#&gt; 1  9.591663 23 8.344091e-10 8.344091e-10 1.957890 TRUE</span></span>
+<span id="cb5-35"><a href="#cb5-35" tabindex="-1"></a><span class="co">#&gt; 2 11.336315 23 3.409941e-11 3.409941e-11 2.314016 TRUE</span></span>
+<span id="cb5-36"><a href="#cb5-36" tabindex="-1"></a><span class="co">#&gt; 3 10.552406 23 1.372752e-10 1.372752e-10 2.154001 TRUE</span></span>
+<span id="cb5-37"><a href="#cb5-37" tabindex="-1"></a><span class="co">#&gt; 4 17.643975 23 3.644893e-15 3.644893e-15 3.601561 TRUE</span></span>
+<span id="cb5-38"><a href="#cb5-38" tabindex="-1"></a><span class="co">#&gt; 5 11.072214 23 5.409806e-11 5.409806e-11 2.260106 TRUE</span></span>
+<span id="cb5-39"><a href="#cb5-39" tabindex="-1"></a><span class="co">#&gt; 6 11.021286 23 5.918580e-11 5.918580e-11 2.249711 TRUE</span></span>
+<span id="cb5-40"><a href="#cb5-40" tabindex="-1"></a><span class="co">#&gt; 7 13.133926 23 1.786074e-12 1.786074e-12 2.680951 TRUE</span></span>
+<span id="cb5-41"><a href="#cb5-41" tabindex="-1"></a><span class="co">#&gt; 8 14.269216 23 3.241706e-13 3.241706e-13 2.912692 TRUE</span></span></code></pre></div>
+<p>The omnibus F test asks whether the item’s mean ratings differ
+somewhere across definitions. The planned contrasts ask the more direct
+content-validity question: is the target mean higher than each orbiting
+mean?</p>
+<p>With more than two construct definitions, the conventional
+repeated-measures F test assumes sphericity. <code>contentvalidR</code>
+reports that historical omnibus test but does not hide the assumption.
+The planned target-versus-orbiting comparisons are therefore important
+diagnostic evidence rather than decorative post-hoc tests.</p>
+</div>
+<div id="recommended-workflow" class="section level2">
+<h2>Recommended workflow</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">rating_validity</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  rating_dat,</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="at">scale_min =</span> <span class="dv">1</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  <span class="at">scale_max =</span> <span class="dv">5</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>)</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>fit</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#&gt; contentvalidR construct-rating analysis</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt; ---------------------------------------</span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">#&gt; Items: 4 | Raters: 24 | Target scales: 2 | Constructs: 3 </span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co">#&gt; Design: within-judge ratings | Scale: 1 to 5 </span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co">#&gt; Item inference: one-way repeated-measures ANOVA (Greenhouse-Geisser corrected omnibus p) plus planned paired target-versus-orbiting contrasts </span></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="co">#&gt; Planned-contrast adjustment: none </span></span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="co">#&gt; Judges: naive </span></span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="co">#&gt; 4 item(s) meet the full item-level screening criterion; 0 item(s) are flagged for review.</span></span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="co">#&gt; Item-level evidence:</span></span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="co">#&gt;  item target n_complete strongest_competitor   htc   htd p_value max_contrast_p</span></span>
+<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a><span class="co">#&gt;    A1      A         24                    B 0.875 0.557       0              0</span></span>
+<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a><span class="co">#&gt;    A2      A         24                    B 0.892 0.630       0              0</span></span>
+<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a><span class="co">#&gt;    A3      A         24                    C 0.883 0.547       0              0</span></span>
+<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a><span class="co">#&gt;    B1      B         24                    C 0.917 0.615       0              0</span></span>
+<span id="cb6-23"><a href="#cb6-23" tabindex="-1"></a><span class="co">#&gt;  recommendation</span></span>
+<span id="cb6-24"><a href="#cb6-24" tabindex="-1"></a><span class="co">#&gt;          Retain</span></span>
+<span id="cb6-25"><a href="#cb6-25" tabindex="-1"></a><span class="co">#&gt;          Retain</span></span>
+<span id="cb6-26"><a href="#cb6-26" tabindex="-1"></a><span class="co">#&gt;          Retain</span></span>
+<span id="cb6-27"><a href="#cb6-27" tabindex="-1"></a><span class="co">#&gt;          Retain</span></span>
+<span id="cb6-28"><a href="#cb6-28" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-29"><a href="#cb6-29" tabindex="-1"></a><span class="co">#&gt; Target-scale Colquitt benchmark summary:</span></span>
+<span id="cb6-30"><a href="#cb6-30" tabindex="-1"></a><span class="co">#&gt;  target n_items n_htc n_htd mean_htc htc_strength mean_htd htd_strength</span></span>
+<span id="cb6-31"><a href="#cb6-31" tabindex="-1"></a><span class="co">#&gt;       A       3     3     3    0.883       Strong    0.578  Very Strong</span></span>
+<span id="cb6-32"><a href="#cb6-32" tabindex="-1"></a><span class="co">#&gt;       B       1     1     1    0.917  Very Strong    0.615  Very Strong</span></span>
+<span id="cb6-33"><a href="#cb6-33" tabindex="-1"></a><span class="co">#&gt;  benchmark_set</span></span>
+<span id="cb6-34"><a href="#cb6-34" tabindex="-1"></a><span class="co">#&gt;        overall</span></span>
+<span id="cb6-35"><a href="#cb6-35" tabindex="-1"></a><span class="co">#&gt;        overall</span></span>
+<span id="cb6-36"><a href="#cb6-36" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-37"><a href="#cb6-37" tabindex="-1"></a><span class="co">#&gt; Colquitt labels are empirical percentile norms for scale-level HTC/HTD averages, not universal cutoffs.</span></span>
+<span id="cb6-38"><a href="#cb6-38" tabindex="-1"></a><span class="co">#&gt; HTC is an average rating and HTD is a difference between ratings, so they sit on</span></span>
+<span id="cb6-39"><a href="#cb6-39" tabindex="-1"></a><span class="co">#&gt; different scales with different typical values. A high HTC can be labeled Weak in</span></span>
+<span id="cb6-40"><a href="#cb6-40" tabindex="-1"></a><span class="co">#&gt; the same analysis where a much smaller HTD is labeled Very Strong. Compare each</span></span>
+<span id="cb6-41"><a href="#cb6-41" tabindex="-1"></a><span class="co">#&gt; index against its own benchmark, never against the other index&#39;s number.</span></span>
+<span id="cb6-42"><a href="#cb6-42" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-43"><a href="#cb6-43" tabindex="-1"></a><span class="co">#&gt; What these columns mean</span></span>
+<span id="cb6-44"><a href="#cb6-44" tabindex="-1"></a><span class="co">#&gt;   htc -- Hinkin-Tracey Correspondence. Average rating of the item against</span></span>
+<span id="cb6-45"><a href="#cb6-45" tabindex="-1"></a><span class="co">#&gt;       its intended construct definition, expressed as a proportion of the</span></span>
+<span id="cb6-46"><a href="#cb6-46" tabindex="-1"></a><span class="co">#&gt;       rating scale. (0 to 1; higher is stronger)</span></span>
+<span id="cb6-47"><a href="#cb6-47" tabindex="-1"></a><span class="co">#&gt;   htd -- Hinkin-Tracey Distinctiveness. How far the intended construct&#39;s</span></span>
+<span id="cb6-48"><a href="#cb6-48" tabindex="-1"></a><span class="co">#&gt;       average rating exceeds the best competing construct&#39;s, as a</span></span>
+<span id="cb6-49"><a href="#cb6-49" tabindex="-1"></a><span class="co">#&gt;       proportion of the rating scale. It is a difference, so its typical</span></span>
+<span id="cb6-50"><a href="#cb6-50" tabindex="-1"></a><span class="co">#&gt;       values are far smaller than HTC&#39;s. (usually a small positive number;</span></span>
+<span id="cb6-51"><a href="#cb6-51" tabindex="-1"></a><span class="co">#&gt;       higher is stronger)</span></span>
+<span id="cb6-52"><a href="#cb6-52" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-53"><a href="#cb6-53" tabindex="-1"></a><span class="co">#&gt; What the status labels mean</span></span>
+<span id="cb6-54"><a href="#cb6-54" tabindex="-1"></a><span class="co">#&gt;   Supported -- The evidence met the criteria set for this analysis.</span></span>
+<span id="cb6-55"><a href="#cb6-55" tabindex="-1"></a><span class="co">#&gt;   Review -- Something here needs a closer look. This is not an instruction</span></span>
+<span id="cb6-56"><a href="#cb6-56" tabindex="-1"></a><span class="co">#&gt;       to delete anything.</span></span>
+<span id="cb6-57"><a href="#cb6-57" tabindex="-1"></a><span class="co">#&gt;   Insufficient data -- Too little usable data to reach a judgment.</span></span>
+<span id="cb6-58"><a href="#cb6-58" tabindex="-1"></a><span class="co">#&gt;   Descriptive only -- Reported for description only; no decision rule was</span></span>
+<span id="cb6-59"><a href="#cb6-59" tabindex="-1"></a><span class="co">#&gt;       applied.</span></span>
+<span id="cb6-60"><a href="#cb6-60" tabindex="-1"></a><span class="co">#&gt;   Each workflow also uses its own wording in the recommendation column</span></span>
+<span id="cb6-61"><a href="#cb6-61" tabindex="-1"></a><span class="co">#&gt;   (Retain, Strong support, Typical, Covered, and so on). Those words map</span></span>
+<span id="cb6-62"><a href="#cb6-62" tabindex="-1"></a><span class="co">#&gt;   onto the shared statuses above.</span></span>
+<span id="cb6-63"><a href="#cb6-63" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-64"><a href="#cb6-64" tabindex="-1"></a><span class="co">#&gt; See `contentvalid_glossary()` for all terms, or set </span></span>
+<span id="cb6-65"><a href="#cb6-65" tabindex="-1"></a><span class="co">#&gt; `options(contentvalidR.show_key = FALSE)` to hide this key.</span></span>
+<span id="cb6-66"><a href="#cb6-66" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-67"><a href="#cb6-67" tabindex="-1"></a><span class="co">#&gt; &#39;Review&#39; is not an automatic deletion decision. Consider construct definitions, item wording,</span></span>
+<span id="cb6-68"><a href="#cb6-68" tabindex="-1"></a><span class="co">#&gt; orbiting-construct choice, domain coverage, and qualitative judge feedback.</span></span>
+<span id="cb6-69"><a href="#cb6-69" tabindex="-1"></a><span class="fu">summary</span>(fit)</span>
+<span id="cb6-70"><a href="#cb6-70" tabindex="-1"></a><span class="co">#&gt; Summary of construct-rating content-validity evidence</span></span>
+<span id="cb6-71"><a href="#cb6-71" tabindex="-1"></a><span class="co">#&gt; ---------------------------------------------------</span></span>
+<span id="cb6-72"><a href="#cb6-72" tabindex="-1"></a><span class="co">#&gt; Retain: 4 of 4 item(s)</span></span>
+<span id="cb6-73"><a href="#cb6-73" tabindex="-1"></a><span class="co">#&gt; Review: 0 of 4 item(s)</span></span>
+<span id="cb6-74"><a href="#cb6-74" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-75"><a href="#cb6-75" tabindex="-1"></a><span class="co">#&gt; Target-scale evidence:</span></span>
+<span id="cb6-76"><a href="#cb6-76" tabindex="-1"></a><span class="co">#&gt;  target n_items n_htc n_htd n_retain n_review mean_htc htc_strength mean_htd</span></span>
+<span id="cb6-77"><a href="#cb6-77" tabindex="-1"></a><span class="co">#&gt;       A       3     3     3        3        0    0.883       Strong    0.578</span></span>
+<span id="cb6-78"><a href="#cb6-78" tabindex="-1"></a><span class="co">#&gt;       B       1     1     1        1        0    0.917  Very Strong    0.615</span></span>
+<span id="cb6-79"><a href="#cb6-79" tabindex="-1"></a><span class="co">#&gt;  htd_strength overall_strength</span></span>
+<span id="cb6-80"><a href="#cb6-80" tabindex="-1"></a><span class="co">#&gt;   Very Strong           Strong</span></span>
+<span id="cb6-81"><a href="#cb6-81" tabindex="-1"></a><span class="co">#&gt;   Very Strong      Very Strong</span></span>
+<span id="cb6-82"><a href="#cb6-82" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-83"><a href="#cb6-83" tabindex="-1"></a><span class="co">#&gt; A: Strong normative standing on the weaker of definitional correspondence (HTC) and distinctiveness (HTD).</span></span>
+<span id="cb6-84"><a href="#cb6-84" tabindex="-1"></a><span class="co">#&gt; B: Very Strong normative standing on the weaker of definitional correspondence (HTC) and distinctiveness (HTD).</span></span>
+<span id="cb6-85"><a href="#cb6-85" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-86"><a href="#cb6-86" tabindex="-1"></a><span class="co">#&gt; All analyzed items met the item-level inferential screening criterion.</span></span>
+<span id="cb6-87"><a href="#cb6-87" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-88"><a href="#cb6-88" tabindex="-1"></a><span class="co">#&gt; Interpret these results alongside theory, domain coverage, and qualitative feedback.</span></span>
+<span id="cb6-89"><a href="#cb6-89" tabindex="-1"></a><span class="co">#&gt; The analysis does not by itself establish comprehensiveness or the full content-validity argument.</span></span></code></pre></div>
+<p>The item-level recommendation has deliberately limited meaning:</p>
+<ul>
+<li><strong>Retain:</strong> the item cleared the package’s inferential
+screening rule in this pretest.</li>
+<li><strong>Review:</strong> the full screening rule was not met;
+inspect wording, construct overlap, and judge feedback.</li>
+<li><strong>Insufficient data:</strong> too few complete judge profiles
+are available for the repeated-measures comparison.</li>
+</ul>
+<p><code>Review</code> is not an instruction to delete an item. Content
+coverage can be harmed by mechanical item deletion.</p>
+</div>
+<div id="scale-level-colquitt-norms" class="section level2">
+<h2>Scale-level Colquitt norms</h2>
+<p>Colquitt et al. (2019) created empirical norms from
+<strong>scale-level averages</strong> of HTC and HTD across 112
+published scales. <code>rating_validity()</code> therefore averages item
+HTC/HTD within each target scale before assigning those descriptive
+normative labels.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>fit<span class="sc">$</span>scale_summary</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co">#&gt;   target n_items n_htc n_htd n_retain n_review n_insufficient  mean_htc</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co">#&gt; 1      A       3     3     3        3        0              0 0.8833333</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">#&gt; 2      B       1     1     1        1        0              0 0.9166667</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#&gt;   htc_strength  mean_htd htd_strength overall_strength orbiting_r benchmark_set</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt; 1       Strong 0.5781250  Very Strong           Strong         NA       overall</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co">#&gt; 2  Very Strong 0.6145833  Very Strong      Very Strong         NA       overall</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt;                                                                                                       evidence</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt; 1      Strong normative standing on the weaker of definitional correspondence (HTC) and distinctiveness (HTD).</span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co">#&gt; 2 Very Strong normative standing on the weaker of definitional correspondence (HTC) and distinctiveness (HTD).</span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="fu">colquitt_benchmarks</span>(<span class="st">&quot;htc&quot;</span>)</span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co">#&gt;   statistic benchmark_set                  benchmark_label interpretation</span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co">#&gt; 1       htc       overall Overall (not correlation-normed)    Very Strong</span></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co">#&gt; 2       htc       overall Overall (not correlation-normed)         Strong</span></span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="co">#&gt; 3       htc       overall Overall (not correlation-normed)       Moderate</span></span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="co">#&gt; 4       htc       overall Overall (not correlation-normed)           Weak</span></span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="co">#&gt; 5       htc       overall Overall (not correlation-normed)        Lack of</span></span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="co">#&gt;   percentile minimum</span></span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="co">#&gt; 1  80th-99th    0.91</span></span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a><span class="co">#&gt; 2  60th-79th    0.87</span></span>
+<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a><span class="co">#&gt; 3  40th-59th    0.84</span></span>
+<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a><span class="co">#&gt; 4  20th-39th    0.60</span></span>
+<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a><span class="co">#&gt; 5   0th-19th    -Inf</span></span>
+<span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a><span class="fu">colquitt_benchmarks</span>(<span class="st">&quot;htd&quot;</span>)</span>
+<span id="cb7-25"><a href="#cb7-25" tabindex="-1"></a><span class="co">#&gt;   statistic benchmark_set                  benchmark_label interpretation</span></span>
+<span id="cb7-26"><a href="#cb7-26" tabindex="-1"></a><span class="co">#&gt; 1       htd       overall Overall (not correlation-normed)    Very Strong</span></span>
+<span id="cb7-27"><a href="#cb7-27" tabindex="-1"></a><span class="co">#&gt; 2       htd       overall Overall (not correlation-normed)         Strong</span></span>
+<span id="cb7-28"><a href="#cb7-28" tabindex="-1"></a><span class="co">#&gt; 3       htd       overall Overall (not correlation-normed)       Moderate</span></span>
+<span id="cb7-29"><a href="#cb7-29" tabindex="-1"></a><span class="co">#&gt; 4       htd       overall Overall (not correlation-normed)           Weak</span></span>
+<span id="cb7-30"><a href="#cb7-30" tabindex="-1"></a><span class="co">#&gt; 5       htd       overall Overall (not correlation-normed)        Lack of</span></span>
+<span id="cb7-31"><a href="#cb7-31" tabindex="-1"></a><span class="co">#&gt;   percentile minimum</span></span>
+<span id="cb7-32"><a href="#cb7-32" tabindex="-1"></a><span class="co">#&gt; 1  80th-99th    0.35</span></span>
+<span id="cb7-33"><a href="#cb7-33" tabindex="-1"></a><span class="co">#&gt; 2  60th-79th    0.27</span></span>
+<span id="cb7-34"><a href="#cb7-34" tabindex="-1"></a><span class="co">#&gt; 3  40th-59th    0.18</span></span>
+<span id="cb7-35"><a href="#cb7-35" tabindex="-1"></a><span class="co">#&gt; 4  20th-39th    0.04</span></span>
+<span id="cb7-36"><a href="#cb7-36" tabindex="-1"></a><span class="co">#&gt; 5   0th-19th    -Inf</span></span></code></pre></div>
+<p>The overall bands are empirical percentile standing, not universal
+validity cutoffs. If the average correlation between a focal scale and
+its orbiting scales is known, correlation-conditional norms can be
+requested:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">rating_validity</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  rating_dat,</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="at">orbiting_r =</span> <span class="fu">c</span>(<span class="at">A =</span> .<span class="dv">42</span>, <span class="at">B =</span> .<span class="dv">55</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>)<span class="sc">$</span>scale_summary</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co">#&gt;   target n_items n_htc n_htd n_retain n_review n_insufficient  mean_htc</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co">#&gt; 1      A       3     3     3        3        0              0 0.8833333</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co">#&gt; 2      B       1     1     1        1        0              0 0.9166667</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co">#&gt;   htc_strength  mean_htd htd_strength overall_strength orbiting_r benchmark_set</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co">#&gt; 1     Moderate 0.5781250  Very Strong         Moderate       0.42      moderate</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co">#&gt; 2  Very Strong 0.6145833  Very Strong      Very Strong       0.55      stronger</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co">#&gt;                                                                                                                                                                               evidence</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="co">#&gt; 1 Generally supportive normative standing, with at least one content-validity dimension in the moderate range; inspect weaker items and construct overlap before finalizing the scale.</span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a><span class="co">#&gt; 2                                                                         Very Strong normative standing on the weaker of definitional correspondence (HTC) and distinctiveness (HTD).</span></span></code></pre></div>
+<p>A given level of distinctiveness can be more impressive when the
+focal and orbiting constructs are known to correlate strongly.</p>
+</div>
+<div id="naive-versus-expert-judges" class="section level2">
+<h2>Naive versus expert judges</h2>
+<p>Colquitt et al.’s normative distributions were developed using naive
+judges representative of substantive target populations. Their paper
+cautions against applying those norms to expert panels. The package
+therefore separates calculation from norm applicability:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">rating_validity</span>(rating_dat, <span class="at">judge_type =</span> <span class="st">&quot;expert&quot;</span>)<span class="sc">$</span>scale_summary</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="co">#&gt;   target n_items n_htc n_htd n_retain n_review n_insufficient  mean_htc</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="co">#&gt; 1      A       3     3     3        3        0              0 0.8833333</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="co">#&gt; 2      B       1     1     1        1        0              0 0.9166667</span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="co">#&gt;   htc_strength  mean_htd htd_strength overall_strength orbiting_r benchmark_set</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="co">#&gt; 1         &lt;NA&gt; 0.5781250         &lt;NA&gt;             &lt;NA&gt;         NA       overall</span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co">#&gt; 2         &lt;NA&gt; 0.6145833         &lt;NA&gt;             &lt;NA&gt;         NA       overall</span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="co">#&gt;                                                                                                        evidence</span></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="co">#&gt; 1 HTC/HTD are reported descriptively; Colquitt et al. (2019) normative labels are suppressed for expert judges.</span></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a><span class="co">#&gt; 2 HTC/HTD are reported descriptively; Colquitt et al. (2019) normative labels are suppressed for expert judges.</span></span></code></pre></div>
+<p>HTC/HTD are still computed, but the Colquitt labels are
+suppressed.</p>
+</div>
+<div id="missing-ratings" class="section level2">
+<h2>Missing ratings</h2>
+<p>For HTD and repeated-measures inference, a judge must have a usable
+rating for every construct definition presented for that item.
+Incomplete profiles are excluded itemwise and counted explicitly in the
+output. This preserves the paired design rather than quietly treating
+incomplete repeated observations as independent data.</p>
+</div>
+<div id="plotting" class="section level2">
+<h2>Plotting</h2>
+<p>The original one-index views remain available:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">plot</span>(fit, <span class="at">metric =</span> <span class="st">&quot;htc&quot;</span>)</span></code></pre></div>
+<p><img role="img" src="data:image/png;base64,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" /><!-- --></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">plot</span>(fit, <span class="at">metric =</span> <span class="st">&quot;htd&quot;</span>)</span></code></pre></div>
+<p><img role="img" src="data:image/png;base64,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" /><!-- --></p>
+<p>A correspondence-distinctiveness evidence map displays HTC and HTD
+together:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">plot</span>(fit, <span class="at">type =</span> <span class="st">&quot;map&quot;</span>)</span></code></pre></div>
+<p><img role="img" src="data:image/png;base64,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" /><!-- --></p>
+<p>Target-scale averages are shown as diamonds and items needing review
+are labeled by default. As with the item-sort map, Colquitt norm regions
+are not drawn across individual items because those benchmarks were
+constructed from scale averages.</p>
+<p>The <strong>target-versus-competitor gap plot</strong> makes the
+Hinkin-Tracey mean-rating logic more directly visible:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">plot</span>(fit, <span class="at">type =</span> <span class="st">&quot;profile&quot;</span>)</span></code></pre></div>
+<p><img role="img" src="data:image/png;base64,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" /><!-- --></p>
+<p>Filled points are intended-definition means, open points are the
+strongest orbiting-definition means, and the connecting segment is the
+observed content distinctiveness gap. A reversed segment immediately
+identifies an item whose strongest competitor outrates its intended
+definition. This is a graphical extension of the mean-rating tables used
+in the original procedure, not a new statistical cutoff.</p>
+</div>
+<div id="reporting" class="section level2">
+<h2>Reporting</h2>
+<p>A useful report should identify:</p>
+<ol style="list-style-type: decimal">
+<li>the construct definitions and orbiting constructs shown to
+judges;</li>
+<li>the judge population and recruitment method;</li>
+<li>the response anchors and rating instructions;</li>
+<li>item-level HTC, HTD, repeated-measures omnibus results, and planned
+contrasts;</li>
+<li>the strongest orbiting competitor for items needing review;</li>
+<li>target-scale mean HTC/HTD and the norm set used, if applicable;
+and</li>
+<li>qualitative feedback and substantive decisions made after the
+pretest.</li>
+</ol>
+<p>The quantitative analysis is evidence about definitional
+correspondence and distinctiveness. It does not by itself demonstrate
+that the item pool comprehensively samples the full construct
+domain.</p>
+</div>
+<div id="references" class="section level2">
+<h2>References</h2>
+<p>Hinkin, T. R., &amp; Tracey, J. B. (1999). An analysis of variance
+approach to content validation. <em>Organizational Research Methods,
+2</em>(2), 175-186. <a href="https://doi.org/10.1177/109442819922004" class="uri">https://doi.org/10.1177/109442819922004</a></p>
+<p>Colquitt, J. A., Sabey, T. B., Rodell, J. B., &amp; Hill, E. T.
+(2019). Content validation guidelines: Evaluation criteria for
+definitional correspondence and definitional distinctiveness.
+<em>Journal of Applied Psychology, 104</em>(10), 1243-1265. <a href="https://doi.org/10.1037/apl0000406" class="uri">https://doi.org/10.1037/apl0000406</a></p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

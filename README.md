@@ -1,0 +1,1284 @@
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# contentvalidR
+
+<!-- badges: start -->
+
+[![R-CMD-check](https://github.com/JUhalt/contentvalidR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/JUhalt/contentvalidR/actions/workflows/R-CMD-check.yaml)
+[![License: GPL v3
+only](https://img.shields.io/badge/License-GPL--3.0--only-blue.svg)](https://github.com/JUhalt/contentvalidR/blob/master/LICENSE.md)
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html)
+<!-- badges: end -->
+
+**Current stable release: 0.4.0.**
+
+Development plans:
+[Roadmap](https://github.com/JUhalt/contentvalidR/blob/master/ROADMAP.md)
+· [Future research](https://github.com/JUhalt/contentvalidR/milestone/3)
+· [Open issues](https://github.com/JUhalt/contentvalidR/issues).
+Documentation: [Package
+website](https://juhalt.github.io/contentvalidR/) ·
+[Changelog](https://juhalt.github.io/contentvalidR/news/index.html).
+
+**contentvalidR** provides quantitative tools for substantive and
+content-oriented scale pretesting. The package provides five
+complementary workflows:
+
+1.  **Item sorting** — Anderson & Gerbing (1991) Psa/Csv, exact
+    item-level inference following Howard & Melloy (2016), and
+    scale-level empirical norms from Colquitt et al. (2019).
+2.  **Construct ratings** — Hinkin & Tracey (1999) fully crossed
+    ratings, HTC/HTD, Greenhouse-Geisser-aware repeated-measures item
+    screening, and Colquitt et al. (2019) scale-level norms.
+3.  **Expert panels** — Aiken’s V, Lawshe CVR, CVI/modified kappa with
+    score intervals, item-objective congruence, and panel-level
+    agreement.
+4.  **Judge heterogeneity** — generalizability theory for
+    content-validity ratings following Crocker, Llabre & Miller (1988),
+    judge severity and rater effects, and leave-one-judge-out influence
+    diagnostics.
+5.  **Domain coverage** — blueprint coverage, and expert-perceived
+    content structure via the multidimensional scaling and clustering
+    procedure of Sireci & Geisinger (1992).
+
+The first three ask whether each **item** behaves as intended. The last
+two ask questions no item-level index can reach: whether your
+conclusions depend on the particular **judges** you recruited, and
+whether your item set actually covers the **domain** you set out to
+measure. An item can only be rated if someone wrote it, so a perfect
+relevance index says nothing about the facet you forgot.
+
+The design goal is **interpretable output rather than coefficient
+dumps**. Recommended workflow functions summarize what the evidence
+supports, flag items that need attention, and distinguish statistical
+screening from substantive decisions. Printed output defines every index
+it reports, so results can be read without first consulting the source
+papers; see
+[`vignette("reading-output")`](https://juhalt.github.io/contentvalidR/articles/reading-output.html).
+
+> Quantitative content-validity statistics are one part of a broader
+> validity argument. They complement, rather than replace, construct
+> definition, domain coverage, qualitative expert feedback, cognitive
+> interviewing, and other evidence about relevance, comprehensiveness,
+> and comprehensibility.
+
+## One workflow API
+
+All five recommended workflows share a stable object contract. A fitted
+`sort_validity()`, `rating_validity()`, `expert_validity()`,
+`judge_validity()`, or `domain_validity()` object always contains:
+
+- `results` — evidence at the workflow’s unit of analysis;
+- `scale_summary` — target-scale or panel-level evidence;
+- `settings` — analysis choices;
+- `design` — sample-size, missingness, and design metadata; and
+- `details` — method-specific supporting results.
+
+The unit of analysis in `results` differs by workflow, which matters
+when writing code against them: `sort_validity()`, `rating_validity()`,
+and `expert_validity()` return one row per **item**, `judge_validity()`
+one row per **judge**, and `domain_validity()` one row per **blueprint
+cell**.
+
+Every `results` table also includes a common `status` field with the
+restrained categories **Supported**, **Review**, **Insufficient data**,
+or **Descriptive only**. Method-specific `recommendation` wording is
+retained alongside it—for example, item-sort and construct-rating
+workflows still use `Retain` when their full statistical screening
+criterion is met. This keeps the methods faithful to their evidentiary
+role while making programmatic use consistent across workflows.
+
+`summary()` uses the same common count fields across every workflow, and
+`print()`/`plot()` retain method-appropriate displays. Compatibility
+aliases such as `rating_fit$contrasts` and `expert_fit$scale` remain
+available for code written before v0.0.6.
+
+## Installation
+
+Install the current stable release from the JUhalt R-universe:
+
+``` r
+install.packages(
+  "contentvalidR",
+  repos = c(
+    "https://juhalt.r-universe.dev",
+    "https://cloud.r-project.org"
+  )
+)
+```
+
+Install the current development version directly from GitHub:
+
+``` r
+# install.packages("remotes")
+remotes::install_github("JUhalt/contentvalidR")
+```
+
+## Recommended item-sort workflow
+
+``` r
+library(contentvalidR)
+
+sort_dat <- data.frame(
+  item = rep(c("Clear 1", "Clear 2", "Needs review"), each = 20),
+  rater = rep(1:20, 3),
+  target_construct = "A",
+  assigned_construct = c(
+    rep("A", 18), rep("B", 2),
+    rep("A", 16), rep("B", 4),
+    rep("A", 12), rep("B", 8)
+  )
+)
+
+fit <- sort_validity(sort_dat)
+fit
+#> contentvalidR item-sort analysis
+#> --------------------------------
+#> Items: 3 | Raters: 20 | Target scales: 1 
+#> Item inference: Howard-Melloy exact target-count test (p0 = 0.50, alpha = 0.050) 
+#> Judges: naive 
+#> 
+#> 2 item(s) meet the exact target-assignment criterion; 1 item(s) are flagged for review.
+#> Review: Needs review 
+#> 
+#> Item-level evidence:
+#>          item target  n n_target competitor psa psa_low psa_high csv p_value
+#>       Clear 1      A 20       18          B 0.9   0.699    0.972 0.8   0.000
+#>       Clear 2      A 20       16          B 0.8   0.584    0.919 0.6   0.006
+#>  Needs review      A 20       12          B 0.6   0.387    0.781 0.2   0.252
+#>  recommendation
+#>          Retain
+#>          Retain
+#>          Review
+#> 
+#> 95% intervals for proportions: Wilson score (the default). Newcombe (1998)
+#> compared seven methods and recommends score intervals over the Wald
+#> interval. An interval reflects how few ratings an item received, not
+#> whether the right judges were chosen.
+#> 
+#> Scale-level Colquitt benchmark summary:
+#>  target n_items mean_psa psa_strength mean_csv csv_strength
+#>       A       3    0.767     Moderate    0.533     Moderate
+#>                     benchmark_set
+#>  Overall (not correlation-normed)
+#> 
+#> Colquitt labels are empirical percentile norms derived from scale-level averages,
+#> not universal cutoffs or automatic scale-retention rules. They place a scale
+#> against published scales; Psa and Csv sit on different scales, so their labels
+#> are not comparable with each other.
+#> 
+#> What these columns mean
+#>   psa -- Proportion of Substantive Agreement. Share of judges who assigned
+#>       the item to the construct it was written for. Higher means judges
+#>       recognized the item as belonging where you intended. (0 to 1; higher
+#>       is stronger)
+#>   psa_low/psa_high -- Interval for Psa. Lower and upper limits of an
+#>       interval around Psa. A wide interval means few judges sorted the
+#>       item, so a different sample of judges could plausibly give a quite
+#>       different Psa. (between 0 and 1; the method and level are named in
+#>       the output)
+#>   csv -- Coefficient of Substantive Validity. How much more often the item
+#>       went to its intended construct than to the alternative construct
+#>       judges chose most. It rewards being distinctly right, not merely
+#>       often right. (-1 to 1; 0 means the intended construct and its closest
+#>       rival were chosen equally often)
+#>   competitor -- Strongest competing construct. The construct, other than
+#>       the intended one, that judges chose most often for this item.
+#>   p_value -- Howard-Melloy exact test. Probability of seeing at least this
+#>       many target assignments if judges were assigning at the chance rate
+#>       p0. Small values mean the item's assignment pattern is unlikely to be
+#>       chance. (0 to 1; compared against alpha)
+#> 
+#> What the status labels mean
+#>   Supported -- The evidence met the criteria set for this analysis.
+#>   Review -- Something here needs a closer look. This is not an instruction
+#>       to delete anything.
+#>   Insufficient data -- Too little usable data to reach a judgment.
+#>   Descriptive only -- Reported for description only; no decision rule was
+#>       applied.
+#>   Each workflow also uses its own wording in the recommendation column
+#>   (Retain, Strong support, Typical, Covered, and so on). Those words map
+#>   onto the shared statuses above.
+#> 
+#> See `contentvalid_glossary()` for all terms, or set 
+#> `options(contentvalidR.show_key = FALSE)` to hide this key.
+#> 
+#> 'Review' is not an automatic deletion decision. Use theory, construct-domain coverage,
+#> item wording, and qualitative judge feedback alongside these statistics.
+summary(fit)
+#> Summary of item-sort content-validity evidence
+#> -------------------------------------------
+#> Retain: 2 of 3 item(s)
+#> Review: 1 of 3 item(s)
+#> 
+#> Target-scale evidence:
+#>  target n_items n_retain n_review mean_psa psa_strength mean_csv csv_strength
+#>       A       3        2        1    0.767     Moderate    0.533     Moderate
+#>  overall_strength
+#>          Moderate
+#> 
+#> A: Generally supportive normative standing, with at least one dimension in the moderate range; review weaker items before finalizing.
+#> 
+#> Items needing attention:
+#>          item target competitor psa csv p_value
+#>  Needs review      A          B 0.6 0.2   0.252
+#>                                    issue recommendation
+#>  Target favored, exact criterion not met         Review
+#> 
+#> Interpret scale norms and item flags alongside theory, domain coverage, and qualitative feedback.
+#> This analysis does not by itself establish comprehensiveness or the full content-validity argument.
+```
+
+The workflow deliberately separates two levels of evidence:
+
+- **Item level:** Psa/Csv plus the exact Howard-Melloy target-count rule
+  produce **Retain**, **Review**, or **Insufficient data** flags. Psa is
+  reported with an interval (`psa_low`, `psa_high`), so an item sorted
+  by few judges does not look more settled than it is. The output also
+  names the strongest competing construct so a weak item is
+  diagnostically useful rather than just “non-significant.”
+- **Target-scale level:** Psa and Csv are averaged across the target
+  scale’s items and interpreted using Colquitt et al. (2019)’s empirical
+  percentile norms for definitional correspondence and distinctiveness.
+  This matches how those norms were constructed.
+
+`Review` deliberately does **not** mean automatic deletion. Likewise,
+Colquitt categories such as *Strong* or *Moderate* are empirical
+normative standing, not universal pass/fail cutoffs.
+
+### Correlation-conditional Colquitt norms
+
+If substantive data provide the average correlation between a focal
+scale and its orbiting scales, the workflow can select Colquitt et al.’s
+correlation-conditional norm set:
+
+``` r
+sort_validity(sort_dat, orbiting_r = .42)$scale_summary
+#>   target n_items n_items_usable n_retain n_review  mean_psa psa_strength
+#> 1      A       3              3        2        1 0.7666667     Moderate
+#>    mean_csv csv_strength orbiting_r
+#> 1 0.5333333     Moderate       0.42
+#>                                        benchmark_set benchmark_applicable
+#> 1 More moderate focal-orbiting correlation (.35-.50)                 TRUE
+#>   overall_strength
+#> 1         Moderate
+#>                                                                                                                             evidence
+#> 1 Generally supportive normative standing, with at least one dimension in the moderate range; review weaker items before finalizing.
+colquitt_benchmarks("csv", orbiting_r = .42)
+#>   statistic benchmark_set                                    benchmark_label
+#> 1       csv      moderate More moderate focal-orbiting correlation (.35-.50)
+#> 2       csv      moderate More moderate focal-orbiting correlation (.35-.50)
+#> 3       csv      moderate More moderate focal-orbiting correlation (.35-.50)
+#> 4       csv      moderate More moderate focal-orbiting correlation (.35-.50)
+#> 5       csv      moderate More moderate focal-orbiting correlation (.35-.50)
+#>   interpretation percentile minimum
+#> 1    Very Strong  80th-99th    0.83
+#> 2         Strong  60th-79th    0.61
+#> 3       Moderate  40th-59th    0.52
+#> 4           Weak  20th-39th    0.01
+#> 5        Lack of   0th-19th    -Inf
+```
+
+The published norms were developed with **naive judges representative of
+the target population**. If the sort used expert judges, declare that
+explicitly; the package will suppress Colquitt labels rather than apply
+an unsupported benchmark:
+
+``` r
+sort_validity(sort_dat, judge_type = "expert")$scale_summary
+#>   target n_items n_items_usable n_retain n_review  mean_psa psa_strength
+#> 1      A       3              3        2        1 0.7666667         <NA>
+#>    mean_csv csv_strength orbiting_r                    benchmark_set
+#> 1 0.5333333         <NA>         NA Overall (not correlation-normed)
+#>   benchmark_applicable overall_strength
+#> 1                FALSE             <NA>
+#>                                                                              evidence
+#> 1 Colquitt norms not applied because this workflow was marked as using expert judges.
+```
+
+### Exact planning rather than a judge-count rule of thumb
+
+``` r
+sort_power(N = c(20, 30, 40), true_p = c(.60, .70, .80))
+#> Exact item-sort planning analysis
+#> ---------------------------------
+#> Retention rule: p0 = 0.50, alpha = 0.050
+#> 
+#>   N true_p critical_n_target minimum_observed_psa power
+#>  20    0.6                15                0.750 0.126
+#>  30    0.6                20                0.667 0.291
+#>  40    0.6                26                0.650 0.317
+#>  20    0.7                15                0.750 0.416
+#>  30    0.7                20                0.667 0.730
+#>  40    0.7                26                0.650 0.807
+#>  20    0.8                15                0.750 0.804
+#>  30    0.8                20                0.667 0.974
+#>  40    0.8                26                0.650 0.992
+#> 
+#> Power is the exact probability of reaching the required target-assignment count
+#> under the assumed true target-assignment probability.
+```
+
+`sort_power()` gives the exact probability of reaching the Howard-Melloy
+retention count under each planned `N` and assumed true
+target-assignment probability.
+
+### Low-level statistics
+
+Researchers who need the component statistics directly can still use:
+
+``` r
+compute_psa(sort_dat)
+#>           item target n_total  n n_missing n_target psa   psa_low  psa_high
+#> 1      Clear 1      A      20 20         0       18 0.9 0.6989664 0.9721335
+#> 2      Clear 2      A      20 20         0       16 0.8 0.5839826 0.9193423
+#> 3 Needs review      A      20 20         0       12 0.6 0.3865815 0.7811935
+compute_csv(sort_dat)
+#>           item target n_total  n n_missing n_target competitor n_other_max csv
+#> 1      Clear 1      A      20 20         0       18          B           2 0.8
+#> 2      Clear 2      A      20 20         0       16          B           4 0.6
+#> 3 Needs review      A      20 20         0       12          B           8 0.2
+csv_binom_test(n_c = 15, N = 20)
+#> $p.value
+#> [1] 0.02069473
+#> 
+#> $estimate
+#> [1] 0.75
+#> 
+#> $conf.int
+#> [1] 0.5444176 1.0000000
+#> attr(,"conf.level")
+#> [1] 0.95
+#> 
+#> $critical_n_target
+#> [1] 15
+#> 
+#> $passes_chance
+#> [1] TRUE
+#> 
+#> $decision
+#> [1] "significant"
+#> 
+#> $interpretation
+#> [1] "Target assignments exceed the exact chance criterion."
+interpret_colquitt(.70, "csv")
+#>   statistic value benchmark_set                  benchmark_label interpretation
+#> 1       csv   0.7       overall Overall (not correlation-normed)         Strong
+#>   applicable
+#> 1       TRUE
+#>                                                                           note
+#> 1 Empirical percentile norm from scale-level averages; not a universal cutoff.
+```
+
+Missing assignments are excluded itemwise and are reported explicitly in
+`n_missing` so the effective denominator is visible.
+
+## Recommended construct-rating workflow
+
+In the Hinkin-Tracey design, the **same judge rates each item against
+every construct definition**. `rating_validity()` treats that dependence
+explicitly rather than analyzing the ratings as independent groups.
+
+``` r
+set.seed(12)
+rating_dat <- expand.grid(
+  item = c("A1", "A2", "B1"),
+  rater = 1:20,
+  construct = c("A", "B", "C")
+)
+rating_dat$target_construct <- ifelse(rating_dat$item == "B1", "B", "A")
+rating_dat$rating <- ifelse(
+  rating_dat$construct == rating_dat$target_construct,
+  pmin(5, pmax(1, round(rnorm(nrow(rating_dat), 4.4, .6)))),
+  pmin(5, pmax(1, round(rnorm(nrow(rating_dat), 2.1, .7))))
+)
+
+rfit <- rating_validity(rating_dat, scale_min = 1, scale_max = 5)
+rfit
+#> contentvalidR construct-rating analysis
+#> ---------------------------------------
+#> Items: 3 | Raters: 20 | Target scales: 2 | Constructs: 3 
+#> Design: within-judge ratings | Scale: 1 to 5 
+#> Item inference: one-way repeated-measures ANOVA (Greenhouse-Geisser corrected omnibus p) plus planned paired target-versus-orbiting contrasts 
+#> Planned-contrast adjustment: none 
+#> Judges: naive 
+#> 
+#> 3 item(s) meet the full item-level screening criterion; 0 item(s) are flagged for review.
+#> 
+#> Item-level evidence:
+#>  item target n_complete strongest_competitor  htc   htd p_value max_contrast_p
+#>    A1      A         20                    C 0.88 0.619       0              0
+#>    A2      A         20                    B 0.84 0.531       0              0
+#>    B1      B         20                    C 0.89 0.637       0              0
+#>  recommendation
+#>          Retain
+#>          Retain
+#>          Retain
+#> 
+#> Target-scale Colquitt benchmark summary:
+#>  target n_items n_htc n_htd mean_htc htc_strength mean_htd htd_strength
+#>       A       2     2     2     0.86     Moderate    0.575  Very Strong
+#>       B       1     1     1     0.89       Strong    0.637  Very Strong
+#>  benchmark_set
+#>        overall
+#>        overall
+#> 
+#> Colquitt labels are empirical percentile norms for scale-level HTC/HTD averages, not universal cutoffs.
+#> HTC is an average rating and HTD is a difference between ratings, so they sit on
+#> different scales with different typical values. A high HTC can be labeled Weak in
+#> the same analysis where a much smaller HTD is labeled Very Strong. Compare each
+#> index against its own benchmark, never against the other index's number.
+#> 
+#> What these columns mean
+#>   htc -- Hinkin-Tracey Correspondence. Average rating of the item against
+#>       its intended construct definition, expressed as a proportion of the
+#>       rating scale. (0 to 1; higher is stronger)
+#>   htd -- Hinkin-Tracey Distinctiveness. How far the intended construct's
+#>       average rating exceeds the best competing construct's, as a
+#>       proportion of the rating scale. It is a difference, so its typical
+#>       values are far smaller than HTC's. (usually a small positive number;
+#>       higher is stronger)
+#> 
+#> What the status labels mean
+#>   Supported -- The evidence met the criteria set for this analysis.
+#>   Review -- Something here needs a closer look. This is not an instruction
+#>       to delete anything.
+#>   Insufficient data -- Too little usable data to reach a judgment.
+#>   Descriptive only -- Reported for description only; no decision rule was
+#>       applied.
+#>   Each workflow also uses its own wording in the recommendation column
+#>   (Retain, Strong support, Typical, Covered, and so on). Those words map
+#>   onto the shared statuses above.
+#> 
+#> See `contentvalid_glossary()` for all terms, or set 
+#> `options(contentvalidR.show_key = FALSE)` to hide this key.
+#> 
+#> 'Review' is not an automatic deletion decision. Consider construct definitions, item wording,
+#> orbiting-construct choice, domain coverage, and qualitative judge feedback.
+summary(rfit)
+#> Summary of construct-rating content-validity evidence
+#> ---------------------------------------------------
+#> Retain: 3 of 3 item(s)
+#> Review: 0 of 3 item(s)
+#> 
+#> Target-scale evidence:
+#>  target n_items n_htc n_htd n_retain n_review mean_htc htc_strength mean_htd
+#>       A       2     2     2        2        0     0.86     Moderate    0.575
+#>       B       1     1     1        1        0     0.89       Strong    0.637
+#>  htd_strength overall_strength
+#>   Very Strong         Moderate
+#>   Very Strong           Strong
+#> 
+#> A: Generally supportive normative standing, with at least one content-validity dimension in the moderate range; inspect weaker items and construct overlap before finalizing the scale.
+#> B: Strong normative standing on the weaker of definitional correspondence (HTC) and distinctiveness (HTD).
+#> 
+#> All analyzed items met the item-level inferential screening criterion.
+#> 
+#> Interpret these results alongside theory, domain coverage, and qualitative feedback.
+#> The analysis does not by itself establish comprehensiveness or the full content-validity argument.
+```
+
+The workflow combines two descriptive indices with direct item-level
+screening:
+
+- **HTC** (Hinkin-Tracey correspondence): how strongly ratings match the
+  intended definition;
+- **HTD** (Hinkin-Tracey distinctiveness): how much intended-definition
+  ratings exceed orbiting-definition ratings;
+- a **one-way repeated-measures ANOVA** for each item; and
+- **planned paired contrasts** comparing the target definition with each
+  orbiting definition.
+
+As with the item-sort workflow, `Retain` and `Review` are screening
+labels rather than automatic editorial decisions. The output names the
+strongest orbiting competitor so a weak item tells the researcher
+*where* the conceptual overlap appears. Colquitt HTC/HTD labels are
+applied to target-scale averages, not treated as universal item-level
+cutoffs.
+
+Low-level components remain available:
+
+``` r
+htc(rating_dat, scale_min = 1, scale_max = 5)
+#>   item target n_target target_mean anchors  htc
+#> 1   A1      A       20        4.40       5 0.88
+#> 2   A2      A       20        4.20       5 0.84
+#> 3   B1      B       20        4.45       5 0.89
+htd(rating_dat, scale_min = 1, scale_max = 5)
+#>   item target n_complete n_pairs target_mean_complete strongest_competitor
+#> 1   A1      A         20      40                 4.40                    C
+#> 2   A2      A         20      40                 4.20                    B
+#> 3   B1      B         20      40                 4.45                    C
+#>   competitor_mean anchors     htd
+#> 1            1.95       5 0.61875
+#> 2            2.10       5 0.53125
+#> 3            2.00       5 0.63750
+anova_content(rating_dat)
+#>   item target design n_raters n_complete n_constructs target_mean
+#> 1   A1      A within       20         20            3        4.40
+#> 2   A2      A within       20         20            3        4.20
+#> 3   B1      B within       20         20            3        4.45
+#>   strongest_competitor competitor_mean         F df1 df2            p
+#> 1                    C            1.95 108.55245   2  38 1.941920e-16
+#> 2                    B            2.10  66.92593   2  38 3.531492e-13
+#> 3                    C            2.00  94.20683   2  38 1.873865e-15
+#>   epsilon_gg   df1_gg   df2_gg         p_gg     p_screen partial_eta2
+#> 1  0.8571129 1.714226 32.57029 2.109513e-14 2.109513e-14    0.8510417
+#> 2  0.7606524 1.521305 28.90479 1.544388e-10 1.544388e-10    0.7788793
+#> 3  0.9532879 1.906576 36.22494 7.805392e-15 7.805392e-15    0.8321656
+#>   min_mean_diff max_contrast_p contrast_pass posthoc_pass
+#> 1          2.45   4.238082e-10          TRUE         TRUE
+#> 2          2.10   6.543223e-08          TRUE         TRUE
+#> 3          2.45   2.290289e-10          TRUE         TRUE
+```
+
+## Recommended expert-panel workflow
+
+Expert panels answer several *different* questions, so
+`expert_validity()` uses an explicit mode rather than pretending that
+Aiken V, CVR, CVI, and IOC are interchangeable.
+
+### Relevance: Aiken V + CVI / modified kappa
+
+``` r
+expert_ratings <- matrix(
+  c(4,4,4,4,4,4,
+    4,4,4,3,4,4,
+    4,3,4,4,3,4),
+  nrow = 6,
+  dimnames = list(NULL, c("Item1", "Item2", "Item3"))
+)
+
+efit <- expert_validity(
+  expert_ratings,
+  mode = "relevance",
+  lo = 1, hi = 4,
+  seed = 1
+)
+efit
+#> contentvalidR expert-panel analysis
+#> -----------------------------------
+#> Mode: relevance 
+#> Items: 3 | Experts/item: 6 
+#> Mean Aiken V: 0.944 | S-CVI/Ave: 1 | S-CVI/UA: 1 
+#> Strong support: 3 | Support: 0 | Review: 0 
+#> Panel agreement, Krippendorff's alpha (ordinal): 0.018 (95% interval -0.133
+#>   to 0.15). Identical rating pairs: 71.1%
+#> 
+#>   item N     V ci_low ci_high I_CVI I_CVI_low I_CVI_high kappa_mod
+#>  Item1 6 1.000  0.824   1.000     1      0.61          1         1
+#>  Item2 6 0.944  0.742   0.990     1      0.61          1         1
+#>  Item3 6 0.889  0.672   0.969     1      0.61          1         1
+#>  recommendation
+#>  Strong support
+#>  Strong support
+#>  Strong support
+#> 
+#> ci_low and ci_high bound Aiken's V (Penfield-Giacobbi score interval);
+#> I_CVI_low and I_CVI_high bound I-CVI.
+#> 95% intervals for proportions: Wilson score (the default). Newcombe (1998)
+#> compared seven methods and recommends score intervals over the Wald
+#> interval. An interval reflects how few ratings an item received, not
+#> whether the right judges were chosen.
+#> 
+#> Panel agreement is one coefficient for the whole panel, whereas kappa_mod
+#> describes each item. Alpha can be low when nearly every rating is the same
+#> value, even on a panel that agrees closely, so read it beside the share of
+#> identical rating pairs. A low alpha with many identical pairs is not by
+#> itself evidence of a poor panel. Print `details$agreement` for the full
+#> explanation and interval details.
+#> 
+#> CVI thresholds shown by the workflow are common panel-size guidelines, not universal validity cutoffs.
+#> 
+#> What these columns mean
+#>   V -- Aiken's V. Relevance index that rescales the experts' average rating
+#>       to run from 0 to 1 given the bounds of the rating scale used. (0 to
+#>       1; higher is stronger)
+#>   I_CVI -- Item-level Content Validity Index. Proportion of experts who
+#>       rated the item as relevant, after applying the relevance cut. (0 to
+#>       1; compared against a panel-size guideline)
+#>   I_CVI_low/I_CVI_high -- Interval for I-CVI. Lower and upper limits of an
+#>       interval around I-CVI. Expert panels are usually small, so these
+#>       intervals are often wide: a single I-CVI value can look more settled
+#>       than the number of experts behind it supports. (between 0 and 1; the
+#>       method and level are named in the output)
+#>   kappa_mod -- Modified kappa. I-CVI adjusted for the chance that experts
+#>       would have agreed even if rating at random. With small panels, chance
+#>       agreement is substantial, which is why the raw I-CVI alone can
+#>       overstate consensus. (0 to 1; higher is stronger)
+#>   agreement -- Panel-level agreement. One coefficient describing how
+#>       consistently the whole panel rated the item set: Krippendorff's alpha
+#>       by default, or Gwet's AC1 if chosen. It is separate from modified
+#>       kappa, which describes one item at a time. (1 is perfect agreement
+#>       and 0 is agreement no better than chance; it can be low on a
+#>       close-agreeing panel whose ratings cluster on one value)
+#> 
+#> What the status labels mean
+#>   Supported -- The evidence met the criteria set for this analysis.
+#>   Review -- Something here needs a closer look. This is not an instruction
+#>       to delete anything.
+#>   Insufficient data -- Too little usable data to reach a judgment.
+#>   Descriptive only -- Reported for description only; no decision rule was
+#>       applied.
+#>   Each workflow also uses its own wording in the recommendation column
+#>   (Retain, Strong support, Typical, Covered, and so on). Those words map
+#>   onto the shared statuses above.
+#> 
+#> See `contentvalid_glossary()` for all terms, or set 
+#> `options(contentvalidR.show_key = FALSE)` to hide this key.
+#> 
+#> Use quantitative indices alongside expert comments, construct coverage, and comprehensibility review.
+summary(efit)
+#> Summary of expert-panel content-validity evidence
+#> ---------------------------------------------
+#> Mode: relevance 
+#> Supported: 3 | Review: 0
+#> Panel agreement, Krippendorff's alpha (ordinal): 0.018 (95% interval -0.133
+#>   to 0.15). Identical rating pairs: 71.1%
+#> No items were flagged by the workflow's quantitative review rules.
+#> 
+#> These summaries support, but do not replace, qualitative content review.
+```
+
+Relevance mode reports Aiken’s V with the Penfield-Giacobbi score
+confidence interval, I-CVI with its own interval, Polit-Beck-Owen
+modified kappa, S-CVI/Ave, S-CVI/UA, and panel-level agreement. The
+workflow displays common panel-size CVI guidelines as **review aids**,
+not universal validity cutoffs. Aiken V is not converted into an
+automatic deletion rule.
+
+Panel-level agreement is one coefficient for how consistently the panel
+rated the whole item set; modified kappa still describes each item. The
+default is Krippendorff’s alpha on the ordinal ratings (Hayes &
+Krippendorff, 2007), and `agreement_level` switches to nominal or
+interval. Its bootstrap interval resamples items with all of their
+ratings, following Zapf et al. (2016); set `seed` to make it
+reproducible. In the example above, alpha is near zero even though most
+rating pairs are identical: the three items were rated almost the same,
+so the ratings barely distinguish one item from another. That is why the
+output reports identical rating pairs beside alpha. Gwet’s AC1 is
+available through `agreement = "ac1"` but is never the default, and its
+output repeats the critique in Vach and Gerke (2023).
+`panel_agreement()` runs the same analysis on any rater-by-item matrix.
+
+I-CVI here, like Psa in `sort_validity()`, is a proportion of a small
+panel, so it comes with an interval. The Wilson score interval is the
+default, following Newcombe (1998). Agresti-Coull and Clopper-Pearson
+exact intervals are available through `proportion_ci` for studies that
+need to match earlier work, and the printed output names whichever
+method ran:
+
+``` r
+exact_fit <- expert_validity(expert_ratings, mode = "relevance",
+                             lo = 1, hi = 4, proportion_ci = "exact")
+exact_fit$results[, c("item", "I_CVI", "I_CVI_low", "I_CVI_high")]
+#>    item I_CVI I_CVI_low I_CVI_high
+#> 1 Item1     1 0.5407419          1
+#> 2 Item2     1 0.5407419          1
+#> 3 Item3     1 0.5407419          1
+```
+
+The CVI relevance threshold is explicit and can be changed when a study
+uses a different rating convention:
+
+``` r
+expert_validity(expert_ratings, mode = "relevance",
+                lo = 1, hi = 4, relevance_cut = 3, seed = 1)
+#> contentvalidR expert-panel analysis
+#> -----------------------------------
+#> Mode: relevance 
+#> Items: 3 | Experts/item: 6 
+#> Mean Aiken V: 0.944 | S-CVI/Ave: 1 | S-CVI/UA: 1 
+#> Strong support: 3 | Support: 0 | Review: 0 
+#> Panel agreement, Krippendorff's alpha (ordinal): 0.018 (95% interval -0.133
+#>   to 0.15). Identical rating pairs: 71.1%
+#> 
+#>   item N     V ci_low ci_high I_CVI I_CVI_low I_CVI_high kappa_mod
+#>  Item1 6 1.000  0.824   1.000     1      0.61          1         1
+#>  Item2 6 0.944  0.742   0.990     1      0.61          1         1
+#>  Item3 6 0.889  0.672   0.969     1      0.61          1         1
+#>  recommendation
+#>  Strong support
+#>  Strong support
+#>  Strong support
+#> 
+#> ci_low and ci_high bound Aiken's V (Penfield-Giacobbi score interval);
+#> I_CVI_low and I_CVI_high bound I-CVI.
+#> 95% intervals for proportions: Wilson score (the default). Newcombe (1998)
+#> compared seven methods and recommends score intervals over the Wald
+#> interval. An interval reflects how few ratings an item received, not
+#> whether the right judges were chosen.
+#> 
+#> Panel agreement is one coefficient for the whole panel, whereas kappa_mod
+#> describes each item. Alpha can be low when nearly every rating is the same
+#> value, even on a panel that agrees closely, so read it beside the share of
+#> identical rating pairs. A low alpha with many identical pairs is not by
+#> itself evidence of a poor panel. Print `details$agreement` for the full
+#> explanation and interval details.
+#> 
+#> CVI thresholds shown by the workflow are common panel-size guidelines, not universal validity cutoffs.
+#> 
+#> What these columns mean
+#>   V -- Aiken's V. Relevance index that rescales the experts' average rating
+#>       to run from 0 to 1 given the bounds of the rating scale used. (0 to
+#>       1; higher is stronger)
+#>   I_CVI -- Item-level Content Validity Index. Proportion of experts who
+#>       rated the item as relevant, after applying the relevance cut. (0 to
+#>       1; compared against a panel-size guideline)
+#>   I_CVI_low/I_CVI_high -- Interval for I-CVI. Lower and upper limits of an
+#>       interval around I-CVI. Expert panels are usually small, so these
+#>       intervals are often wide: a single I-CVI value can look more settled
+#>       than the number of experts behind it supports. (between 0 and 1; the
+#>       method and level are named in the output)
+#>   kappa_mod -- Modified kappa. I-CVI adjusted for the chance that experts
+#>       would have agreed even if rating at random. With small panels, chance
+#>       agreement is substantial, which is why the raw I-CVI alone can
+#>       overstate consensus. (0 to 1; higher is stronger)
+#>   agreement -- Panel-level agreement. One coefficient describing how
+#>       consistently the whole panel rated the item set: Krippendorff's alpha
+#>       by default, or Gwet's AC1 if chosen. It is separate from modified
+#>       kappa, which describes one item at a time. (1 is perfect agreement
+#>       and 0 is agreement no better than chance; it can be low on a
+#>       close-agreeing panel whose ratings cluster on one value)
+#> 
+#> What the status labels mean
+#>   Supported -- The evidence met the criteria set for this analysis.
+#>   Review -- Something here needs a closer look. This is not an instruction
+#>       to delete anything.
+#>   Insufficient data -- Too little usable data to reach a judgment.
+#>   Descriptive only -- Reported for description only; no decision rule was
+#>       applied.
+#>   Each workflow also uses its own wording in the recommendation column
+#>   (Retain, Strong support, Typical, Covered, and so on). Those words map
+#>   onto the shared statuses above.
+#> 
+#> See `contentvalid_glossary()` for all terms, or set 
+#> `options(contentvalidR.show_key = FALSE)` to hide this key.
+#> 
+#> Use quantitative indices alongside expert comments, construct coverage, and comprehensibility review.
+```
+
+### Essentiality: Lawshe CVR + exact inference
+
+``` r
+expert_validity(
+  c(10, 8, 6),
+  mode = "essentiality",
+  N = 12
+)
+#> contentvalidR expert-panel analysis
+#> -----------------------------------
+#> Mode: essentiality 
+#> Items: 3 | Experts/item: 12 
+#> Method: Lawshe CVR with exact binomial critical values 
+#> 
+#>   item ne  N   cvr p_value critical_ne recommendation
+#>  Item1 10 12 0.667   0.019          10      Supported
+#>  Item2  8 12 0.333   0.194          10         Review
+#>  Item3  6 12 0.000   0.613          10         Review
+#> 
+#> What these columns mean
+#>   cvr -- Lawshe's Content Validity Ratio. How far the panel leans toward
+#>       calling the item essential rather than merely useful. (-1 to 1; above
+#>       0 means more than half the panel called it essential)
+#> 
+#> What the status labels mean
+#>   Supported -- The evidence met the criteria set for this analysis.
+#>   Review -- Something here needs a closer look. This is not an instruction
+#>       to delete anything.
+#>   Insufficient data -- Too little usable data to reach a judgment.
+#>   Descriptive only -- Reported for description only; no decision rule was
+#>       applied.
+#>   Each workflow also uses its own wording in the recommendation column
+#>   (Retain, Strong support, Typical, Covered, and so on). Those words map
+#>   onto the shared statuses above.
+#> 
+#> See `contentvalid_glossary()` for all terms, or set 
+#> `options(contentvalidR.show_key = FALSE)` to hide this key.
+#> 
+#> Use quantitative indices alongside expert comments, construct coverage, and comprehensibility review.
+```
+
+The CVR workflow derives the item-specific critical essential count
+directly from the exact binomial distribution, following the logic
+revisited by Ayre and Scally (2014). Judge-by-item 0/1 matrices are also
+accepted, including itemwise missingness when explicitly requested.
+
+### Item-objective congruence
+
+``` r
+ioc_dat <- expand.grid(
+  item = c("I1", "I2"),
+  judge = 1:4,
+  objective = c("A", "B")
+)
+ioc_dat$target_objective <- ifelse(ioc_dat$item == "I1", "A", "B")
+ioc_dat$score <- ifelse(
+  ioc_dat$objective == ioc_dat$target_objective, 1, -1
+)
+
+expert_validity(ioc_dat, mode = "congruence")
+#> contentvalidR expert-panel analysis
+#> -----------------------------------
+#> Mode: congruence 
+#> Items: 2 | Experts/cell: 4 | Objectives: 2 
+#> Method: Rovinelli-Hambleton item-objective congruence 
+#> 
+#>  item target target_ioc strongest_competitor competitor_ioc margin
+#>    I1      A          1                    B             -1      2
+#>    I2      B          1                    A             -1      2
+#>  recommendation
+#>  Target favored
+#>  Target favored
+#>                                                                                                      interpretation
+#>  The intended objective has the highest IOC; use the margin and expert comments to judge practical distinctiveness.
+#>  The intended objective has the highest IOC; use the margin and expert comments to judge practical distinctiveness.
+#>     status
+#>  Supported
+#>  Supported
+#> 
+#> What these columns mean
+#>   ioc -- Item-Objective Congruence. How consistently experts linked the
+#>       item to the objective it was written for rather than to another
+#>       objective. (-1 to 1; higher is stronger)
+#> 
+#> What the status labels mean
+#>   Supported -- The evidence met the criteria set for this analysis.
+#>   Review -- Something here needs a closer look. This is not an instruction
+#>       to delete anything.
+#>   Insufficient data -- Too little usable data to reach a judgment.
+#>   Descriptive only -- Reported for description only; no decision rule was
+#>       applied.
+#>   Each workflow also uses its own wording in the recommendation column
+#>   (Retain, Strong support, Typical, Covered, and so on). Those words map
+#>   onto the shared statuses above.
+#> 
+#> See `contentvalid_glossary()` for all terms, or set 
+#> `options(contentvalidR.show_key = FALSE)` to hide this key.
+#> 
+#> Use quantitative indices alongside expert comments, construct coverage, and comprehensibility review.
+```
+
+When a target objective is supplied, the workflow reports the intended
+IOC, strongest competing objective, and target-minus-competitor margin.
+Without a target mapping, IOC cells are returned descriptively instead
+of manufacturing a pass/fail claim.
+
+Low-level functions remain available for researchers who need the
+components directly:
+
+``` r
+aikens_v(expert_ratings, lo = 1, hi = 4)
+#>    item N n_missing         V    ci_low   ci_high               ci_method
+#> 1 Item1 6         0 1.0000000 0.8241208 1.0000000 Penfield-Giacobbi score
+#> 2 Item2 6         0 0.9444444 0.7424270 0.9901248 Penfield-Giacobbi score
+#> 3 Item3 6         0 0.8888889 0.6720023 0.9689805 Penfield-Giacobbi score
+cvr(essential = c(8, 10, 5), N = 12)
+#>    item ne  N        cvr    p_value critical_ne critical_cvr  pass
+#> 1 Item1  8 12  0.3333333 0.19384766          10    0.6666667 FALSE
+#> 2 Item2 10 12  0.6666667 0.01928711          10    0.6666667  TRUE
+#> 3 Item3  5 12 -0.1666667 0.80615234          10    0.6666667 FALSE
+cvi(expert_ratings >= 3)
+#> Content Validity Index (CVI)
+#> ----------------------------
+#> Items analyzed: 3 
+#> Judges per item: 6 
+#> S-CVI/Ave: 1.000 
+#> S-CVI/UA : 1.000 
+#> 
+#> Item-level results (modified kappa is chance-corrected):
+#>   item A N I_CVI I_CVI_low I_CVI_high    Pc kappa_mod
+#>  Item1 6 6     1      0.61          1 0.016         1
+#>  Item2 6 6     1      0.61          1 0.016         1
+#>  Item3 6 6     1      0.61          1 0.016         1
+#> 
+#> 95% intervals for proportions: Wilson score (the default). Newcombe (1998)
+#> compared seven methods and recommends score intervals over the Wald
+#> interval. An interval reflects how few ratings an item received, not
+#> whether the right judges were chosen.
+#> 
+#> Interpretation should consider panel size, item purpose, and qualitative expert feedback;
+#> CVI statistics alone do not establish comprehensive content validity.
+ioc(ioc_dat[c("item", "judge", "objective", "score")])
+#>   item objective n_total n_judges n_missing ioc
+#> 1   I1         A       4        4         0   1
+#> 2   I1         B       4        4         0  -1
+#> 3   I2         A       4        4         0  -1
+#> 4   I2         B       4        4         0   1
+```
+
+## From content validity to empirical validation
+
+Content-validity evidence ends where response data begin.
+`content_handoff()` packages a finished workflow’s item decisions — the
+items that survived review, a per-item evidence table, and the
+provenance of the analysis — so the item set and its reasons travel
+together instead of being retyped:
+
+``` r
+handoff <- content_handoff(efit)
+handoff$items
+#> [1] "Item1" "Item2" "Item3"
+handoff$item_evidence[, c("item", "carried", "status", "n_judges", "rule")]
+#>    item carried    status n_judges
+#> 1 Item1    TRUE Supported        6
+#> 2 Item2    TRUE Supported        6
+#> 3 Item3    TRUE Supported        6
+#>                                                                                                  rule
+#> 1 I-CVI >= 0.78 (common panel-size guideline for 6 experts); modified kappa > 0.74 for strong support
+#> 2 I-CVI >= 0.78 (common panel-size guideline for 6 experts); modified kappa > 0.74 for strong support
+#> 3 I-CVI >= 0.78 (common panel-size guideline for 6 experts); modified kappa > 0.74 for strong support
+```
+
+The object carries the carried item names, a construct mapping
+(`scales`, when the design has one), a per-item evidence table, the
+statistics behind each decision, and the provenance of the analysis.
+Only items with a `Supported` status travel by default; `keep` widens
+that when a protocol carries items flagged for review. Items held back
+stay in the table with `carried = FALSE`, because review is not
+deletion.
+
+Once responses are collected, the item set carries into the empirical
+stage. In [nomologR](https://github.com/JUhalt/nomologR), the companion
+package for that stage, that is
+`nomo_screen(responses, items = handoff)`. The object shape is agreed
+between the two packages as schema version 1, and every field is a base
+type, so neither package depends on the other. Carrying an item forward
+is not a prediction that it will perform: a clearly relevant item can
+still correlate poorly with its construct or load on an unintended
+factor, which is what the empirical analysis tests. See
+`vignette("handoff-to-empirical-validation")`.
+
+## Recommended judge-heterogeneity workflow
+
+Aggregate indices average heterogeneity away. `judge_validity()` asks
+whether your conclusions depend on the particular judges who happened to
+serve, and returns **one row per judge**.
+
+``` r
+judge_ratings <- rbind(
+  c(4, 4, 4, 3, 2, 2), c(4, 4, 3, 4, 2, 1), c(4, 3, 4, 4, 1, 2),
+  c(3, 4, 4, 4, 2, 2), c(4, 4, 4, 4, 2, 1), c(4, 3, 4, 3, 1, 2),
+  c(4, 4, 3, 4, 2, 2), c(2, 2, 2, 2, 1, 1)
+)
+dimnames(judge_ratings) <- list(paste0("Judge", 1:8), paste0("Item", 1:6))
+
+judge_fit <- judge_validity(judge_ratings, lo = 1, hi = 4)
+judge_fit$results[, c("judge", "mean_rating", "severity_raw",
+                      "differentiation", "n_items_flipped", "recommendation")]
+#>    judge mean_rating severity_raw differentiation n_items_flipped
+#> 1 Judge1    3.166667   -0.2708333       0.9136465               0
+#> 2 Judge2    3.000000   -0.1041667       1.1754383               0
+#> 3 Judge3    3.000000   -0.1041667       1.1754383               0
+#> 4 Judge4    3.166667   -0.2708333       0.9136465               0
+#> 5 Judge5    3.166667   -0.2708333       1.2351428               0
+#> 6 Judge6    2.833333    0.0625000       1.0863535               0
+#> 7 Judge7    3.166667   -0.2708333       0.9136465               0
+#> 8 Judge8    1.666667    1.2291667       0.4798707               0
+#>   recommendation
+#> 1        Typical
+#> 2        Typical
+#> 3        Typical
+#> 4        Typical
+#> 5        Typical
+#> 6        Typical
+#> 7        Typical
+#> 8         Severe
+```
+
+Severity is signed so positive means harsher. `n_items_flipped` is the
+influence diagnostic: how many items would change review status if that
+judge were removed. A judge flagged here is **not** a judge to delete —
+a dissenting expert may be the one reading the construct definition
+correctly.
+
+Generalizability theory answers the planning question of how many judges
+the design actually needs:
+
+``` r
+gt <- gtheory_content(judge_ratings)
+gt$coefficients
+#>   n_judges g_coefficient phi_coefficient rel_error_var abs_error_var
+#> 1        8     0.9682114        0.941527    0.03087798    0.05840774
+gt$judges_needed
+#>   target n_judges_relative n_judges_absolute
+#> 1    0.7                 1                 2
+#> 2    0.8                 2                 2
+#> 3    0.9                 3                 5
+```
+
+The dependability coefficient (`phi_coefficient`) concerns the absolute
+level of ratings and is penalized by judge severity differences, which
+is usually what content-validity decisions rest on. `NA` in
+`judges_needed` means no realistic panel reaches that target, which
+happens when judges barely distinguished the items.
+
+## Recommended domain-coverage workflow
+
+Relevance indices describe items that exist. They cannot reveal a facet
+nobody wrote an item for. `domain_validity()` returns **one row per
+blueprint cell**.
+
+``` r
+assignments <- data.frame(
+  item = paste0("I", 1:7),
+  construct = c("Autonomy", "Autonomy", "Autonomy", "Autonomy",
+                "Competence", "Competence", "Relatedness"),
+  stringsAsFactors = FALSE
+)
+
+domain_fit <- domain_validity(
+  assignments,
+  cell_col = "construct",
+  domain = c("Autonomy", "Competence", "Relatedness", "Belonging")
+)
+domain_fit$results[, c("cell", "n_items", "share", "recommendation")]
+#>          cell n_items     share   recommendation
+#> 1    Autonomy       4 0.5714286 Over-represented
+#> 2  Competence       2 0.2857143          Covered
+#> 3 Relatedness       1 0.1428571   Thinly covered
+#> 4   Belonging       0 0.0000000      Not covered
+```
+
+`Belonging` is the point: the blueprint asks for it and nothing
+addresses it. Detecting that requires passing the full cell list through
+`domain`, since an empty cell leaves no trace in the item assignments.
+Omit it and the output says coverage gaps could not be detected rather
+than implying complete coverage.
+
+Where experts rated item similarity, `content_structure()` tests whether
+they group items the way the blueprint claims, using multidimensional
+scaling and clustering with a chance-corrected adjusted Rand index.
+`similarity_from_sort()` derives those similarities from an existing
+sorting task.
+
+## Planning, rounds, and reporting
+
+`expert_power()` replaces “use about six experts” with a question that
+has an answer:
+
+``` r
+expert_power(n_experts = 3:8, prob = 0.9)$results
+#>   n_experts prob required_endorsements     power
+#> 1         3  0.9                     3 0.7290000
+#> 2         4  0.9                     4 0.6561000
+#> 3         5  0.9                     5 0.5904900
+#> 4         6  0.9                     5 0.8857350
+#> 5         7  0.9                     6 0.8503056
+#> 6         8  0.9                     7 0.8131047
+```
+
+Note the step. The common I-CVI guideline requires unanimity up to five
+experts and 0.78 from six, so a fourth or fifth expert **lowers** the
+probability of clearing while a sixth raises it sharply. That is a
+property of the guideline, not of the items, and the package reports it
+rather than smoothing it away.
+
+`compare_rounds()` compares successive pretest rounds and, critically,
+checks whether the analysis settings changed between them — so a relaxed
+criterion cannot read as item improvement.
+
+`content_report()` builds manuscript-ready tables as a data frame or as
+Markdown for Quarto and R Markdown, with no reporting dependency added
+to the package.
+
+``` r
+content_report(fit, include = "flagged")
+#>           item target  n n_target competitor psa psa_low psa_high csv p_value
+#> 1 Needs review      A 20       12          B 0.6    0.39     0.78 0.2    0.25
+#>   recommendation status
+#> 1         Review Review
+```
+
+There is deliberately no helper returning “the items that passed.”
+Filtering on `status` is a substantive decision that belongs in your own
+visible code.
+
+## Interpretive visualization
+
+The workflow objects include dependency-free base-R graphics designed
+around the substantive questions in each method:
+
+``` r
+plot(fit, type = "map")
+```
+
+<img src="man/figures/README-visualization-1.png" alt="" width="100%" />
+
+``` r
+plot(rfit, type = "map")
+```
+
+<img src="man/figures/README-visualization-2.png" alt="" width="100%" />
+
+``` r
+plot(rfit, type = "profile")
+```
+
+<img src="man/figures/README-visualization-3.png" alt="" width="100%" />
+
+``` r
+plot(efit)
+```
+
+<img src="man/figures/README-visualization-4.png" alt="" width="100%" />
+
+The sort and rating maps jointly display **definitional correspondence**
+and **definitional distinctiveness**, with target-scale means
+distinguished from item points. The rating profile plot shows the
+intended-definition mean against the strongest competitor for every
+item. Expert-panel plots use Aiken score intervals, panel-specific CVR
+criteria, or target-versus-competitor IOC gaps as appropriate. The plots
+intentionally avoid converting scale-level empirical norms into
+item-level cutoffs.
+
+``` r
+plot(sort_power(N = seq(10, 50, by = 5), true_p = c(.60, .70, .80)))
+```
+
+<img src="man/figures/README-visualization-power-1.png" alt="" width="100%" />
+
+## Reproducible examples and reporting
+
+The package ships five deterministic, human-readable CSV examples
+covering the item-sort, construct-rating, relevance, essentiality, and
+IOC/congruence input shapes. They are installed under `inst/extdata` and
+are regenerated from the base-R provenance script in
+`data-raw/build-example-data.R`. This keeps the worked examples
+inspectable outside R as well as reproducible inside the package.
+
+For example:
+
+``` r
+sort_path <- system.file("extdata", "sort_example.csv", package = "contentvalidR")
+bundled_sort <- utils::read.csv(sort_path, stringsAsFactors = FALSE)
+sort_validity(bundled_sort)
+```
+
+See `vignette("reporting-examples", package = "contentvalidR")` for
+conservative manuscript-ready methods/results scaffolds, table-building
+examples, and a minimum reproducibility statement. Package citation
+metadata are available with `citation("contentvalidR")`; the method
+bibliography is installed as `REFERENCES.bib`.
+
+## Auxiliary modules
+
+The diagnostic, simulation, and Q-factor helpers remain available as
+auxiliary functions, but they are not recommended workflows. The five
+recommended workflows are `sort_validity()`, `rating_validity()`,
+`expert_validity()`, `judge_validity()`, and `domain_validity()`.
+
+## Core methodological references
+
+- Anderson, J. C., & Gerbing, D. W. (1991). Predicting the performance
+  of measures in a confirmatory factor analysis with a pretest
+  assessment of their substantive validities. *Journal of Applied
+  Psychology, 76*(5), 732–740.
+  <https://doi.org/10.1037/0021-9010.76.5.732>
+- Howard, M. C., & Melloy, R. C. (2016). Evaluating item-sort task
+  methods: The presentation of a new statistical significance formula
+  and methodological best practices. *Journal of Business and
+  Psychology, 31*(1), 173–186.
+  <https://doi.org/10.1007/s10869-015-9404-y>
+- Colquitt, J. A., Sabey, T. B., Rodell, J. B., & Hill, E. T. (2019).
+  Content validation guidelines: Evaluation criteria for definitional
+  correspondence and definitional distinctiveness. *Journal of Applied
+  Psychology, 104*(10), 1243–1265. <https://doi.org/10.1037/apl0000406>
+- Hinkin, T. R., & Tracey, J. B. (1999). An analysis of variance
+  approach to content validation. *Organizational Research Methods,
+  2*(2), 175–186. <https://doi.org/10.1177/109442819922004>
+- Polit, D. F., Beck, C. T., & Owen, S. V. (2007). Is the CVI an
+  acceptable indicator of content validity? Appraisal and
+  recommendations. *Research in Nursing & Health, 30*(4), 459–467.
+  <https://doi.org/10.1002/nur.20199>
+- Aiken, L. R. (1980). Content validity and reliability of single items
+  or questionnaires. *Educational and Psychological Measurement, 40*(4),
+  955–959. <https://doi.org/10.1177/001316448004000419>
+- Penfield, R. D., & Giacobbi, P. R., Jr. (2004). Applying a score
+  confidence interval to Aiken’s item content-relevance index.
+  *Measurement in Physical Education and Exercise Science, 8*(4),
+  213–225. <https://doi.org/10.1207/S15327841MPEE0804_3>
+- Lawshe, C. H. (1975). A quantitative approach to content validity.
+  *Personnel Psychology, 28*(4), 563–575.
+  <https://doi.org/10.1111/j.1744-6570.1975.tb01393.x>
+- Ayre, C., & Scally, A. J. (2014). Critical values for Lawshe’s content
+  validity ratio: Revisiting the original methods of calculation.
+  *Measurement and Evaluation in Counseling and Development, 47*(1),
+  79–86. <https://doi.org/10.1177/0748175613513808>
+- Rovinelli, R. J., & Hambleton, R. K. (1977). On the use of content
+  specialists in the assessment of criterion-referenced test item
+  validity. *Dutch Journal of Educational Research, 2*, 49–60.
+- Turner, R. C., & Carlson, L. (2003). Indexes of item-objective
+  congruence for multidimensional items. *International Journal of
+  Testing, 3*(2), 163–171. <https://doi.org/10.1207/S15327574IJT0302_5>
+- Crocker, L., Llabre, M., & Miller, M. D. (1988). The generalizability
+  of content validity ratings. *Journal of Educational Measurement,
+  25*(4), 287–299. <https://doi.org/10.1111/j.1745-3984.1988.tb00309.x>
+- Engelhard, G. (1994). Examining rater errors in the assessment of
+  written composition with a many-faceted Rasch model. *Journal of
+  Educational Measurement, 31*(2), 93–112.
+  <https://doi.org/10.1111/j.1745-3984.1994.tb00436.x>
+- Linacre, J. M. (1989). *Many-Facet Rasch Measurement.* MESA Press.
+- de Boeck, P., & Wilson, M. (2004). *Explanatory Item Response Models:
+  A Generalized Linear and Nonlinear Approach.* Springer.
+- Sireci, S. G., & Geisinger, K. F. (1992). Analyzing test content using
+  cluster analysis and multidimensional scaling. *Applied Psychological
+  Measurement, 16*(1), 17–31.
+  <https://doi.org/10.1177/014662169201600102>
+- Sireci, S. G., & Geisinger, K. F. (1995). Using subject-matter experts
+  to assess content representation: An MDS analysis. *Applied
+  Psychological Measurement, 19*(3), 241–255.
+  <https://doi.org/10.1177/014662169501900303>
+- Sireci, S. G. (1998). The construct of content validity. *Social
+  Indicators Research, 45*(1–3), 83–117.
+  <https://doi.org/10.1023/A:1006985528729>
+- Hubert, L., & Arabie, P. (1985). Comparing partitions. *Journal of
+  Classification, 2*(1), 193–218. <https://doi.org/10.1007/BF01908075>
+- Lynn, M. R. (1986). Determination and quantification of content
+  validity. *Nursing Research, 35*(6), 382–385.
+- Wilson, E. B. (1927). Probable inference, the law of succession, and
+  statistical inference. *Journal of the American Statistical
+  Association, 22*(158), 209–212.
+  <https://doi.org/10.1080/01621459.1927.10502953>
+- Clopper, C. J., & Pearson, E. S. (1934). The use of confidence or
+  fiducial limits illustrated in the case of the binomial. *Biometrika,
+  26*(4), 404–413. <https://doi.org/10.1093/biomet/26.4.404>
+- Agresti, A., & Coull, B. A. (1998). Approximate is better than “exact”
+  for interval estimation of binomial proportions. *The American
+  Statistician, 52*(2), 119–126.
+  <https://doi.org/10.1080/00031305.1998.10480550>
+- Newcombe, R. G. (1998). Two-sided confidence intervals for the single
+  proportion: Comparison of seven methods. *Statistics in Medicine,
+  17*(8), 857–872.
+- Hayes, A. F., & Krippendorff, K. (2007). Answering the call for a
+  standard reliability measure for coding data. *Communication Methods
+  and Measures, 1*(1), 77–89.
+  <https://doi.org/10.1080/19312450709336664>
+- Zapf, A., Castell, S., Morawietz, L., & Karch, A. (2016). Measuring
+  inter-rater reliability for nominal data: Which coefficients and
+  confidence intervals are appropriate? *BMC Medical Research
+  Methodology, 16*, 93. <https://doi.org/10.1186/s12874-016-0200-9>
+- Gwet, K. L. (2008). Computing inter-rater reliability and its variance
+  in the presence of high agreement. *British Journal of Mathematical
+  and Statistical Psychology, 61*(1), 29–48.
+  <https://doi.org/10.1348/000711006X126600>
+- Vach, W., & Gerke, O. (2023). Gwet’s AC1 is not a substitute for
+  Cohen’s kappa: A comparison of basic properties. *MethodsX, 10*,
+  102212.
+
+## License
+
+contentvalidR is licensed under the **GNU General Public License,
+version 3 only** (SPDX: `GPL-3.0-only`; R metadata: `GPL-3`). See the
+[full
+license](https://github.com/JUhalt/contentvalidR/blob/master/LICENSE.md).
+Copyright (c) 2025-2026 Joshua Uhalt.
+
+Releases from v0.2.0 onward carry the GPLv3-only license. The earlier
+[v0.1.0
+release](https://github.com/JUhalt/contentvalidR/releases/tag/v0.1.0)
+remains available under its original MIT license, and historical
+attribution is preserved in
+[inst/NOTICE](https://github.com/JUhalt/contentvalidR/blob/master/inst/NOTICE).

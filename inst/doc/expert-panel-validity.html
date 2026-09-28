@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Expert-Panel Content Validation: Relevance, Essentiality, and Congruence</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Expert-Panel Content Validation: Relevance,
+Essentiality, and Congruence</h1>
+
+
+
+<div id="why-expert-panel-methods-need-separate-modes" class="section level2">
+<h2>Why expert-panel methods need separate modes</h2>
+<p>Expert-panel content validation is not one statistical task. A
+relevance rating, an essential/not-essential judgment, and an
+item-objective congruence judgment ask experts different questions and
+therefore support different indices. <code>expert_validity()</code> uses
+an explicit <code>mode</code> so those designs are not treated as
+interchangeable.</p>
+<p>The three modes are:</p>
+<ul>
+<li><strong>relevance</strong>: Aiken’s V plus CVI and modified kappa,
+with a panel-level agreement coefficient;</li>
+<li><strong>essentiality</strong>: Lawshe’s CVR with exact binomial
+inference; and</li>
+<li><strong>congruence</strong>: Rovinelli-Hambleton IOC.</li>
+</ul>
+<p>All three are quantitative complements to qualitative expert
+comments, construct coverage, comprehensibility review, and other parts
+of the content-validity argument.</p>
+</div>
+<div id="relevance-aiken-v-score-intervals-and-cvi" class="section level2">
+<h2>Relevance: Aiken V, score intervals, and CVI</h2>
+<p>Suppose six experts rate item relevance from 1 (not relevant) to 4
+(highly relevant):</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>R <span class="ot">&lt;-</span> <span class="fu">matrix</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">4</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>    <span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">4</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>    <span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">4</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>    <span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">3</span>),</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>  <span class="at">nrow =</span> <span class="dv">6</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>  <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="cn">NULL</span>, <span class="fu">paste0</span>(<span class="st">&quot;Item&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>))</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>)</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">expert_validity</span>(R, <span class="at">mode =</span> <span class="st">&quot;relevance&quot;</span>, <span class="at">lo =</span> <span class="dv">1</span>, <span class="at">hi =</span> <span class="dv">4</span>, <span class="at">seed =</span> <span class="dv">1</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a>fit</span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="co">#&gt; contentvalidR expert-panel analysis</span></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="co">#&gt; -----------------------------------</span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="co">#&gt; Mode: relevance </span></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="co">#&gt; Items: 4 | Experts/item: 6 </span></span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="co">#&gt; Mean Aiken V: 0.875 | S-CVI/Ave: 0.958 | S-CVI/UA: 0.75 </span></span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="co">#&gt; Strong support: 4 | Support: 0 | Review: 0 </span></span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="co">#&gt; Panel agreement, Krippendorff&#39;s alpha (ordinal): 0.374 (95% interval -0.121</span></span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a><span class="co">#&gt;   to 0.634). Identical rating pairs: 63.3%</span></span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a><span class="co">#&gt;   item N     V ci_low ci_high I_CVI I_CVI_low I_CVI_high kappa_mod</span></span>
+<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a><span class="co">#&gt;  Item1 6 1.000  0.824   1.000 1.000     0.610       1.00     1.000</span></span>
+<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a><span class="co">#&gt;  Item2 6 0.944  0.742   0.990 1.000     0.610       1.00     1.000</span></span>
+<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a><span class="co">#&gt;  Item3 6 0.889  0.672   0.969 1.000     0.610       1.00     1.000</span></span>
+<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a><span class="co">#&gt;  Item4 6 0.667  0.437   0.837 0.833     0.436       0.97     0.816</span></span>
+<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a><span class="co">#&gt;  recommendation</span></span>
+<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a><span class="co">#&gt;  Strong support</span></span>
+<span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a><span class="co">#&gt;  Strong support</span></span>
+<span id="cb1-29"><a href="#cb1-29" tabindex="-1"></a><span class="co">#&gt;  Strong support</span></span>
+<span id="cb1-30"><a href="#cb1-30" tabindex="-1"></a><span class="co">#&gt;  Strong support</span></span>
+<span id="cb1-31"><a href="#cb1-31" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-32"><a href="#cb1-32" tabindex="-1"></a><span class="co">#&gt; ci_low and ci_high bound Aiken&#39;s V (Penfield-Giacobbi score interval);</span></span>
+<span id="cb1-33"><a href="#cb1-33" tabindex="-1"></a><span class="co">#&gt; I_CVI_low and I_CVI_high bound I-CVI.</span></span>
+<span id="cb1-34"><a href="#cb1-34" tabindex="-1"></a><span class="co">#&gt; 95% intervals for proportions: Wilson score (the default). Newcombe (1998)</span></span>
+<span id="cb1-35"><a href="#cb1-35" tabindex="-1"></a><span class="co">#&gt; compared seven methods and recommends score intervals over the Wald</span></span>
+<span id="cb1-36"><a href="#cb1-36" tabindex="-1"></a><span class="co">#&gt; interval. An interval reflects how few ratings an item received, not</span></span>
+<span id="cb1-37"><a href="#cb1-37" tabindex="-1"></a><span class="co">#&gt; whether the right judges were chosen.</span></span>
+<span id="cb1-38"><a href="#cb1-38" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-39"><a href="#cb1-39" tabindex="-1"></a><span class="co">#&gt; Panel agreement is one coefficient for the whole panel, whereas kappa_mod</span></span>
+<span id="cb1-40"><a href="#cb1-40" tabindex="-1"></a><span class="co">#&gt; describes each item. Alpha can be low when nearly every rating is the same</span></span>
+<span id="cb1-41"><a href="#cb1-41" tabindex="-1"></a><span class="co">#&gt; value, even on a panel that agrees closely, so read it beside the share of</span></span>
+<span id="cb1-42"><a href="#cb1-42" tabindex="-1"></a><span class="co">#&gt; identical rating pairs. A low alpha with many identical pairs is not by</span></span>
+<span id="cb1-43"><a href="#cb1-43" tabindex="-1"></a><span class="co">#&gt; itself evidence of a poor panel. Print `details$agreement` for the full</span></span>
+<span id="cb1-44"><a href="#cb1-44" tabindex="-1"></a><span class="co">#&gt; explanation and interval details.</span></span>
+<span id="cb1-45"><a href="#cb1-45" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-46"><a href="#cb1-46" tabindex="-1"></a><span class="co">#&gt; CVI thresholds shown by the workflow are common panel-size guidelines, not universal validity cutoffs.</span></span>
+<span id="cb1-47"><a href="#cb1-47" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-48"><a href="#cb1-48" tabindex="-1"></a><span class="co">#&gt; What these columns mean</span></span>
+<span id="cb1-49"><a href="#cb1-49" tabindex="-1"></a><span class="co">#&gt;   V -- Aiken&#39;s V. Relevance index that rescales the experts&#39; average rating</span></span>
+<span id="cb1-50"><a href="#cb1-50" tabindex="-1"></a><span class="co">#&gt;       to run from 0 to 1 given the bounds of the rating scale used. (0 to</span></span>
+<span id="cb1-51"><a href="#cb1-51" tabindex="-1"></a><span class="co">#&gt;       1; higher is stronger)</span></span>
+<span id="cb1-52"><a href="#cb1-52" tabindex="-1"></a><span class="co">#&gt;   I_CVI -- Item-level Content Validity Index. Proportion of experts who</span></span>
+<span id="cb1-53"><a href="#cb1-53" tabindex="-1"></a><span class="co">#&gt;       rated the item as relevant, after applying the relevance cut. (0 to</span></span>
+<span id="cb1-54"><a href="#cb1-54" tabindex="-1"></a><span class="co">#&gt;       1; compared against a panel-size guideline)</span></span>
+<span id="cb1-55"><a href="#cb1-55" tabindex="-1"></a><span class="co">#&gt;   I_CVI_low/I_CVI_high -- Interval for I-CVI. Lower and upper limits of an</span></span>
+<span id="cb1-56"><a href="#cb1-56" tabindex="-1"></a><span class="co">#&gt;       interval around I-CVI. Expert panels are usually small, so these</span></span>
+<span id="cb1-57"><a href="#cb1-57" tabindex="-1"></a><span class="co">#&gt;       intervals are often wide: a single I-CVI value can look more settled</span></span>
+<span id="cb1-58"><a href="#cb1-58" tabindex="-1"></a><span class="co">#&gt;       than the number of experts behind it supports. (between 0 and 1; the</span></span>
+<span id="cb1-59"><a href="#cb1-59" tabindex="-1"></a><span class="co">#&gt;       method and level are named in the output)</span></span>
+<span id="cb1-60"><a href="#cb1-60" tabindex="-1"></a><span class="co">#&gt;   kappa_mod -- Modified kappa. I-CVI adjusted for the chance that experts</span></span>
+<span id="cb1-61"><a href="#cb1-61" tabindex="-1"></a><span class="co">#&gt;       would have agreed even if rating at random. With small panels, chance</span></span>
+<span id="cb1-62"><a href="#cb1-62" tabindex="-1"></a><span class="co">#&gt;       agreement is substantial, which is why the raw I-CVI alone can</span></span>
+<span id="cb1-63"><a href="#cb1-63" tabindex="-1"></a><span class="co">#&gt;       overstate consensus. (0 to 1; higher is stronger)</span></span>
+<span id="cb1-64"><a href="#cb1-64" tabindex="-1"></a><span class="co">#&gt;   agreement -- Panel-level agreement. One coefficient describing how</span></span>
+<span id="cb1-65"><a href="#cb1-65" tabindex="-1"></a><span class="co">#&gt;       consistently the whole panel rated the item set: Krippendorff&#39;s alpha</span></span>
+<span id="cb1-66"><a href="#cb1-66" tabindex="-1"></a><span class="co">#&gt;       by default, or Gwet&#39;s AC1 if chosen. It is separate from modified</span></span>
+<span id="cb1-67"><a href="#cb1-67" tabindex="-1"></a><span class="co">#&gt;       kappa, which describes one item at a time. (1 is perfect agreement</span></span>
+<span id="cb1-68"><a href="#cb1-68" tabindex="-1"></a><span class="co">#&gt;       and 0 is agreement no better than chance; it can be low on a</span></span>
+<span id="cb1-69"><a href="#cb1-69" tabindex="-1"></a><span class="co">#&gt;       close-agreeing panel whose ratings cluster on one value)</span></span>
+<span id="cb1-70"><a href="#cb1-70" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-71"><a href="#cb1-71" tabindex="-1"></a><span class="co">#&gt; What the status labels mean</span></span>
+<span id="cb1-72"><a href="#cb1-72" tabindex="-1"></a><span class="co">#&gt;   Supported -- The evidence met the criteria set for this analysis.</span></span>
+<span id="cb1-73"><a href="#cb1-73" tabindex="-1"></a><span class="co">#&gt;   Review -- Something here needs a closer look. This is not an instruction</span></span>
+<span id="cb1-74"><a href="#cb1-74" tabindex="-1"></a><span class="co">#&gt;       to delete anything.</span></span>
+<span id="cb1-75"><a href="#cb1-75" tabindex="-1"></a><span class="co">#&gt;   Insufficient data -- Too little usable data to reach a judgment.</span></span>
+<span id="cb1-76"><a href="#cb1-76" tabindex="-1"></a><span class="co">#&gt;   Descriptive only -- Reported for description only; no decision rule was</span></span>
+<span id="cb1-77"><a href="#cb1-77" tabindex="-1"></a><span class="co">#&gt;       applied.</span></span>
+<span id="cb1-78"><a href="#cb1-78" tabindex="-1"></a><span class="co">#&gt;   Each workflow also uses its own wording in the recommendation column</span></span>
+<span id="cb1-79"><a href="#cb1-79" tabindex="-1"></a><span class="co">#&gt;   (Retain, Strong support, Typical, Covered, and so on). Those words map</span></span>
+<span id="cb1-80"><a href="#cb1-80" tabindex="-1"></a><span class="co">#&gt;   onto the shared statuses above.</span></span>
+<span id="cb1-81"><a href="#cb1-81" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-82"><a href="#cb1-82" tabindex="-1"></a><span class="co">#&gt; See `contentvalid_glossary()` for all terms, or set </span></span>
+<span id="cb1-83"><a href="#cb1-83" tabindex="-1"></a><span class="co">#&gt; `options(contentvalidR.show_key = FALSE)` to hide this key.</span></span>
+<span id="cb1-84"><a href="#cb1-84" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-85"><a href="#cb1-85" tabindex="-1"></a><span class="co">#&gt; Use quantitative indices alongside expert comments, construct coverage, and comprehensibility review.</span></span>
+<span id="cb1-86"><a href="#cb1-86" tabindex="-1"></a><span class="fu">summary</span>(fit)</span>
+<span id="cb1-87"><a href="#cb1-87" tabindex="-1"></a><span class="co">#&gt; Summary of expert-panel content-validity evidence</span></span>
+<span id="cb1-88"><a href="#cb1-88" tabindex="-1"></a><span class="co">#&gt; ---------------------------------------------</span></span>
+<span id="cb1-89"><a href="#cb1-89" tabindex="-1"></a><span class="co">#&gt; Mode: relevance </span></span>
+<span id="cb1-90"><a href="#cb1-90" tabindex="-1"></a><span class="co">#&gt; Supported: 4 | Review: 0</span></span>
+<span id="cb1-91"><a href="#cb1-91" tabindex="-1"></a><span class="co">#&gt; Panel agreement, Krippendorff&#39;s alpha (ordinal): 0.374 (95% interval -0.121</span></span>
+<span id="cb1-92"><a href="#cb1-92" tabindex="-1"></a><span class="co">#&gt;   to 0.634). Identical rating pairs: 63.3%</span></span>
+<span id="cb1-93"><a href="#cb1-93" tabindex="-1"></a><span class="co">#&gt; No items were flagged by the workflow&#39;s quantitative review rules.</span></span>
+<span id="cb1-94"><a href="#cb1-94" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-95"><a href="#cb1-95" tabindex="-1"></a><span class="co">#&gt; These summaries support, but do not replace, qualitative content review.</span></span></code></pre></div>
+<p>Aiken’s V rescales the bounded expert ratings to the 0-1 interval.
+The default confidence interval is the score interval proposed by
+Penfield and Giacobbi (2004), rather than a simulation-dependent
+bootstrap interval. Bootstrap intervals remain available through the
+low-level function:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">aikens_v</span>(R, <span class="at">lo =</span> <span class="dv">1</span>, <span class="at">hi =</span> <span class="dv">4</span>, <span class="at">ci =</span> <span class="st">&quot;bootstrap&quot;</span>, <span class="at">B =</span> <span class="dv">200</span>, <span class="at">seed =</span> <span class="dv">1</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co">#&gt;    item N n_missing         V    ci_low   ci_high            ci_method</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">#&gt; 1 Item1 6         0 1.0000000 1.0000000 1.0000000 percentile bootstrap</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#&gt; 2 Item2 6         0 0.9444444 0.8333333 1.0000000 percentile bootstrap</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">#&gt; 3 Item3 6         0 0.8888889 0.7763889 1.0000000 percentile bootstrap</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt; 4 Item4 6         0 0.6666667 0.5000000 0.8333333 percentile bootstrap</span></span></code></pre></div>
+<p>For CVI, the workflow dichotomizes ratings at
+<code>relevance_cut</code>. On a 1-4 scale the default is 3, so ratings
+of 3 or 4 count as relevant. Declare a different threshold if the study
+protocol used one.</p>
+<p>The workflow reports common panel-size I-CVI guidelines (1.00 for
+panels of 3-5 experts and .78 for 6 or more) as <strong>review
+aids</strong>. They are not presented as universal proof that an item is
+or is not content valid. Modified kappa provides a chance-corrected
+complement to I-CVI.</p>
+<p>At the scale level, S-CVI/Ave and S-CVI/UA are reported together.
+S-CVI/Ave is generally less brittle than universal agreement, but both
+should be interpreted alongside the distribution of item-level
+evidence.</p>
+</div>
+<div id="panel-level-agreement" class="section level2">
+<h2>Panel-level agreement</h2>
+<p>I-CVI and modified kappa describe one item at a time. Relevance mode
+also reports how consistently the panel rated the whole item set, as one
+coefficient with a bootstrap interval:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>fit<span class="sc">$</span>scale_summary[, <span class="fu">c</span>(<span class="st">&quot;agreement&quot;</span>, <span class="st">&quot;agreement_low&quot;</span>, <span class="st">&quot;agreement_high&quot;</span>)]</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">#&gt;   agreement agreement_low agreement_high</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt; 1 0.3743873    -0.1210084      0.6340909</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>fit<span class="sc">$</span>details<span class="sc">$</span>agreement</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt; Panel-level agreement</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; Items rated by two or more raters: 4   Raters: 6</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt; Krippendorff&#39;s alpha (ordinal): 0.374   95% interval: -0.121 to 0.634</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt; Identical rating pairs: 63.3%</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt; Alpha compares the disagreement observed within items with the disagreement</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co">#&gt; expected if these same ratings were assigned to items at random: 1 means</span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#&gt; perfect agreement and 0 means agreement no better than chance. Alpha falls</span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co">#&gt; when ratings cluster on a few values, because little disagreement is then</span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co">#&gt; expected by chance. A high share of identical rating pairs alongside a low</span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="co">#&gt; alpha reflects that clustering, which is common when nearly every item is</span></span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="co">#&gt; rated relevant, and is not by itself evidence of a poor panel.</span></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="co">#&gt; Krippendorff&#39;s alpha is the default because it handles ordinal ratings and</span></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="co">#&gt; missing ratings (Zapf et al., 2016). It is a general reliability</span></span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="co">#&gt; coefficient; no publication applying it specifically to content-validity</span></span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a><span class="co">#&gt; panels was found.</span></span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a><span class="co">#&gt; The interval resamples items with all of their ratings, following Zapf et</span></span>
+<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a><span class="co">#&gt; al. (2016), and varies slightly between runs unless `seed` is set. In 5 of</span></span>
+<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a><span class="co">#&gt; 1000 resamples the coefficient could not be computed, usually because every</span></span>
+<span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a><span class="co">#&gt; resampled rating was identical; the interval uses the rest. With few items</span></span>
+<span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a><span class="co">#&gt; this interval is imprecise and can be misleading.</span></span>
+<span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-29"><a href="#cb3-29" tabindex="-1"></a><span class="co">#&gt; Panel agreement describes how consistently raters rated these items. </span></span>
+<span id="cb3-30"><a href="#cb3-30" tabindex="-1"></a><span class="co">#&gt; It does not show that the items are relevant or that the domain is covered.</span></span></code></pre></div>
+<p>The default coefficient is Krippendorff’s alpha. It accepts any
+number of experts and missing ratings, and Zapf et al. (2016) recommend
+it when ratings are ordinal or incomplete, which describes most expert
+panels. It is a general reliability coefficient (Hayes &amp;
+Krippendorff, 2007) rather than one developed for content validity; no
+publication applying it specifically to content-validity panels was
+found.</p>
+<p>Choose the measurement level that matches the rating scale. Relevance
+ratings are treated as ordinal by default.
+<code>agreement_level = &quot;interval&quot;</code> treats the distances between
+scale points as equal, and <code>&quot;nominal&quot;</code> treats every
+disagreement as equally serious:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">expert_validity</span>(R, <span class="at">mode =</span> <span class="st">&quot;relevance&quot;</span>, <span class="at">lo =</span> <span class="dv">1</span>, <span class="at">hi =</span> <span class="dv">4</span>,</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>                <span class="at">agreement_level =</span> <span class="st">&quot;interval&quot;</span>, <span class="at">agreement_B =</span> <span class="dv">0</span>)<span class="sc">$</span>scale_summary<span class="sc">$</span>agreement</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">#&gt; [1] 0.3715847</span></span></code></pre></div>
+<div id="why-alpha-can-be-low-when-experts-agree" class="section level3">
+<h3>Why alpha can be low when experts agree</h3>
+<p>Alpha compares the disagreement within items with the disagreement
+expected if the same ratings were scattered across items at random. When
+a panel rates nearly every item 4, very little disagreement is expected
+by chance, so a few 3s pull alpha down even though most rating pairs are
+identical. Feinstein and Cicchetti (1990) described the same pattern for
+kappa. The output reports the share of identical rating pairs next to
+alpha so the two can be read together. A low alpha alongside a high
+share of identical pairs is not by itself evidence of a poor panel.</p>
+</div>
+<div id="gwets-ac1" class="section level3">
+<h3>Gwet’s AC1</h3>
+<p>Gwet’s (2008) AC1 was designed to stay high in that situation, and it
+is available with <code>agreement = &quot;ac1&quot;</code>. It is never the
+default. Vach and Gerke (2023) show that AC1 rises as ratings
+concentrate in one category even when agreement does not change, and
+that it can be above zero when experts rate independently. Its output
+always repeats that critique. In relevance mode, AC1 is computed on the
+relevant/not-relevant decision at <code>relevance_cut</code>:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>ac1_fit <span class="ot">&lt;-</span> <span class="fu">expert_validity</span>(R, <span class="at">mode =</span> <span class="st">&quot;relevance&quot;</span>, <span class="at">lo =</span> <span class="dv">1</span>, <span class="at">hi =</span> <span class="dv">4</span>,</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>                           <span class="at">agreement =</span> <span class="st">&quot;ac1&quot;</span>, <span class="at">agreement_B =</span> <span class="dv">0</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>ac1_fit<span class="sc">$</span>details<span class="sc">$</span>agreement</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt; Panel-level agreement</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; Items rated by two or more raters: 4   Raters: 6</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt; Gwet&#39;s AC1: 0.909</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt; Identical rating pairs: 91.7%</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt; AC1 compares observed agreement with the agreement expected by chance,</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt; estimated so that it stays high when nearly every rating falls in one</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt; category (Gwet, 2008).</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt; Gwet&#39;s AC1 is available but is not the default. Vach and Gerke (2023) show</span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt; that it rises as ratings concentrate in one category even when agreement is</span></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt; unchanged, that it can be non-zero when raters are independent, and that</span></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#&gt; benchmark labels developed for kappa, such as Landis and Koch&#39;s, must not</span></span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co">#&gt; be applied to it.</span></span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a><span class="co">#&gt; Panel agreement describes how consistently raters rated these items. </span></span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a><span class="co">#&gt; It does not show that the items are relevant or that the domain is covered.</span></span></code></pre></div>
+</div>
+<div id="the-interval" class="section level3">
+<h3>The interval</h3>
+<p>The interval resamples items with all of their ratings intact, the
+procedure Zapf et al. (2016) evaluated; they found that Krippendorff’s
+original bootstrap, which ignores dependence between raters, reached
+only about 60% coverage. The interval varies slightly between runs, so
+set <code>seed</code> to make it reproducible, or set
+<code>agreement_B = 0</code> to skip it. <code>panel_agreement()</code>
+runs the same analysis on any rater-by-item matrix.</p>
+</div>
+</div>
+<div id="essentiality-lawshe-cvr-with-exact-critical-values" class="section level2">
+<h2>Essentiality: Lawshe CVR with exact critical values</h2>
+<p>Lawshe’s task asks experts whether an item is essential. With twelve
+experts:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">expert_validity</span>(<span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">8</span>, <span class="dv">6</span>), <span class="at">mode =</span> <span class="st">&quot;essentiality&quot;</span>, <span class="at">N =</span> <span class="dv">12</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co">#&gt; contentvalidR expert-panel analysis</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">#&gt; -----------------------------------</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#&gt; Mode: essentiality </span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#&gt; Items: 3 | Experts/item: 12 </span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#&gt; Method: Lawshe CVR with exact binomial critical values </span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt;   item ne  N   cvr p_value critical_ne recommendation</span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">#&gt;  Item1 10 12 0.667   0.019          10      Supported</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co">#&gt;  Item2  8 12 0.333   0.194          10         Review</span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co">#&gt;  Item3  6 12 0.000   0.613          10         Review</span></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="co">#&gt; What these columns mean</span></span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="co">#&gt;   cvr -- Lawshe&#39;s Content Validity Ratio. How far the panel leans toward</span></span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="co">#&gt;       calling the item essential rather than merely useful. (-1 to 1; above</span></span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="co">#&gt;       0 means more than half the panel called it essential)</span></span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="co">#&gt; What the status labels mean</span></span>
+<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a><span class="co">#&gt;   Supported -- The evidence met the criteria set for this analysis.</span></span>
+<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a><span class="co">#&gt;   Review -- Something here needs a closer look. This is not an instruction</span></span>
+<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a><span class="co">#&gt;       to delete anything.</span></span>
+<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a><span class="co">#&gt;   Insufficient data -- Too little usable data to reach a judgment.</span></span>
+<span id="cb6-23"><a href="#cb6-23" tabindex="-1"></a><span class="co">#&gt;   Descriptive only -- Reported for description only; no decision rule was</span></span>
+<span id="cb6-24"><a href="#cb6-24" tabindex="-1"></a><span class="co">#&gt;       applied.</span></span>
+<span id="cb6-25"><a href="#cb6-25" tabindex="-1"></a><span class="co">#&gt;   Each workflow also uses its own wording in the recommendation column</span></span>
+<span id="cb6-26"><a href="#cb6-26" tabindex="-1"></a><span class="co">#&gt;   (Retain, Strong support, Typical, Covered, and so on). Those words map</span></span>
+<span id="cb6-27"><a href="#cb6-27" tabindex="-1"></a><span class="co">#&gt;   onto the shared statuses above.</span></span>
+<span id="cb6-28"><a href="#cb6-28" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-29"><a href="#cb6-29" tabindex="-1"></a><span class="co">#&gt; See `contentvalid_glossary()` for all terms, or set </span></span>
+<span id="cb6-30"><a href="#cb6-30" tabindex="-1"></a><span class="co">#&gt; `options(contentvalidR.show_key = FALSE)` to hide this key.</span></span>
+<span id="cb6-31"><a href="#cb6-31" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-32"><a href="#cb6-32" tabindex="-1"></a><span class="co">#&gt; Use quantitative indices alongside expert comments, construct coverage, and comprehensibility review.</span></span></code></pre></div>
+<p><code>cvr()</code> derives the smallest essential count whose
+one-sided binomial upper-tail probability is no greater than
+<code>alpha</code>. This makes the panel-size dependency explicit and
+follows the exact-probability logic revisited by Ayre and Scally
+(2014).</p>
+<p>Judge-by-item binary data can be supplied directly:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>E <span class="ot">&lt;-</span> <span class="fu">cbind</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  <span class="at">Item1 =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>),</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="at">Item2 =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>)</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="fu">expert_validity</span>(E, <span class="at">mode =</span> <span class="st">&quot;essentiality&quot;</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt; contentvalidR expert-panel analysis</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co">#&gt; -----------------------------------</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt; Mode: essentiality </span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt; Items: 2 | Experts/item: 8 </span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co">#&gt; Method: Lawshe CVR with exact binomial critical values </span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co">#&gt;   item ne N  cvr p_value critical_ne recommendation</span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co">#&gt;  Item1  8 8 1.00   0.004           7      Supported</span></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co">#&gt;  Item2  5 8 0.25   0.363           7         Review</span></span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="co">#&gt; What these columns mean</span></span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="co">#&gt;   cvr -- Lawshe&#39;s Content Validity Ratio. How far the panel leans toward</span></span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="co">#&gt;       calling the item essential rather than merely useful. (-1 to 1; above</span></span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="co">#&gt;       0 means more than half the panel called it essential)</span></span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a><span class="co">#&gt; What the status labels mean</span></span>
+<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a><span class="co">#&gt;   Supported -- The evidence met the criteria set for this analysis.</span></span>
+<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a><span class="co">#&gt;   Review -- Something here needs a closer look. This is not an instruction</span></span>
+<span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a><span class="co">#&gt;       to delete anything.</span></span>
+<span id="cb7-25"><a href="#cb7-25" tabindex="-1"></a><span class="co">#&gt;   Insufficient data -- Too little usable data to reach a judgment.</span></span>
+<span id="cb7-26"><a href="#cb7-26" tabindex="-1"></a><span class="co">#&gt;   Descriptive only -- Reported for description only; no decision rule was</span></span>
+<span id="cb7-27"><a href="#cb7-27" tabindex="-1"></a><span class="co">#&gt;       applied.</span></span>
+<span id="cb7-28"><a href="#cb7-28" tabindex="-1"></a><span class="co">#&gt;   Each workflow also uses its own wording in the recommendation column</span></span>
+<span id="cb7-29"><a href="#cb7-29" tabindex="-1"></a><span class="co">#&gt;   (Retain, Strong support, Typical, Covered, and so on). Those words map</span></span>
+<span id="cb7-30"><a href="#cb7-30" tabindex="-1"></a><span class="co">#&gt;   onto the shared statuses above.</span></span>
+<span id="cb7-31"><a href="#cb7-31" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-32"><a href="#cb7-32" tabindex="-1"></a><span class="co">#&gt; See `contentvalid_glossary()` for all terms, or set </span></span>
+<span id="cb7-33"><a href="#cb7-33" tabindex="-1"></a><span class="co">#&gt; `options(contentvalidR.show_key = FALSE)` to hide this key.</span></span>
+<span id="cb7-34"><a href="#cb7-34" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-35"><a href="#cb7-35" tabindex="-1"></a><span class="co">#&gt; Use quantitative indices alongside expert comments, construct coverage, and comprehensibility review.</span></span></code></pre></div>
+<p>A failure to clear the exact criterion is labeled
+<code>Review</code>, not automatic deletion. Expert rationales and
+domain coverage matter when deciding whether an item should be
+rewritten, retained for breadth, or removed.</p>
+</div>
+<div id="congruence-item-objective-alignment" class="section level2">
+<h2>Congruence: item-objective alignment</h2>
+<p>IOC uses expert ratings of -1, 0, and +1 for item-objective
+congruence. A target mapping lets the workflow compare intended and
+competing objectives:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="at">item =</span> <span class="fu">c</span>(<span class="st">&quot;I1&quot;</span>, <span class="st">&quot;I2&quot;</span>),</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="at">judge =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  <span class="at">objective =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>)</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>d<span class="sc">$</span>target_objective <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(d<span class="sc">$</span>item <span class="sc">==</span> <span class="st">&quot;I1&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>d<span class="sc">$</span>score <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(d<span class="sc">$</span>objective <span class="sc">==</span> d<span class="sc">$</span>target_objective, <span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="fu">expert_validity</span>(d, <span class="at">mode =</span> <span class="st">&quot;congruence&quot;</span>)</span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co">#&gt; contentvalidR expert-panel analysis</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co">#&gt; -----------------------------------</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="co">#&gt; Mode: congruence </span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a><span class="co">#&gt; Items: 2 | Experts/cell: 4 | Objectives: 2 </span></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="co">#&gt; Method: Rovinelli-Hambleton item-objective congruence </span></span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a><span class="co">#&gt;  item target target_ioc strongest_competitor competitor_ioc margin</span></span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a><span class="co">#&gt;    I1      A          1                    B             -1      2</span></span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a><span class="co">#&gt;    I2      B          1                    A             -1      2</span></span>
+<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a><span class="co">#&gt;  recommendation</span></span>
+<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a><span class="co">#&gt;  Target favored</span></span>
+<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a><span class="co">#&gt;  Target favored</span></span>
+<span id="cb8-22"><a href="#cb8-22" tabindex="-1"></a><span class="co">#&gt;                                                                                                      interpretation</span></span>
+<span id="cb8-23"><a href="#cb8-23" tabindex="-1"></a><span class="co">#&gt;  The intended objective has the highest IOC; use the margin and expert comments to judge practical distinctiveness.</span></span>
+<span id="cb8-24"><a href="#cb8-24" tabindex="-1"></a><span class="co">#&gt;  The intended objective has the highest IOC; use the margin and expert comments to judge practical distinctiveness.</span></span>
+<span id="cb8-25"><a href="#cb8-25" tabindex="-1"></a><span class="co">#&gt;     status</span></span>
+<span id="cb8-26"><a href="#cb8-26" tabindex="-1"></a><span class="co">#&gt;  Supported</span></span>
+<span id="cb8-27"><a href="#cb8-27" tabindex="-1"></a><span class="co">#&gt;  Supported</span></span>
+<span id="cb8-28"><a href="#cb8-28" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-29"><a href="#cb8-29" tabindex="-1"></a><span class="co">#&gt; What these columns mean</span></span>
+<span id="cb8-30"><a href="#cb8-30" tabindex="-1"></a><span class="co">#&gt;   ioc -- Item-Objective Congruence. How consistently experts linked the</span></span>
+<span id="cb8-31"><a href="#cb8-31" tabindex="-1"></a><span class="co">#&gt;       item to the objective it was written for rather than to another</span></span>
+<span id="cb8-32"><a href="#cb8-32" tabindex="-1"></a><span class="co">#&gt;       objective. (-1 to 1; higher is stronger)</span></span>
+<span id="cb8-33"><a href="#cb8-33" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-34"><a href="#cb8-34" tabindex="-1"></a><span class="co">#&gt; What the status labels mean</span></span>
+<span id="cb8-35"><a href="#cb8-35" tabindex="-1"></a><span class="co">#&gt;   Supported -- The evidence met the criteria set for this analysis.</span></span>
+<span id="cb8-36"><a href="#cb8-36" tabindex="-1"></a><span class="co">#&gt;   Review -- Something here needs a closer look. This is not an instruction</span></span>
+<span id="cb8-37"><a href="#cb8-37" tabindex="-1"></a><span class="co">#&gt;       to delete anything.</span></span>
+<span id="cb8-38"><a href="#cb8-38" tabindex="-1"></a><span class="co">#&gt;   Insufficient data -- Too little usable data to reach a judgment.</span></span>
+<span id="cb8-39"><a href="#cb8-39" tabindex="-1"></a><span class="co">#&gt;   Descriptive only -- Reported for description only; no decision rule was</span></span>
+<span id="cb8-40"><a href="#cb8-40" tabindex="-1"></a><span class="co">#&gt;       applied.</span></span>
+<span id="cb8-41"><a href="#cb8-41" tabindex="-1"></a><span class="co">#&gt;   Each workflow also uses its own wording in the recommendation column</span></span>
+<span id="cb8-42"><a href="#cb8-42" tabindex="-1"></a><span class="co">#&gt;   (Retain, Strong support, Typical, Covered, and so on). Those words map</span></span>
+<span id="cb8-43"><a href="#cb8-43" tabindex="-1"></a><span class="co">#&gt;   onto the shared statuses above.</span></span>
+<span id="cb8-44"><a href="#cb8-44" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-45"><a href="#cb8-45" tabindex="-1"></a><span class="co">#&gt; See `contentvalid_glossary()` for all terms, or set </span></span>
+<span id="cb8-46"><a href="#cb8-46" tabindex="-1"></a><span class="co">#&gt; `options(contentvalidR.show_key = FALSE)` to hide this key.</span></span>
+<span id="cb8-47"><a href="#cb8-47" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-48"><a href="#cb8-48" tabindex="-1"></a><span class="co">#&gt; Use quantitative indices alongside expert comments, construct coverage, and comprehensibility review.</span></span></code></pre></div>
+<p>The workflow reports target IOC, the strongest competitor, and their
+margin. This is a diagnostic comparison, not a manufactured significance
+test. If no target mapping is provided, all IOC cells are returned
+descriptively.</p>
+</div>
+<div id="missing-ratings" class="section level2">
+<h2>Missing ratings</h2>
+<p>Missing data are never silently ignored by default. Set
+<code>na.rm = TRUE</code> only when itemwise/cellwise deletion matches
+the study protocol. Effective expert counts and missing counts are then
+reported so downstream interpretation uses the actual panel size.</p>
+</div>
+<div id="plotting-expert-evidence" class="section level2">
+<h2>Plotting expert evidence</h2>
+<p>Each mode uses a plot matched to the expert task rather than forcing
+unlike indices into one generic chart.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">expert_validity</span>(R, <span class="at">mode =</span> <span class="st">&quot;relevance&quot;</span>, <span class="at">lo =</span> <span class="dv">1</span>, <span class="at">hi =</span> <span class="dv">4</span>))</span></code></pre></div>
+<p><img role="img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAqAAAAGACAMAAABFpiBcAAAAilBMVEUAAAAAADoAAGYAOpAAZrY6AAA6ADo6AGY6OmY6OpA6ZmY6ZpA6kNtmAABmADpmAGZmOgBmOjpmZmZmtrZmtv+QOgCQOjqQOmaQZgCQkGaQtpCQ2/+2ZgC2kDq225C2/7a2///bkDrbtmbb25Db27bb2//b/7bb/9vb////tmb/25D//7b//9v///9i19EdAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAMsUlEQVR4nO3dDXei6B2GcZKYmZ1WZ9tdbacN7Uq3L4PK9/965XlBQYEwwj/c6vU7Z21ihEfjVV7MHJ6kAIQlcz8BoA+BQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQhqBQtrEgSbAIHMFOu3qcK8IFNIIFNIIFNIIFNIIFNIIFNIIFNIIFNIIFNIIdLjWv7uly/Jm9+X3L9/Pf3LYuB8V2cvZTy5WswvLHjZJsj4u1LLC9+Tlmtc9P/cDVKPdCgIdrPUvw7s//nXr/7flbc9dmofNWTNJcf7qw7Iuzf3Xt2qhH+9o93lb7D69df48DkCgc6zuI7QGmq6zddyCpgu3DVsUuz+sytvS4S9vLeV2Bepv//2faqGOjnr+PUW1xO41ed4WWZIsi91Pf3re+id1GoBA51jdR2gLdP/z1r3hLtB/LX0C6brckpV3u59mi3gI0FhN0R5ovgjfxYWu6Ch1YbqNZLkO9yTKrWW5QQ1P6jQAgc6xug/RsgHNlm4j6gJ9LeNwB4HJsizAbwZ9vjHV3tU0A40LXdXRfvW8Pa0t9ccJ4UkVBGo0rrT9yr37L9/dFvQfy5jAKVB3ALB4fy27L9/KvfAxnLDQlR1ly4tAq2cQ10igc6xuJv7NL2t0gf7X71HD6U0V6O6nP3eftBzVTpJWy2qhH+8oL7fh5fBuF5+//B528e7wwz+p0wAEOsfq5nEIZ/D5wp8kleff4STpFOhhc/4ZU5uYjNscL48LXdFRFvblx5Ok+JFSdZIUByDQOVaHe0WgkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkDYy0Pzprcj7pt8r0vartBMoBhkf6H7VF2ieEOisWicYlVxpx1DjHvheoPsVgc6qdf7G0SstPu4NHB3o31/dTFanKVB+dXOd7F7jvLvZyzcCnVFjMs/JVlq7NTfRFjQrj0V3r8vyv/KLzM/T4+aN3H16ax6Dnk+A+lhaZ4K9WR/0Oxv3wBionyHNTXXmIi3izdrPbcZJ0pxMWrrBLag7mfdNuiyL401WxkmgszLZ1t3UMWgINP4/tRmomwyaQGdmsi/+sB38tFvQorbxdDdZle2YcfHYpjoGjRE2d/EOW1CMMUWgy3AWX6RPbwSKaU3wp860+hz0ecsWFBPjH4tAGoFCGoFCGoFCGoFCGoFCGoFCGoFCGoFCGoFCGoFCGoFCGoFCGoFCGoFCGoFCGoFCGoFCGoFCGoFCGoFCGoFCGoFCGoFCGoFCGoFCGoFCGoFC2gQXD+uZJylLkurKodeOi8c20SQK7dxECnl7oQSKQSwD9VcOPWwWo8bFrbn6+uCtC44OtH+eJAJ9OFdP29A+NcNEW9COeZKKeO3loavDzbt64pukdntx9+Dlz/XPk+Sm6nTb1dpaPngaKDh2k3mN1HiStduLu4e8yNZ7++dJcg6b1muAE+idaklv4IK124u7By9/rneepONDBq8Ot+/KPm2PQdvnSarddf24uDVX9ml1Ft8zT1I8DI1nS1eOi8c2RaCd8yS5KWjchLJjxsVjm+BPnT3zJKVJ+0SIBIqB+McikEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkDbB1e26J/I6bJKza9T/+Lh4bNNcwLbdYeOn/GAaGlR6r75seIXlduEKyxlXWEbUe/16o2vUvzeRF5MooNI7A0hSu724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" /><!-- --></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">expert_validity</span>(<span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">8</span>, <span class="dv">6</span>), <span class="at">mode =</span> <span class="st">&quot;essentiality&quot;</span>, <span class="at">N =</span> <span class="dv">12</span>))</span></code></pre></div>
+<p><img role="img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAqAAAAGACAMAAABFpiBcAAAAjVBMVEUAAAAAADoAAGYAOmYAOpAAZmYAZrY6AAA6ADo6AGY6OgA6Ojo6OmY6OpA6ZrY6kNtmAABmADpmAGZmOgBmOmZmOpBmtrZmtv+QOgCQOjqQkDqQtpCQ2/+2ZgC2Zjq225C2///bkDrbtmbb25Db27bb2//b/7bb/9vb////tmb/trb/25D//7b//9v///81vrGtAAAACXBIWXMAAA7DAAAOwwHHb6hkAAALeElEQVR4nO3dDXfixhmG4bFLIW66hSbpQruoRU2zRRXo//+8zoyEDH4hB9DXI+u+zglrezGDX25LCG8sVwDC3NB3APg9BAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppBAppLQfqgLsMFWi7N4fPikAhjUCFMBSLQIUwFItAIY1AIY1AhTAUi0CFMBSLQCGNQCGNQDtz3Dg3L4r8y/6e666La0MJt7GOb+Vfvv9tf3lbd93y2BFoq85+dnzcLIsimT8e6IfbOPx1W75jbohAn7riIDcn4vxfN8R8Dj/t8j//7DekYVPog83CRtV/5PUf/p10Wb5fpO4PP6/r2yjepxNv4z+/hU/4l7+Z2a9f9vnCve78Z7g70x87Am3TeaCZL684/n2bL9Z+++jfC7H6pJJ1/sM2xBX+rnz/beevVN9G8T6deBu+0/gJoc4v3/32NJ37z6tu7dMj0DZdDfTNb/CWfsM3jxtQvyGNYf1zm/+lej8NzwXqXfy1QP0nVIH+Wkbpb+5lS6BPXXGQm1Nx9vyx3sXHQGNT6zK4+DfZ3DdZvn8ZqLmNK4Fmrzv/1JRAn7riIDcnqD5Iirv41KeYLP2+2r9dpvvLL7uiev9td1itb93GYbU8CzTs4rPZv+dFxhb0ySsOcnOKTi8z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" /><!-- --></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">expert_validity</span>(d, <span class="at">mode =</span> <span class="st">&quot;congruence&quot;</span>))</span></code></pre></div>
+<p><img role="img" src="data:image/png;base64,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" /><!-- --></p>
+<p>Relevance mode displays Aiken’s V with its score interval and
+overlays I-CVI as a separate marker. Essentiality mode displays observed
+CVR against the exact panel-specific critical CVR. Congruence mode
+connects target IOC to the strongest competitor so the alignment margin
+is visually explicit. These displays are diagnostic summaries; they do
+not create new validity thresholds.</p>
+</div>
+<div id="reporting" class="section level2">
+<h2>Reporting</h2>
+<p>A concise methods/results description should identify:</p>
+<ol style="list-style-type: decimal">
+<li>who the experts were and why they were qualified;</li>
+<li>the exact task and response scale;</li>
+<li>the index and inference/CI procedure used, and for relevance ratings
+the agreement coefficient and its measurement level;</li>
+<li>the panel size, including item-specific missingness;</li>
+<li>quantitative item and scale evidence; and</li>
+<li>how expert comments, construct coverage, and comprehensibility
+informed the final item decisions.</li>
+</ol>
+<p>A content-validity coefficient is evidence about a defined expert
+task. It is not, by itself, a complete validity argument.</p>
+</div>
+<div id="references" class="section level2">
+<h2>References</h2>
+<p>Aiken, L. R. (1980). Content validity and reliability of single items
+or questionnaires. <em>Educational and Psychological Measurement,
+40</em>(4), 955-959. <a href="https://doi.org/10.1177/001316448004000419" class="uri">https://doi.org/10.1177/001316448004000419</a></p>
+<p>Lawshe, C. H. (1975). A quantitative approach to content validity.
+<em>Personnel Psychology, 28</em>(4), 563-575. <a href="https://doi.org/10.1111/j.1744-6570.1975.tb01393.x" class="uri">https://doi.org/10.1111/j.1744-6570.1975.tb01393.x</a></p>
+<p>Ayre, C., &amp; Scally, A. J. (2014). Critical values for Lawshe’s
+content validity ratio: Revisiting the original methods of calculation.
+<em>Measurement and Evaluation in Counseling and Development,
+47</em>(1), 79-86. <a href="https://doi.org/10.1177/0748175613513808" class="uri">https://doi.org/10.1177/0748175613513808</a></p>
+<p>Feinstein, A. R., &amp; Cicchetti, D. V. (1990). High agreement but
+low kappa: I. The problems of two paradoxes. <em>Journal of Clinical
+Epidemiology, 43</em>(6), 543-549.</p>
+<p>Gwet, K. L. (2008). Computing inter-rater reliability and its
+variance in the presence of high agreement. <em>British Journal of
+Mathematical and Statistical Psychology, 61</em>(1), 29-48. <a href="https://doi.org/10.1348/000711006X126600" class="uri">https://doi.org/10.1348/000711006X126600</a></p>
+<p>Hayes, A. F., &amp; Krippendorff, K. (2007). Answering the call for a
+standard reliability measure for coding data. <em>Communication Methods
+and Measures, 1</em>(1), 77-89. <a href="https://doi.org/10.1080/19312450709336664" class="uri">https://doi.org/10.1080/19312450709336664</a></p>
+<p>Krippendorff, K. (2011). <em>Computing Krippendorff’s
+alpha-reliability.</em> Annenberg School for Communication, University
+of Pennsylvania.</p>
+<p>Penfield, R. D., &amp; Giacobbi, P. R., Jr. (2004). Applying a score
+confidence interval to Aiken’s item content-relevance index.
+<em>Measurement in Physical Education and Exercise Science, 8</em>(4),
+213-225. <a href="https://doi.org/10.1207/S15327841MPEE0804_3" class="uri">https://doi.org/10.1207/S15327841MPEE0804_3</a></p>
+<p>Polit, D. F., Beck, C. T., &amp; Owen, S. V. (2007). Is the CVI an
+acceptable indicator of content validity? Appraisal and recommendations.
+<em>Research in Nursing &amp; Health, 30</em>(4), 459-467. <a href="https://doi.org/10.1002/nur.20199" class="uri">https://doi.org/10.1002/nur.20199</a></p>
+<p>Rovinelli, R. J., &amp; Hambleton, R. K. (1977). On the use of
+content specialists in the assessment of criterion-referenced test item
+validity. <em>Dutch Journal of Educational Research, 2</em>, 49-60.</p>
+<p>Turner, R. C., &amp; Carlson, L. (2003). Indexes of item-objective
+congruence for multidimensional items. <em>International Journal of
+Testing, 3</em>(2), 163-171. <a href="https://doi.org/10.1207/S15327574IJT0302_5" class="uri">https://doi.org/10.1207/S15327574IJT0302_5</a></p>
+<p>Vach, W., &amp; Gerke, O. (2023). Gwet’s AC1 is not a substitute for
+Cohen’s kappa: A comparison of basic properties. <em>MethodsX, 10</em>,
+102212.</p>
+<p>Zapf, A., Castell, S., Morawietz, L., &amp; Karch, A. (2016).
+Measuring inter-rater reliability for nominal data: Which coefficients
+and confidence intervals are appropriate? <em>BMC Medical Research
+Methodology, 16</em>, 93. <a href="https://doi.org/10.1186/s12874-016-0200-9" class="uri">https://doi.org/10.1186/s12874-016-0200-9</a></p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
